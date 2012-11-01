@@ -1,7 +1,7 @@
 /**
  * Structura unui analizator.
  * 
- * @author Unkown-Revengers
+ * @author Unknown-Revengers
  */
 public class Analizer {
 	String name;

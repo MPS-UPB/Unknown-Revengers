@@ -42,13 +42,18 @@ public class Main {
 		AnalizerSelector as = new AnalizerSelector();
 		Analizer selectedAnalizer = as.chooseAnalizer();
 		selectedAnalizer.setInput("calea catre imagine");
-		selectedAnalizer.analizeXML();
+		// Returneaza calea catre fisierul rezultat in urma analizei layout a imaginii. 
+		selectedAnalizer.analizeXML(); 
 		
 		/**
-		 * TODO In acest moment vom avea un fisier XML rezultat in urma analizei de layout:
+		 * TODO In acest moment vom avea un fisier XML cu analiza de layout:
 		 *         - fie a fost dat la inceput ca input
 		 *         - fie a rezutat in urma analizei de layout
+		 * 
+		 * Urmatorul pas este sa reprezentam acest fisier in GUI
 		 */
+		LayoutParser lp = new LayoutParser("path catre fisierul de layout");
+		LayoutGUI lg = new LayoutGUI(lp);
 	}
 
 }
