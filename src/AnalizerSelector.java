@@ -102,7 +102,9 @@ public class AnalizerSelector extends JFrame {
 	}
 	
 	/**
-	 * TODO Afiseaza o fereastra cu un dropdown si un buton OK pentru a selecta analizatorul de layout ce va fi folosit.
+	 * TODO Afiseaza o fereastra cu un dropdown, un textbox cu descrierea analizatorului 
+	 * si un buton OK pentru a selecta analizatorul de layout ce va fi folosit.
+	 * In momentul in care se seleteaza alt analizator se schimba si descrierea.
 	 * 
 	 * @return Analizer Analizatorul ce va fi folosit.
 	 * @throws InterruptedException 

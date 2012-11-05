@@ -13,7 +13,7 @@ public class Analizer {
 	}
 	
 	/**
-	 * Seteaza outputul pentru analizator.
+	 * Seteaza inputul pentru analizator.
 	 * 
 	 * @param input
 	 */
@@ -35,9 +35,9 @@ public class Analizer {
 	}
 	
 	/**
-	 * TODO Analizeaza fisierul XML primit ca parametru si returneaza outputul/calea fisierului.
+	 * TODO Ruleaza analizatorul pe fisierul XML de input si returneaza outputul/calea fisierului.
 	 * 
-	 * @return String Calea catre outputul de la analizator.
+	 * @return String Calea catre outputul analizatorului.
 	 */
 	public String analizeXML(){
 		
