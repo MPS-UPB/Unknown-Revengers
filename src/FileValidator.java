@@ -6,13 +6,13 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.*;
 import org.xml.sax.SAXException;
+
 /**
  * Valideaza un fisier dat ca input.
  * 
  * @author Unknown-Revengers
  *
  */
-
 public class FileValidator {
 	
 	/**
@@ -26,12 +26,12 @@ public class FileValidator {
 		String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1);
 		
 		// daca e imagine atunci incarca imaginea este valida
-		  if(fileExt.equalsIgnoreCase("jpg") || fileExt.equalsIgnoreCase("jpeg"))
-			  return validImage(fileName);
+		if (fileExt.equalsIgnoreCase("jpg") || fileExt.equalsIgnoreCase("jpeg"))
+			return validImage(fileName);
 
 		// daca e XML atunci se verifica sa fie respectat XSD-ul de layout
-		  if(fileExt.equalsIgnoreCase("xml"))
-			  return validXML(fileName);
+		if (fileExt.equalsIgnoreCase("xml"))
+			return validXML(fileName);
 					  
 		// daca e altceva return false
 		return false;
@@ -45,23 +45,19 @@ public class FileValidator {
 	 * @return boolean
 	 */
 	private static boolean validXML(String XMLPath){
-		// verifica XML in baza unui XSD http://stackoverflow.com/questions/15732/whats-the-best-way-to-validate-an-xml-file-against-an-xsd-file
-		  String xsdPath = "./execs/xml_schemas/layout_specs.xsd";
-		  Source xsdFile = new StreamSource(new File(xsdPath));
-		  Source xmlFile = new StreamSource(new File(XMLPath));
-		  SchemaFactory schemaFactory = SchemaFactory
-		      .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		  
-		  try {
+		/* verifica XML in baza unui XSD*/
+		String xsdPath = Config.output_schemas + "layout_specs.xsd";
+		Source xsdFile = new StreamSource(new File(xsdPath));
+		Source xmlFile = new StreamSource(new File(XMLPath));
+		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		try {
 			Schema schema = schemaFactory.newSchema(xsdFile);
-		  	Validator validator = schema.newValidator();
-		    validator.validate(xmlFile);
-		    return true;
-		  } catch (SAXException | IOException e) {
-		    System.out.println(xmlFile.getSystemId() + " is NOT valid");
-		    System.out.println("Reason: " + e.getLocalizedMessage());
+			Validator validator = schema.newValidator();
+			validator.validate(xmlFile);
+			return true;
+		} catch (SAXException | IOException e) {
 			return false;
-		  }
+		}
 	}
 	
 	/**
@@ -72,12 +68,11 @@ public class FileValidator {
 	 * @return boolean
 	 */
 	private static boolean validImage(String imagePath){
-		 Image image = new ImageIcon(imagePath).getImage();
-		  if(image.getWidth(null) == -1){
-		        return false;
-		  }
-		  else{
-		        return true;
-		  }
+		Image image = new ImageIcon(imagePath).getImage();
+		if (image.getWidth(null) == -1) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
