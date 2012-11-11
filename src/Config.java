@@ -61,13 +61,15 @@ public class Config {
 		try {
  
 			String sCurrentLine;
-			File configFile = new File("src//conffig");
+			File configFile = new File("src//config");
 			configFile = configFile.getAbsoluteFile();
 			br = new BufferedReader(new FileReader(configFile));
  
 			while ((sCurrentLine = br.readLine()) != null) {
+				
 				sCurrentLine = sCurrentLine.trim();
-				if(sCurrentLine.startsWith("#") == false){
+				
+				if(sCurrentLine.startsWith("#") == false && sCurrentLine.isEmpty() == false){
 					filePath.add(Config.getPath(sCurrentLine));
 				}
 			}
@@ -77,6 +79,9 @@ public class Config {
 			try {
 				if (br != null){
 					br.close();
+					Config.execs = filePath.get(0);
+					Config.exec_schemas = filePath.get(1);
+					Config.output_schemas = filePath.get(2);
 					return true;
 				}
 				else return false;
@@ -85,10 +90,6 @@ public class Config {
 			}
 		}
 		
-		Config.execs = filePath.get(0);
-		Config.exec_schemas = filePath.get(1);
-		Config.output_schemas = filePath.get(2);
-
 		return true;
 	}
 
