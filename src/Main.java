@@ -1,3 +1,7 @@
+import java.io.*;
+import java.util.*;
+
+
 public class Main {
 	/**
 	 * @param args
@@ -11,9 +15,41 @@ public class Main {
 		 *    - schemele fisierelor XSD
 		 *    - schemele formatelor de iesire
 		 */
-		Config.execs = "cale catre execs";
-		Config.exec_schemas = "cale catre XSD pentru execs";
-		Config.output_schemas = "cale catre XSD pentru output";
+		
+		
+		//Creez o lista in care pastrez caile absolute catre executabile/scheme
+		List<String> filePath=new ArrayList<String>();
+		
+		BufferedReader br = null;
+	
+		try {
+ 
+			String sCurrentLine;
+			File configFile=new File("src//config");
+			configFile=configFile.getAbsoluteFile();
+			br = new BufferedReader(new FileReader(configFile));
+ 
+			while ((sCurrentLine = br.readLine()) != null) {
+				
+				if(sCurrentLine.startsWith("#")==false){
+					filePath.add(Config.getPath(sCurrentLine));
+				}
+			}
+ 
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null)br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		Config.execs = filePath.get(0);
+		Config.exec_schemas = filePath.get(1);
+		Config.output_schemas = filePath.get(2);
+		
 		
 		/**
 		 * Afiseaza dialog pentru a selecta fisierele de intrare:
