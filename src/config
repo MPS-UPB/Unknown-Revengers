@@ -1,3 +1,8 @@
+# Calea catre executabilele sistemului OCR
 OCR = "execs"
+
+#Calea catre schemele fisierelor XSD
 XML = "execs/xml_schemas"
+
+#Calea catre schemele formatelor de iesire
 OUTPUT = "execs/xml_schemas"

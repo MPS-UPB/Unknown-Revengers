@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 
 public class Main {
 	/**
@@ -16,39 +18,11 @@ public class Main {
 		 *    - schemele formatelor de iesire
 		 */
 		
-		
-		//Creez o lista in care pastrez caile absolute catre executabile/scheme
-		List<String> filePath=new ArrayList<String>();
-		
-		BufferedReader br = null;
-	
-		try {
- 
-			String sCurrentLine;
-			File configFile=new File("src//config");
-			configFile=configFile.getAbsoluteFile();
-			br = new BufferedReader(new FileReader(configFile));
- 
-			while ((sCurrentLine = br.readLine()) != null) {
-				
-				if(sCurrentLine.startsWith("#")==false){
-					filePath.add(Config.getPath(sCurrentLine));
-				}
-			}
- 
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (br != null)br.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
+		// Daca citirea fisierului de configurare a esuat se inchide aplicatia
+		if( Config.readConfigFile() == false ) {
+			JOptionPane.showMessageDialog(null, "Eroare citire fisier configurare!");
+			System.exit(0);
 		}
-		
-		Config.execs = filePath.get(0);
-		Config.exec_schemas = filePath.get(1);
-		Config.output_schemas = filePath.get(2);
 		
 		
 		/**
