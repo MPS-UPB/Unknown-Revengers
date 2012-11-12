@@ -4,6 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 
@@ -22,27 +24,29 @@ public class Config {
 	// Folderul cu XSD pentru output
 	public static String output_schemas;
 	
+	// Dictionar in care retin calea catre executabile/scheme
+	public static Map<String, String> dictionary =new TreeMap<String, String>();
+	
 	/**
-	 * Extrage calea din fisierul config, verifica daca e cale absoluta, daca nu o genereaza si returneaza string-ul
-	 * @return String
+	 * Extrage dintr-o linie calea catre executabile/scheme, daca nu e cale absoluta o genereaza si pune in dictionar 
+	 * @param line linie din fisierul de configurare
 	 */
 	
-	public static String getPath(String path){
+	public static void getPath(String line){
 		
-		int first = path.indexOf('"');
-		int last = path.lastIndexOf('"');
+		int index = line.indexOf('=');
 		
-		String filePath = path.substring(first+1, last);
+		String path = line.substring(index+1);
+		String key = line.substring(0, index);
+		File filePath = new File (path);
 		
-		File pathFile = new File (filePath);
-		
-		if(pathFile.isAbsolute()){
+		if(filePath.isAbsolute()){
+			dictionary.put(key, path);
 		}
 		else{
-			filePath = pathFile.getAbsolutePath();
-			
+			path = filePath.getAbsolutePath();
+			dictionary.put(key, path);
 		}
-		return filePath;
 	}
 	
 	/**
@@ -51,11 +55,9 @@ public class Config {
 	 * @return boolean
 	 */
 	
+	@SuppressWarnings("finally")
 	public static boolean readConfigFile(){
-		
-		//Creez o lista in care pastrez caile absolute catre executabile/scheme
-		List<String> filePath = new ArrayList<String>();
-		
+			
 		BufferedReader br = null;
 	
 		try {
@@ -66,11 +68,9 @@ public class Config {
 			br = new BufferedReader(new FileReader(configFile));
  
 			while ((sCurrentLine = br.readLine()) != null) {
-				
-				sCurrentLine = sCurrentLine.trim();
-				
+				sCurrentLine = sCurrentLine.replaceAll(" ", "");
 				if(sCurrentLine.startsWith("#") == false && sCurrentLine.isEmpty() == false){
-					filePath.add(Config.getPath(sCurrentLine));
+					Config.getPath(sCurrentLine);
 				}
 			}
  
@@ -79,19 +79,15 @@ public class Config {
 			try {
 				if (br != null){
 					br.close();
-					Config.execs = filePath.get(0);
-					Config.exec_schemas = filePath.get(1);
-					Config.output_schemas = filePath.get(2);
+					Config.execs = dictionary.get("OCR");
+					Config.exec_schemas = dictionary.get("XML");
+					Config.output_schemas =dictionary.get("OUTPUT");
 					return true;
 				}
 				else return false;
-			} catch (IOException ex) {
-	
+			} catch (final IOException ex) {
+				return false;
 			}
 		}
-		
-		return true;
-	}
-
-	
+	}	
 }
