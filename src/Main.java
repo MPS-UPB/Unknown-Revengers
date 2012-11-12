@@ -19,11 +19,10 @@ public class Main {
 		 */
 		
 		// Daca citirea fisierului de configurare a esuat se inchide aplicatia
-		if( Config.readConfigFile() == false ) {
+		if( Config.load() == false ) {
 			JOptionPane.showMessageDialog(null, "Eroare citire fisier configurare!");
 			System.exit(0);
 		}
-		
 		
 		/**
 		 * Afiseaza dialog pentru a selecta fisierele de intrare:

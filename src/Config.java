@@ -25,19 +25,21 @@ public class Config {
 	public static String output_schemas;
 	
 	// Dictionar in care retin calea catre executabile/scheme
-	public static Map<String, String> dictionary =new TreeMap<String, String>();
+	private static Map<String, String> dictionary =new TreeMap<String, String>();
 	
 	/**
 	 * Extrage dintr-o linie calea catre executabile/scheme, daca nu e cale absoluta o genereaza si pune in dictionar 
 	 * @param line linie din fisierul de configurare
 	 */
 	
-	public static void getPath(String line){
+	private static void getPath(String line){
 		
 		int index = line.indexOf('=');
 		
 		String path = line.substring(index+1);
+		path=path.trim();
 		String key = line.substring(0, index);
+		key=key.trim();
 		File filePath = new File (path);
 		
 		if(filePath.isAbsolute()){
@@ -55,8 +57,7 @@ public class Config {
 	 * @return boolean
 	 */
 	
-	@SuppressWarnings("finally")
-	public static boolean readConfigFile(){
+	public static boolean load(){
 			
 		BufferedReader br = null;
 	
@@ -68,7 +69,6 @@ public class Config {
 			br = new BufferedReader(new FileReader(configFile));
  
 			while ((sCurrentLine = br.readLine()) != null) {
-				sCurrentLine = sCurrentLine.replaceAll(" ", "");
 				if(sCurrentLine.startsWith("#") == false && sCurrentLine.isEmpty() == false){
 					Config.getPath(sCurrentLine);
 				}

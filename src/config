@@ -1,8 +1,6 @@
-# Calea catre executabilele sistemului OCR
-OCR = "execs"
+# Pentru configurarea aplicatiei introduce-ti:
 
-#Calea catre schemele fisierelor XSD
-XML = "execs/xml_schemas"
+# Calea catre executabilele sistemului OCR : OCR=
+# Calea catre schemele fisierelor XSD : XML = 
+# Calea catre schemele formatelor de iesire : OUTPUT =
 
-#Calea catre schemele formatelor de iesire
-OUTPUT = "execs/xml_schemas"
