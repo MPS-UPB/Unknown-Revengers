@@ -25,7 +25,7 @@ public class Config {
 	public static String output_schemas;
 	
 	// Dictionar in care retin calea catre executabile/scheme
-	private static Map<String, String> dictionary =new TreeMap<String, String>();
+	private static Map<String, String> dictionary = new TreeMap<String, String>();
 	
 	/**
 	 * Extrage dintr-o linie calea catre executabile/scheme, daca nu e cale absoluta o genereaza si pune in dictionar 
@@ -37,9 +37,9 @@ public class Config {
 		int index = line.indexOf('=');
 		
 		String path = line.substring(index+1);
-		path=path.trim();
+		path = path.trim();
 		String key = line.substring(0, index);
-		key=key.trim();
+		key = key.trim();
 		File filePath = new File (path);
 		
 		if(filePath.isAbsolute()){
@@ -81,7 +81,7 @@ public class Config {
 					br.close();
 					Config.execs = dictionary.get("OCR");
 					Config.exec_schemas = dictionary.get("XML");
-					Config.output_schemas =dictionary.get("OUTPUT");
+					Config.output_schemas = dictionary.get("OUTPUT");
 					return true;
 				}
 				else return false;
