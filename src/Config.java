@@ -28,11 +28,13 @@ public class Config {
 	private static Map<String, String> dictionary = new TreeMap<String, String>();
 	
 	/**
-	 * Extrage dintr-o linie calea catre executabile/scheme, daca nu e cale absoluta o genereaza si pune in dictionar 
+	 * Extrage dintr-o linie calea catre executabile/scheme
+	 * Daca nu e cale absoluta o genereaza si pune in dictionar 
+	 * 
 	 * @param line linie din fisierul de configurare
 	 */
 	
-	private static void getPath(String line){
+	private static void getPath(String line) {
 		
 		int index = line.indexOf('=');
 		
@@ -42,10 +44,10 @@ public class Config {
 		key = key.trim();
 		File filePath = new File (path);
 		
-		if(filePath.isAbsolute()){
+		if(filePath.isAbsolute()) {
 			dictionary.put(key, path);
 		}
-		else{
+		else {
 			path = filePath.getAbsolutePath();
 			dictionary.put(key, path);
 		}
@@ -54,10 +56,11 @@ public class Config {
 	/**
 	 * Citeste informatiile din fisierul de configurare
 	 * Daca nu e eroare extrage caile catre executabile/scheme si seteaza variabele
+	 * 
 	 * @return boolean
 	 */
 	
-	public static boolean load(){
+	public static boolean load() {
 			
 		BufferedReader br = null;
 	
@@ -69,7 +72,7 @@ public class Config {
 			br = new BufferedReader(new FileReader(configFile));
  
 			while ((sCurrentLine = br.readLine()) != null) {
-				if(sCurrentLine.startsWith("#") == false && sCurrentLine.isEmpty() == false){
+				if(sCurrentLine.startsWith("#") == false && sCurrentLine.isEmpty() == false) {
 					Config.getPath(sCurrentLine);
 				}
 			}
@@ -77,7 +80,7 @@ public class Config {
 		} catch (IOException e) {
 		} finally {
 			try {
-				if (br != null){
+				if (br != null) {
 					br.close();
 					Config.execs = dictionary.get("OCR");
 					Config.exec_schemas = dictionary.get("XML");
