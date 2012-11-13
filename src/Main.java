@@ -1,3 +1,9 @@
+import java.io.*;
+import java.util.*;
+
+import javax.swing.JOptionPane;
+
+
 public class Main {
 	/**
 	 * @param args
@@ -11,9 +17,12 @@ public class Main {
 		 *    - schemele fisierelor XSD
 		 *    - schemele formatelor de iesire
 		 */
-		Config.execs = "cale catre execs";
-		Config.exec_schemas = "cale catre XSD pentru execs";
-		Config.output_schemas = "cale catre XSD pentru output";
+		
+		// Daca citirea fisierului de configurare a esuat se inchide aplicatia
+		if( Config.load() == false ) {
+			JOptionPane.showMessageDialog(null, "Eroare citire fisier configurare!");
+			System.exit(0);
+		}
 		
 		/**
 		 * Afiseaza dialog pentru a selecta fisierele de intrare:
