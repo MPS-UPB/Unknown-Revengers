@@ -93,7 +93,7 @@ public class AnalyzerSelector extends JFrame {
 		// Formeaza lista cu analizatoare pentru dropdown.
 		String[] aOptions = new String[aList.size()];
 		for (int i = 0; i < aList.size(); i++) {
-			aOptions[i] = aList.get(i).name;
+			aOptions[i] = aList.get(i).getName();
 		}
 
 		// Creeaza dropdown cu analizatoarele.
@@ -106,7 +106,7 @@ public class AnalyzerSelector extends JFrame {
 		contentPanel.add(panel, BorderLayout.NORTH);
 
 		// Creaza Text Area pentru descrierea analizatorului.
-		descriptionArea = new JTextArea(aList.get(0).description);
+		descriptionArea = new JTextArea(aList.get(0).getDescription());
 		descriptionArea.setLineWrap(true);
 		descriptionArea.setWrapStyleWord(true);
 		descriptionArea.setEditable(false);
@@ -146,8 +146,8 @@ public class AnalyzerSelector extends JFrame {
 	private String getDescription(final String name) {
 		String description = "";
 		for (int i = 0; i < aList.size(); i++) {
-			if (aList.get(i).name.compareTo(name) == 0) {
-				description = aList.get(i).description;
+			if (aList.get(i).getName().compareTo(name) == 0) {
+				description = aList.get(i).getDescription();
 			}
 		}
 		return description;

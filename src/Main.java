@@ -54,7 +54,7 @@ public class Main {
 			selectedAnalyzer.setInput(selectedFile);
 
 			// Returneaza calea catre fisierul rezultat in urma analizei layout a imaginii.
-			selectedFile = selectedAnalyzer.analizeXML();
+			selectedFile = selectedAnalyzer.analyzeXML();
 		}
 
 		/**

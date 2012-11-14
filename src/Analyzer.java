@@ -1,3 +1,7 @@
+/**
+ * @author Unknown-Revengers
+ */
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -5,16 +9,37 @@ import java.io.IOException;
 
 /**
  * Structura unui analizator.
- * 
+ *
  * @author Unknown-Revengers
  */
 public class Analyzer {
-	String name;
-	String description;
-	String input;
-	String output;
+	/**
+	 * Analyzer's name.
+	 */
+	private String name;
 
-	public Analyzer(String name, String description){
+	/**
+	 * Analyzer's description.
+	 */
+	private String description;
+
+	/**
+	 * Image absolute path.
+	 */
+	private String input;
+
+	/**
+	 * Temporary output file absolute path.
+	 */
+	private String output;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param name        Analyzer's name.
+	 * @param description Analyzer's description.
+	 */
+	public Analyzer(String name, String description) {
 		this.name = name;
 		this.description = description;
 	}
@@ -22,9 +47,9 @@ public class Analyzer {
 	/**
 	 * Seteaza imaginea de input pentru analizator.
 	 *
-	 * @param input
+	 * @param input Calea absoluta a imaginii de input.
 	 */
-	public void setInput(String input){
+	public void setInput(String input) {
 		this.input = input;
 	}
 
@@ -33,16 +58,25 @@ public class Analyzer {
 	 *
 	 * @return String
 	 */
-	public String getName(){
+	public String getName() {
 		return this.name;
 	}
 
 	/**
-	 * Se construieste un XML care va fi input pentru analizator.
-	 * 
+	 * Returneaza descrierea analizatorului.
+	 *
 	 * @return String
 	 */
-	private String createAnalyzerInputXML(){
+	public String getDescription() {
+		return this.description;
+	}
+
+	/**
+	 * Se construieste un XML care va fi input pentru analizator.
+	 *
+	 * @return String
+	 */
+	private String createAnalyzerInputXML() {
 		String xml = "<task>";
 		xml += "<inputFile name=" + "\"" + this.input + "\"" + "/>";
 		xml += "<outputFile name=" + "\"" + this.output + "\"" + "/>";
@@ -52,15 +86,16 @@ public class Analyzer {
 	}
 
 	/**
-	 * Ruleaza analizatorul pe fisierul XML temporar de input si returneaza outputul/calea fisierului.
-	 * 
+	 * Ruleaza analizatorul pe fisierul XML temporar
+	 * de input si returneaza outputul/calea fisierului.
+	 *
 	 * @return String Calea catre outputul analizatorului.
 	 */
-	public String analizeXML(){
+	public String analyzeXML() {
 		// Creaza fisier temporar de output.
 		File fout = new File("");
 		try {
-			fout = fout.createTempFile("output", ".xml");
+			fout = File.createTempFile("output", ".xml");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -75,7 +110,7 @@ public class Analyzer {
 		// Creaza fisier temporar de input.
 		File fin = new File("");
 		try {
-			fin = fin.createTempFile("input", ".xml");
+			fin = File.createTempFile("input", ".xml");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -83,7 +118,8 @@ public class Analyzer {
 
 		try {
 			// Scrie xml-ul in fisierul de intrare.
-			FileWriter fstream = new FileWriter(fin.getAbsolutePath());
+			FileWriter fstream = new FileWriter(
+					fin.getAbsolutePath());
 			BufferedWriter in = new BufferedWriter(fstream);
 			in.write(xml);
 
@@ -94,9 +130,9 @@ public class Analyzer {
 		}
 
 		// Ruleaza analizator.
-		String[] params = {fin.getAbsolutePath()};
 		try {
-			ProcessBuilder pb = new ProcessBuilder(Config.execs + "\\" + this.name, fin.getAbsolutePath());
+			ProcessBuilder pb = new ProcessBuilder(Config.execs
+					+ "\\" + this.name, fin.getAbsolutePath());
 			Process p = pb.start();
 
 			// Asteapta incheierea procesului.
