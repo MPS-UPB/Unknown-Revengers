@@ -1,7 +1,12 @@
+/**
+ * @author Unknown-Revengers
+ */
+
 import static org.joox.JOOX.$;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -15,6 +20,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,50 +32,90 @@ import org.xml.sax.SAXException;
 
 /**
  * Selecteaza analizatorul de layout dorit.
- *
+ * 
  * @author Unknown-Revengers
  */
 public class AnalizerSelector extends JFrame {
 
-	// Lista cu analizatoare disponibile
-	List<Analizer> aList;
+	/**
+	 *  Lista cu analizatoare disponibile.
+	 */
+	protected List<Analizer> aList;
 
+	/**
+	 * Next button.
+	 */
 	private JButton nextBttn;
 
+	/**
+	 * Dropdown pentru analizatoare.
+	 */
 	private JComboBox analizerList;
 
+	/**
+	 * Text Area pentru descrierea analizatorului.
+	 */
+	private JTextArea descriptionArea;
+
+	/**
+	 * Analizatorul selectat.
+	 */
 	private Analizer selectedAnalizer = null;
 
+	/**
+	 * Fereastra curenta.
+	 */
 	JFrame frame = this;
 
 	/**
 	 * Constructor.
-	 *
 	 */
 	public AnalizerSelector() {
-		// Incarca analizatoare
+		// Incarca analizatoare.
 		this.loadAnalizers();
 
-		// Creaza content panel
+		// Creaza content panel.
 		Container contentPanel = getContentPane();
 
-		// New Panel
+		// New Panel.
 		JPanel panel = new JPanel();
 
-		// Adauga buton next
+		// Adauga buton de next.
 		nextBttn = new JButton("Next");
 		this.nextBttn.addActionListener(new NextListenter());
 		panel.add(nextBttn);
 		contentPanel.add(panel, BorderLayout.SOUTH);
 
-		// TODO Ia lista cu analizatoare
-		String[] aOptions = {"analiztor1", "analizator2"};
+		// Formeaza lista cu analizatoare pentru dropdown.
+		String[] aOptions = new String[aList.size()];
+		for (int i = 0; i < aList.size(); i++) {
+			aOptions[i] = aList.get(i).name;
+		}
 
-		// Adauga dropdown cu analizatoare
+		// Creeaza dropdown cu analizatoarele.
 		analizerList = new JComboBox(aOptions);
+		analizerList.addActionListener(new ComboListener());
+
+		// Adauga dropdown la content panel.
 		panel = new JPanel();
 		panel.add(analizerList);
 		contentPanel.add(panel, BorderLayout.NORTH);
+
+		// Creaza Text Area pentru descrierea analizatorului.
+		descriptionArea = new JTextArea(aList.get(0).description);
+		descriptionArea.setLineWrap(true);
+		descriptionArea.setWrapStyleWord(true);
+		descriptionArea.setEditable(false);
+
+		// Adauga Text Area la un scroll panel.
+		JScrollPane spanel = new JScrollPane(descriptionArea);
+		spanel.setPreferredSize(new Dimension(200, 100));
+
+		// Adauga scroll panel la content panel.
+		panel = new JPanel();
+		panel.setSize(200, 100);
+		panel.add(spanel);
+		contentPanel.add(panel, BorderLayout.CENTER);
 
 		// Initializeaza fereastra curenta
 		this.initFrame();
@@ -79,10 +126,37 @@ public class AnalizerSelector extends JFrame {
 	 */
 	private void initFrame() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(200, 100);
+		this.setSize(300, 220);
 		this.setVisible(true);
+
+		setLocationRelativeTo(null);
 	}
 
+	/**
+	 * Listener pentru dropdown.
+	 * 
+	 * @author Unknown-Revengers
+	 */
+	class ComboListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JComboBox cb = (JComboBox)e.getSource();
+			String execName = (String)cb.getSelectedItem();
+
+			for (int i = 0; i < aList.size(); i++) {
+				if (aList.get(i).name.compareTo(execName) == 0) {
+					descriptionArea.setText(aList.get(i).description);
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Listener pentru butonul de next.
+	 * 
+	 * @author Unknown-Revengers
+	 */
 	class NextListenter implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -167,7 +241,7 @@ public class AnalizerSelector extends JFrame {
 		}
 
 		// Avem nevoie de analizator de layout.
-		if (dt.get("execType").compareTo("layout") == 0) {
+		if (dt.get("execType") != null && dt.get("execType").compareTo("layout") == 0) {
 			return new Analizer(dt.get("execName"),
 					dt.get("execDescription"));
 		}
