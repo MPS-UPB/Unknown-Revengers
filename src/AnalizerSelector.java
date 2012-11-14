@@ -32,15 +32,16 @@ import org.xml.sax.SAXException;
 
 /**
  * Selecteaza analizatorul de layout dorit.
- * 
+ *
  * @author Unknown-Revengers
  */
+@SuppressWarnings("serial")
 public class AnalizerSelector extends JFrame {
 
 	/**
 	 *  Lista cu analizatoare disponibile.
 	 */
-	protected List<Analizer> aList;
+	private List<Analizer> aList;
 
 	/**
 	 * Next button.
@@ -50,6 +51,7 @@ public class AnalizerSelector extends JFrame {
 	/**
 	 * Dropdown pentru analizatoare.
 	 */
+	@SuppressWarnings("rawtypes")
 	private JComboBox analizerList;
 
 	/**
@@ -65,11 +67,12 @@ public class AnalizerSelector extends JFrame {
 	/**
 	 * Fereastra curenta.
 	 */
-	JFrame frame = this;
+	private JFrame frame = this;
 
 	/**
 	 * Constructor.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public AnalizerSelector() {
 		// Incarca analizatoare.
 		this.loadAnalizers();
@@ -117,7 +120,7 @@ public class AnalizerSelector extends JFrame {
 		panel.add(spanel);
 		contentPanel.add(panel, BorderLayout.CENTER);
 
-		// Initializeaza fereastra curenta
+		// Initializeaza fereastra curenta.
 		this.initFrame();
 	}
 
@@ -133,36 +136,54 @@ public class AnalizerSelector extends JFrame {
 	}
 
 	/**
+	 * Ia descrierea analizatorului specificat ca parametru.
+	 *
+	 * @param  name   Numele analizatorului.
+	 *
+	 * @return String Returneaza descrierea analizatorului.
+	 */
+	private String getDescription(final String name) {
+		String description = "";
+		for (int i = 0; i < aList.size(); i++) {
+			if (aList.get(i).name.compareTo(name) == 0) {
+				description = aList.get(i).description;
+			}
+		}
+		return description;
+	}
+
+	/**
 	 * Listener pentru dropdown.
-	 * 
+	 *
 	 * @author Unknown-Revengers
 	 */
 	class ComboListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			JComboBox cb = (JComboBox)e.getSource();
-			String execName = (String)cb.getSelectedItem();
+		public void actionPerformed(final ActionEvent e) {
+			@SuppressWarnings("rawtypes")
+			JComboBox cb = (JComboBox) e.getSource();
+			String execName = (String) cb.getSelectedItem();
 
-			for (int i = 0; i < aList.size(); i++) {
-				if (aList.get(i).name.compareTo(execName) == 0) {
-					descriptionArea.setText(aList.get(i).description);
-				}
-			}
+			descriptionArea.setText(AnalizerSelector.this.
+					getDescription(execName));
 		}
 
 	}
 
 	/**
 	 * Listener pentru butonul de next.
-	 * 
+	 *
 	 * @author Unknown-Revengers
 	 */
 	class NextListenter implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(final ActionEvent e) {
+			String execName = (String) analizerList.getSelectedItem();
+			String description = AnalizerSelector.this.
+			getDescription(execName);
 
-			// TODO incarca analizator selectat din dropdown
-			selectedAnalizer = new Analizer("analizator selectat", "analiztor ce va fi folosit");
+			// Incarca analizator selectat din dropdown.
+			selectedAnalizer = new Analizer(execName, description);
 
 			synchronized (frame) {
 				frame.notifyAll();
@@ -208,7 +229,7 @@ public class AnalizerSelector extends JFrame {
 	 * @return mixed  Daca in fisier a fost gasit un analizator atunci
 	 * 				  returneaza Analizer, altfel returneaza null.
 	 */
-	private Analizer getAnalizer(String file) {
+	private Analizer getAnalizer(final String file) {
 		Document dom = null;
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.
 		newInstance();
@@ -241,7 +262,8 @@ public class AnalizerSelector extends JFrame {
 		}
 
 		// Avem nevoie de analizator de layout.
-		if (dt.get("execType") != null && dt.get("execType").compareTo("layout") == 0) {
+		if (dt.get("execType") != null
+				&& dt.get("execType").compareTo("layout") == 0) {
 			return new Analizer(dt.get("execName"),
 					dt.get("execDescription"));
 		}
@@ -250,18 +272,18 @@ public class AnalizerSelector extends JFrame {
 	}
 
 	/**
-	 * TODO Afiseaza o fereastra cu un dropdown, un textbox cu descrierea analizatorului
-	 * si un buton OK pentru a selecta analizatorul de layout ce va fi folosit.
-	 * In momentul in care se seleteaza alt analizator se schimba si descrierea.
-	 * 
+	 * Afiseaza o fereastra cu un dropdown, un textbox cu descrierea
+	 * analizatorului si un buton OK pentru a selecta analizatorul
+	 * de layout ce va fi folosit. In momentul in care se seleteaza
+	 * alt analizator se schimba si descrierea.
+	 *
 	 * @return Analizer Analizatorul ce va fi folosit.
 	 * @throws InterruptedException
 	 */
-	public Analizer chooseAnalizer() throws InterruptedException{
-
+	public Analizer chooseAnalizer() throws InterruptedException {
 		// Asteapta sa fie selectat un analizator.
-		synchronized(this){
-			while(selectedAnalizer == null){
+		synchronized (this) {
+			while (selectedAnalizer == null) {
 				this.wait();
 			}
 		}
