@@ -36,12 +36,12 @@ import org.xml.sax.SAXException;
  * @author Unknown-Revengers
  */
 @SuppressWarnings("serial")
-public class AnalizerSelector extends JFrame {
+public class AnalyzerSelector extends JFrame {
 
 	/**
 	 *  Lista cu analizatoare disponibile.
 	 */
-	private List<Analizer> aList;
+	private List<Analyzer> aList;
 
 	/**
 	 * Next button.
@@ -52,7 +52,7 @@ public class AnalizerSelector extends JFrame {
 	 * Dropdown pentru analizatoare.
 	 */
 	@SuppressWarnings("rawtypes")
-	private JComboBox analizerList;
+	private JComboBox analyzerList;
 
 	/**
 	 * Text Area pentru descrierea analizatorului.
@@ -62,7 +62,7 @@ public class AnalizerSelector extends JFrame {
 	/**
 	 * Analizatorul selectat.
 	 */
-	private Analizer selectedAnalizer = null;
+	private Analyzer selectedAnalyzer = null;
 
 	/**
 	 * Fereastra curenta.
@@ -73,9 +73,9 @@ public class AnalizerSelector extends JFrame {
 	 * Constructor.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public AnalizerSelector() {
+	public AnalyzerSelector() {
 		// Incarca analizatoare.
-		this.loadAnalizers();
+		this.loadAnalyzers();
 
 		// Creaza content panel.
 		Container contentPanel = getContentPane();
@@ -96,12 +96,12 @@ public class AnalizerSelector extends JFrame {
 		}
 
 		// Creeaza dropdown cu analizatoarele.
-		analizerList = new JComboBox(aOptions);
-		analizerList.addActionListener(new ComboListener());
+		analyzerList = new JComboBox(aOptions);
+		analyzerList.addActionListener(new ComboListener());
 
 		// Adauga dropdown la content panel.
 		panel = new JPanel();
-		panel.add(analizerList);
+		panel.add(analyzerList);
 		contentPanel.add(panel, BorderLayout.NORTH);
 
 		// Creaza Text Area pentru descrierea analizatorului.
@@ -164,7 +164,7 @@ public class AnalizerSelector extends JFrame {
 			JComboBox cb = (JComboBox) e.getSource();
 			String execName = (String) cb.getSelectedItem();
 
-			descriptionArea.setText(AnalizerSelector.this.
+			descriptionArea.setText(AnalyzerSelector.this.
 					getDescription(execName));
 		}
 
@@ -178,12 +178,12 @@ public class AnalizerSelector extends JFrame {
 	class NextListenter implements ActionListener {
 		@Override
 		public void actionPerformed(final ActionEvent e) {
-			String execName = (String) analizerList.getSelectedItem();
-			String description = AnalizerSelector.this.
+			String execName = (String) analyzerList.getSelectedItem();
+			String description = AnalyzerSelector.this.
 			getDescription(execName);
 
 			// Incarca analizator selectat din dropdown.
-			selectedAnalizer = new Analizer(execName, description);
+			selectedAnalyzer = new Analyzer(execName, description);
 
 			synchronized (frame) {
 				frame.notifyAll();
@@ -197,9 +197,9 @@ public class AnalizerSelector extends JFrame {
 	 * Cauta in toate fisierele din folderul cu XSD (Config.exec_schemas)
 	 * si incarca analizatoarele de layout disponibile.
 	 */
-	private void loadAnalizers() {
+	private void loadAnalyzers() {
 		// Lista cu analizatoarele disponibile
-		aList = new ArrayList<Analizer>();
+		aList = new ArrayList<Analyzer>();
 
 		// Deschide directorul xml_schema.
 		File directory = new File(Config.exec_schemas);
@@ -213,7 +213,7 @@ public class AnalizerSelector extends JFrame {
 				String file;
 				file = files[i].getAbsolutePath();
 
-				Analizer a = this.getAnalizer(file);
+				Analyzer a = this.getAnalyzer(file);
 				if (a != null) {
 					aList.add(a);
 				}
@@ -227,9 +227,9 @@ public class AnalizerSelector extends JFrame {
 	 * @param  file   Calea absoluta a fisierului de parsat.
 	 *
 	 * @return mixed  Daca in fisier a fost gasit un analizator atunci
-	 * 				  returneaza Analizer, altfel returneaza null.
+	 * 				  returneaza Analyzer, altfel returneaza null.
 	 */
-	private Analizer getAnalizer(final String file) {
+	private Analyzer getAnalyzer(final String file) {
 		Document dom = null;
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.
 		newInstance();
@@ -264,7 +264,7 @@ public class AnalizerSelector extends JFrame {
 		// Avem nevoie de analizator de layout.
 		if (dt.get("execType") != null
 				&& dt.get("execType").compareTo("layout") == 0) {
-			return new Analizer(dt.get("execName"),
+			return new Analyzer(dt.get("execName"),
 					dt.get("execDescription"));
 		}
 
@@ -277,17 +277,17 @@ public class AnalizerSelector extends JFrame {
 	 * de layout ce va fi folosit. In momentul in care se seleteaza
 	 * alt analizator se schimba si descrierea.
 	 *
-	 * @return Analizer Analizatorul ce va fi folosit.
+	 * @return Analyzer Analizatorul ce va fi folosit.
 	 * @throws InterruptedException
 	 */
-	public Analizer chooseAnalizer() throws InterruptedException {
+	public Analyzer chooseAnalyzer() throws InterruptedException {
 		// Asteapta sa fie selectat un analizator.
 		synchronized (this) {
-			while (selectedAnalizer == null) {
+			while (selectedAnalyzer == null) {
 				this.wait();
 			}
 		}
 
-		return selectedAnalizer;
+		return selectedAnalyzer;
 	}
 }

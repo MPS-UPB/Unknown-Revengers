@@ -3,13 +3,13 @@
  * 
  * @author Unknown-Revengers
  */
-public class Analizer {
+public class Analyzer {
 	String name;
 	String description;
 	String input;
 	String output;
 
-	public Analizer(String name, String description){
+	public Analyzer(String name, String description){
 		this.name = name;
 		this.description = description;
 	}
@@ -32,7 +32,7 @@ public class Analizer {
 	 * 
 	 * @return String
 	 */
-	private String createAnalizerInputXML(){
+	private String createAnalyzerInputXML(){
 		return null;
 	}
 
@@ -43,7 +43,7 @@ public class Analizer {
 	 */
 	public String analizeXML(){
 
-		this.createAnalizerInputXML();
+		this.createAnalyzerInputXML();
 
 		return null;
 	}
