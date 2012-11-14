@@ -1,3 +1,6 @@
-OCR = 
-XML = 
-OUTPUT = 
+# Pentru configurarea aplicatiei introduce-ti:
+
+# Calea catre executabilele sistemului OCR : OCR=
+# Calea catre schemele fisierelor XSD : XML = 
+# Calea catre schemele formatelor de iesire : OUTPUT =
+
