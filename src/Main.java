@@ -47,8 +47,6 @@ public class Main {
 		 */
 		AnalyzerSelector as = new AnalyzerSelector();
 		Analyzer selectedAnalyzer = as.chooseAnalyzer();
-		System.out.println(selectedAnalyzer.name);
-		System.out.println(selectedAnalyzer.description);
 		selectedAnalyzer.setInput("calea catre imagine");
 		// Returneaza calea catre fisierul rezultat in urma analizei layout a imaginii.
 		selectedAnalyzer.analizeXML();

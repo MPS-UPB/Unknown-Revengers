@@ -19,6 +19,7 @@ import java.util.TreeMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -218,6 +219,14 @@ public class AnalyzerSelector extends JFrame {
 					aList.add(a);
 				}
 			}
+		}
+
+		// Verifica daca exista analizatoare.
+		if (aList.size() == 0) {
+			JOptionPane.showMessageDialog(null,
+			"Nu exista analizatoare disponibile!");
+
+			System.exit(0);
 		}
 	}
 
