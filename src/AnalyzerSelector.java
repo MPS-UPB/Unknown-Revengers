@@ -18,7 +18,6 @@ import java.util.TreeMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -220,10 +219,7 @@ public class AnalyzerSelector extends JFrame {
 
 		// Verifica daca exista analizatoare.
 		if (aList.size() == 0) {
-			JOptionPane.showMessageDialog(null,
-			"Nu exista analizatoare disponibile!");
-
-			System.exit(0);
+			ErrorMessage.show("Nu exista analizatoare disponibile!");
 		}
 	}
 
@@ -248,11 +244,8 @@ public class AnalyzerSelector extends JFrame {
 			// Parseaza pentru a obtine o reprezentare DOM a fisierului.
 			dom = db.parse(file);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null,
-					"Exceptie la parsarea fisierelor XSD:"
+			ErrorMessage.show("Exceptie la parsarea fisierelor XSD:"
 					+ e.getMessage());
-
-			System.exit(0);
 		}
 
 		Map<String, String> dt = new TreeMap<String, String>();
