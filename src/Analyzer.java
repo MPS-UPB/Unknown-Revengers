@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 /**
  * Structura unui analizator.
  *
@@ -97,7 +99,11 @@ public class Analyzer {
 		try {
 			fout = File.createTempFile("output", ".xml");
 		} catch (IOException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+					"Exceptie la crearea fisierului temporar de output:"
+					+ e.getMessage());
+
+			System.exit(0);
 		}
 		fout.deleteOnExit();
 
@@ -112,7 +118,11 @@ public class Analyzer {
 		try {
 			fin = File.createTempFile("input", ".xml");
 		} catch (IOException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+					"Exceptie la crearea fisierului temporar de input:"
+					+ e.getMessage());
+
+			System.exit(0);
 		}
 		fin.deleteOnExit();
 
@@ -126,7 +136,11 @@ public class Analyzer {
 			// Close the input stream.
 			in.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+					"Exceptie la scrierea in fisierul temporar de input:"
+					+ e.getMessage());
+
+			System.exit(0);
 		}
 
 		// Ruleaza analizator.
@@ -136,16 +150,16 @@ public class Analyzer {
 			Process p = pb.start();
 
 			// Asteapta incheierea procesului.
-			try {
-				p.waitFor();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			p.waitFor();
 
 			// Inchide procesul.
 			p.destroy();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,
+					"Exceptie la rularea analizatorului:"
+					+ e.getMessage());
+
+			System.exit(0);
 		}
 
 		return this.output;

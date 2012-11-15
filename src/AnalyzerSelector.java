@@ -10,7 +10,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +24,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.joox.Match;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 /**
  * Selecteaza analizatorul de layout dorit.
@@ -250,12 +247,12 @@ public class AnalyzerSelector extends JFrame {
 
 			// Parseaza pentru a obtine o reprezentare DOM a fisierului.
 			dom = db.parse(file);
-		} catch (ParserConfigurationException pce) {
-			pce.printStackTrace();
-		} catch (SAXException se) {
-			se.printStackTrace();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,
+					"Exceptie la parsarea fisierelor XSD:"
+					+ e.getMessage());
+
+			System.exit(0);
 		}
 
 		Map<String, String> dt = new TreeMap<String, String>();
