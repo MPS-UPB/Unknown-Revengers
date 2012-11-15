@@ -18,22 +18,24 @@ public class FileValidator {
 	/**
 	 * Verifica daca e un fisier valid (imagine JPG sau fisier XML formatat conform cu layout specifications).
 	 * 
+	 * @param fileName Calea fisierului pentru input (JPG sau XML).
+	 * 
 	 * @return boolean
 	 */
 	public static boolean isValid(String fileName){
 		
-		// verifica extensie fisier
+		// Verifica extensie fisier
 		String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1);
 		
-		// daca e imagine atunci incarca imaginea este valida
+		// Daca e JPG atunci se verifica imaginea
 		if (fileExt.equalsIgnoreCase("jpg") || fileExt.equalsIgnoreCase("jpeg"))
 			return validImage(fileName);
 
-		// daca e XML atunci se verifica sa fie respectat XSD-ul de layout
+		// Daca e XML atunci se verifica sa fie respectat XSD-ul de layout
 		if (fileExt.equalsIgnoreCase("xml"))
 			return validXML(fileName);
 					  
-		// daca e altceva return false
+		// Daca e altceva return false
 		return false;
 	}
 	
@@ -45,7 +47,7 @@ public class FileValidator {
 	 * @return boolean
 	 */
 	private static boolean validXML(String XMLPath){
-		/* verifica XML in baza unui XSD*/
+		/* Verifica XML in baza unui XSD*/
 		String xsdPath = Config.output_schemas + "layout_specs.xsd";
 		Source xsdFile = new StreamSource(new File(xsdPath));
 		Source xmlFile = new StreamSource(new File(XMLPath));
@@ -63,7 +65,7 @@ public class FileValidator {
 	/**
 	 * Verifica daca imaginea data este valida (am vazut ca exista diverse moduri de a face asta).
 	 * 
-	 * @param imagePath
+	 * @param imagePath Calea catre imaginea JPG analizata.
 	 * 
 	 * @return boolean
 	 */
