@@ -251,13 +251,19 @@ public class AnalyzerSelector extends JFrame {
 		Map<String, String> dt = new TreeMap<String, String>();
 
 		// Ia toate tagurile simpleType.
-		Match simpleType = $(dom).namespace("xs",
-		"http://www.w3.org/2001/XMLSchema").xpath("//xs:simpleType");
+		Match simpleType = $(dom).namespace("xs"
+				, "http://www.w3.org/2001/XMLSchema").xpath("//xs:simpleType");
+
 		for (int i = 0; i < simpleType.size(); i++) {
-			// Ia nume si valoare.
-			dt.put(simpleType.get(i).getAttribute("name"),
-					$(simpleType.content(i)).namespace("xs",
-					"http://www.w3.org/2001/XMLSchema").xpath("//xs:pattern").attr("value"));
+			// Ia nume si valoare daca acestea exista.
+			String name = simpleType.get(i).getAttribute("name");
+			String value = $(simpleType.content(i)).namespace("xs"
+					, "http://www.w3.org/2001/XMLSchema").xpath("//xs:pattern").attr("value");
+
+			// Verifica daca exista name si value.
+			if (name != null && value != null) {
+				dt.put(name, value);
+			}
 		}
 
 		// Avem nevoie de analizator de layout.
