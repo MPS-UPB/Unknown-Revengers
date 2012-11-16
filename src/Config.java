@@ -60,6 +60,7 @@ public class Config {
 	 * @return boolean
 	 */
 	
+	@SuppressWarnings("finally")
 	public static boolean load() {
 			
 		BufferedReader br = null;
@@ -78,19 +79,46 @@ public class Config {
 			}
  
 		} catch (IOException e) {
+			ErrorMessage.show("Exceptie la citirea fisierului de config:"
+					+ e.getMessage());
 		} finally {
 			try {
 				if (br != null) {
 					br.close();
-					Config.execs = dictionary.get("OCR");
-					Config.exec_schemas = dictionary.get("XML");
-					Config.output_schemas = dictionary.get("OUTPUT");
+					if (dictionary.containsKey("OCR")) {
+						Config.execs = dictionary.get("OCR");
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "OCR nu este specificat in fisierul de config.");
+						System.exit(0);
+					}
+					
+					if (dictionary.containsKey("XML")) {
+						Config.exec_schemas = dictionary.get("XML");
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "XML nu este specificat in fisierul de config.");
+						System.exit(0);
+					}
+					
+					if (dictionary.containsKey("OUTPUT")) {
+						Config.output_schemas = dictionary.get("OUTPUT");
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "OUTPUT nu este specificat in fisierul de config.");
+						System.exit(0);
+					}
+					
 					return true;
 				}
-				else return false;
+				else {
+					return false;
+				}
 			} catch (final IOException ex) {
-				return false;
+				ErrorMessage.show("Exceptie la citirea fisierului de config:"
+						+ ex.getMessage());
 			}
 		}
+		return false;
 	}	
 }
