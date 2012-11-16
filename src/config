@@ -1,8 +1,8 @@
 # Pentru configurarea aplicatiei introduce-ti:
 
 # Calea catre executabilele sistemului OCR : OCR=
-OCR = ../../execs/executabile
+OCR = execs/executabile
 # Calea catre schemele fisierelor XSD : XML =
-XML = ../execs/xml_schemas 
+XML = execs/xml_schemas 
 # Calea catre schemele formatelor de iesire : OUTPUT =
-OUTPUT = ../execs/output
+OUTPUT = execs/output
