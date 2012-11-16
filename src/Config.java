@@ -44,12 +44,17 @@ public class Config {
 		key = key.trim();
 		File filePath = new File (path);
 		
-		if(filePath.isAbsolute()) {
+		if(filePath.isAbsolute() && filePath.canRead() && filePath.isDirectory()) {
 			dictionary.put(key, path);
 		}
 		else {
-			path = filePath.getAbsolutePath();
-			dictionary.put(key, path);
+			if (filePath.isDirectory() && filePath.canRead()) {
+				path = filePath.getAbsolutePath();
+				dictionary.put(key, path);
+			}
+			else {
+				ErrorMessage.show("Calea " + filePath.getAbsolutePath() + " este inaccesibila.");
+			}
 		}
 	}
 	
