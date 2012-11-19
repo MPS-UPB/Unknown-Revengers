@@ -25,12 +25,23 @@ public class Element {
 		private ElementType(int type) {
 			type = type;
 		}
-
 	}
-	// TODO structura pentru a tine tatal elementului.
-	// TODO structura pentru a tine fii elementului.
 
-	public Element(){};
+	public Element() {
+		this.top = 0;
+		this.bottom = 0;
+		this.right = 0;
+		this.left = 0;
+		this.text = "";
+	};
+
+	public Element(int top, int bottom, int right, int left, String text) {
+		this.top = top;
+		this.bottom = bottom;
+		this.right = right;
+		this.left = left;
+		this.text = text;
+	};
 
 	// TODO metoda pentru a sparge elementul in subelemente.
 }
