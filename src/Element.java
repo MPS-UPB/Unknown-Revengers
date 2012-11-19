@@ -9,14 +9,19 @@ public class Element {
 	int left;
 	int right;
 	String text;
-	
+
 	// TODO tipul elementului ce va fi selectat dintr-o structura de tip ENUM. Tipurile posibile se gasesc in specificatiile de layout.
 	int type;
-	
+	public enum ElementType {
+		DocumentType, DirType, ImposedType, fileType, PointType, PolygonType, BlockType, ComposedBlockType, ImageBlockType,
+		TextBlockType
+	}
+
+
 	// TODO structura pentru a tine tatal elementului.
 	// TODO structura pentru a tine fii elementului.
 
 	public Element(){};
-	
+
 	// TODO metoda pentru a sparge elementul in subelemente.
 }
