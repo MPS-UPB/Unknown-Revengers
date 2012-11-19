@@ -10,14 +10,23 @@ public class Element {
 	int right;
 	String text;
 
-	// TODO tipul elementului ce va fi selectat dintr-o structura de tip ENUM. Tipurile posibile se gasesc in specificatiile de layout.
-	int type;
+	/**
+	 * Enum pentru tipul elementului conform cu specificatiile
+	 */
 	public enum ElementType {
-		DocumentType, DirType, ImposedType, fileType, PointType, PolygonType, BlockType, ComposedBlockType, ImageBlockType,
-		TextBlockType
+		DocumentType(1), DirType(2), ImposedType(3), fileType(4), PointType(5), PolygonType(6), BlockType(7),
+		ComposedBlockType(8), ImageBlockType(9), TextBlockType(10);
+
+		public final int type = 1;
+
+		/**
+		 * Type for element
+		 */
+		private ElementType(int type) {
+			type = type;
+		}
+
 	}
-
-
 	// TODO structura pentru a tine tatal elementului.
 	// TODO structura pentru a tine fii elementului.
 
