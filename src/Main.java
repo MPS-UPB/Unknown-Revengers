@@ -24,6 +24,10 @@ public class Main {
 		 */
 		FileChooser fc = new FileChooser();
 		String selectedFile = fc.chooseFile();
+		
+		if (selectedFile == null) {
+			System.exit(0);
+		}
 
 		/*
 		 * Valideaza fisierul selectat din punct de vedere al layoutului.
