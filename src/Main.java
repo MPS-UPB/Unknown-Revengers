@@ -9,6 +9,13 @@ public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		
 		/*
+		if(1==1){
+			LayoutParser.parseXML();
+			return;
+		}
+		*/
+		
+		/*
 		 *  Incarca fisierul de config, iar daca citirea fisierului de configurare
 		 *  a esuat atunci inchide aplicatia cu mesaj de eroare. 
 		 */

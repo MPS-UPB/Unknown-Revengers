@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+
 import static org.joox.JOOX.*;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -92,6 +94,17 @@ public class LayoutParser {
             e.printStackTrace();
         }
 		
-		Match m1 = $(result).find("String");
+        int i, j;
+		Match documentRoot = $(result).first();
+		Match textBlockElements = documentRoot.children();
+		for(i = 0; i < textBlockElements.size(); i++){
+			Match textLineElement = textBlockElements.child(i);
+		    Match stringElements  = textLineElement.children();
+		    for(j = 0; j < stringElements.size(); j++){
+		    	System.out.println(stringElements.content(j));
+		    }
+		}
+		
+		//System.out.println(textBlockChildren);	
 	}
 }
