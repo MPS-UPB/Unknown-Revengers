@@ -15,11 +15,21 @@
  * @author Unknown-Revengers
  */
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import static org.joox.JOOX.*;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.joox.Match;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import tree.GenericTree;
 public class LayoutParser {
@@ -49,7 +59,6 @@ public class LayoutParser {
 			e.printStackTrace();
 		}
 
-
 		// root elements
 		Document doc = docBuilder.newDocument();
 		Element root = InputTree.getRoot().getData();
@@ -59,8 +68,30 @@ public class LayoutParser {
 		return "";
 	}
 	
-	// Comentariu de test
-	public static void parsareXML(){
+	public static void parseXML(){
 		String xmlExample = "<Document image='3-sizes.tif' direction='descending'><TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock></Document>";
+		InputStream xmlStream = null;
+		try {
+			xmlStream = new ByteArrayInputStream(xmlExample.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		Document result = null;
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        InputSource source = new InputSource(new StringReader(xmlExample));
+
+        try {
+            result = factory.newDocumentBuilder().parse(source);
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+		
+		Match m1 = $(result).find("String");
 	}
 }
