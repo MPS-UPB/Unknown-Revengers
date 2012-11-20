@@ -18,6 +18,7 @@ public class LayoutParser {
 	
 	//TODO structura pentru a retine organizarea fisierului.. cred ca ar merge un arbore.
 	
+	
 	/**
 	 * TODO
 	 * 
