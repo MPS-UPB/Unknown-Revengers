@@ -56,10 +56,10 @@ public class LayoutParser {
 
 		doc.appendChild(doc.createElement(root.text));
 
-
-
-
-
 		return "";
+	}
+	
+	public static void parsareXML(){
+		String xmlExample = "<Document image='3-sizes.tif' direction='descending'><TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock></Document>";
 	}
 }
