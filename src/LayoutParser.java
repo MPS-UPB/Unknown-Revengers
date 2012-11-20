@@ -11,13 +11,22 @@
  * 
  * 3) Medoda pentru a salva datele intr-un XML:
  * 	    - saveLayout()
- *  
+ * 
  * @author Unknown-Revengers
  */
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+
+import tree.GenericTree;
 public class LayoutParser {
-	
+
 	//TODO structura pentru a retine organizarea fisierului.. cred ca ar merge un arbore.
-	
+	GenericTree<Element> XMLTree = new GenericTree<Element>();
+
 	/**
 	 * TODO
 	 * 
@@ -26,6 +35,31 @@ public class LayoutParser {
 	 * @param layoutXML
 	 */
 	public LayoutParser(String layoutXML){
-		
+
+	}
+
+	public String construct_xml(GenericTree<Element> InputTree) {
+
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = null;
+		try {
+			docBuilder = docFactory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+		// root elements
+		Document doc = docBuilder.newDocument();
+		Element root = InputTree.getRoot().getData();
+
+		doc.appendChild(doc.createElement(root.text));
+
+
+
+
+
+		return "";
 	}
 }
