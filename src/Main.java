@@ -7,10 +7,10 @@ public class Main {
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws InterruptedException {
-		
+
 		/*
 		 *  Incarca fisierul de config, iar daca citirea fisierului de configurare
-		 *  a esuat atunci inchide aplicatia cu mesaj de eroare. 
+		 *  a esuat atunci inchide aplicatia cu mesaj de eroare.
 		 */
 		if( Config.load() == false ) {
 			JOptionPane.showMessageDialog(null, "Eroare citire fisier configurare!");
@@ -24,7 +24,7 @@ public class Main {
 		 */
 		FileChooser fc = new FileChooser();
 		String selectedFile = fc.chooseFile();
-		
+
 		if (selectedFile == null) {
 			System.exit(0);
 		}
