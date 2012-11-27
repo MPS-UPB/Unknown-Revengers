@@ -10,12 +10,13 @@ public class Element {
 	int right;
 	String text;
 	int type = 1;
+	
 	/**
 	 * Enum pentru tipul elementului conform cu specificatiile
 	 */
 	public enum ElementType {
 		DocumentType(1), DirType(2), ImposedType(3), fileType(4), PointType(5), PolygonType(6), BlockType(7),
-		ComposedBlockType(8), ImageBlockType(9), TextBlockType(10);
+		ComposedBlockType(8), ImageBlockType(9), TextBlockType(10), StringType(11), TextLineType(12);
 
 
 
@@ -26,6 +27,8 @@ public class Element {
 			type = type;
 		}
 	}
+	
+	ElementType elementType;
 
 	public Element() {
 		this.top = 0;
@@ -45,9 +48,28 @@ public class Element {
 		this.type = 0;
 	};
 
-	public Element(int type) {
-		this.type = type;
+	public Element(ElementType type) {
+		this.elementType = type;
 	};
+	
+	public Element(String tag, String text){
+		this.text = text;
+		
+		if(tag == "String"){
+			this.elementType = ElementType.StringType;
+		} else if(tag == "Document") {
+			this.elementType = ElementType.DocumentType;
+		} else if(tag == "TextBlock") {
+			this.elementType = ElementType.TextBlockType;
+		} else if(tag == "TextLine") {
+			this.elementType = ElementType.TextLineType;
+		}
+	}
+	
+	public Element(ElementType type, String text){
+		this.elementType = type;
+		this.text = text;
+	}
 
 	// TODO metoda pentru a sparge elementul in subelemente.
 }
