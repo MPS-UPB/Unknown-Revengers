@@ -71,15 +71,18 @@ public class LayoutParser {
 	}
 	
 	public static void parseXML(){
+        int i, j;
 		String xmlExample = "<Document image='3-sizes.tif' direction='descending'><TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock></Document>";
 		InputStream xmlStream = null;
+		
+		// Creare stream XML pentru a crea obiectul JOOX
 		try {
 			xmlStream = new ByteArrayInputStream(xmlExample.getBytes("UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-			
+		
 		Document result = null;
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         InputSource source = new InputSource(new StringReader(xmlExample));
@@ -93,12 +96,15 @@ public class LayoutParser {
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
-		
-        int i, j;
+
+        // Parsare XML
 		Match documentRoot = $(result).first();
+		// Blocuri de tip TextBlock
 		Match textBlockElements = documentRoot.children();
 		for(i = 0; i < textBlockElements.size(); i++){
+			// Blocuri de tip TextLine
 			Match textLineElement = textBlockElements.child(i);
+			// Blocuri de tip String
 		    Match stringElements  = textLineElement.children();
 		    for(j = 0; j < stringElements.size(); j++){
 		    	System.out.println(stringElements.content(j));
