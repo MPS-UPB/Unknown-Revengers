@@ -97,8 +97,10 @@ public class LayoutParser {
 		}
 	}
 
-	public static void parseXML(){
+	public static GenericTree<Element> parseXML(){
         int i, j;
+        GenericTree<Element> newTree = new GenericTree<Element>();
+        
 		String xmlExample = "<Document image='3-sizes.tif' direction='descending'><TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock></Document>";
 		InputStream xmlStream = null;
 		
@@ -126,19 +128,39 @@ public class LayoutParser {
 
         // Parsare XML
 		Match documentRoot = $(result).first();
-		// Blocuri de tip TextBlock
-		Match textBlockElements = documentRoot.children();
-		for(i = 0; i < textBlockElements.size(); i++){
-			// Blocuri de tip TextLine
-			Match textLineElement = textBlockElements.child(i);
-			
-			// Blocuri de tip String
-		    Match stringElements  = textLineElement.children();
-		    for(j = 0; j < stringElements.size(); j++){
-		    	System.out.println(stringElements.content(j));
-		    }
+		
+		// Parseaza XML-ul si intoarce
+		GenericTreeNode<Element> rootDocument = parseXMLRow(documentRoot);
+		
+		// Creaza arbore din structura de noduri
+		newTree.setRoot(rootDocument);
+		
+		return newTree;
+	}
+	
+	// Parseaza XML-ul folosind DFS si in acelasi timp creeaza arborele
+	public static GenericTreeNode<Element> parseXMLRow(Match currentMatch){
+		int i;
+		
+		// Suntem in frunza
+		if(currentMatch.children().size() == 0)
+		{			
+			Element new_element = new Element(currentMatch.tag(), currentMatch.content());
+			return new GenericTreeNode<Element>(new_element);
 		}
-
-		//System.out.println(textBlockChildren);
+	
+		// Cream nod parinte
+		Element rootElement = new Element(currentMatch.tag(), currentMatch.content());
+		GenericTreeNode<Element> parentTreeNode = new GenericTreeNode<Element>(rootElement);
+		
+		// Parsam copiii
+		for(i=0; i < currentMatch.children().size(); i++){
+			Match textLineElement = currentMatch.child(i);
+			GenericTreeNode<Element> newTreeNode = parseXMLRow(textLineElement);
+			parentTreeNode.addChild(newTreeNode);
+		}
+		
+		// Intoarcem nodul parinte
+		return parentTreeNode;
 	}
 }
