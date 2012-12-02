@@ -1,5 +1,7 @@
 import javax.swing.JOptionPane;
 
+import tree.GenericTree;
+
 
 public class Main {
 	/**
@@ -8,12 +10,16 @@ public class Main {
 	 */
 	public static void main(String[] args) throws InterruptedException {
 		
-		/*
+
 		if(1==1){
-			LayoutParser.parseXML();
+			String xmlExample = "<Document image='3-sizes.tif' direction='descending'><TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock></Document>";
+			LayoutParser lp = new LayoutParser(xmlExample);
+			GenericTree<Element> gt = lp.parseXML(xmlExample);
+			System.out.println(gt);
+			// LayoutParser.parseXML();
 			return;
 		}
-		*/
+
 		
 		/*
 		 *  Incarca fisierul de config, iar daca citirea fisierului de configurare
