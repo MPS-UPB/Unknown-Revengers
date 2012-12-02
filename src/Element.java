@@ -96,8 +96,9 @@ public class Element {
 		this.text = text;
 	}
 
+	// Cum va fi tiparit un nod cand vrem sa-l afisam
 	public String toString(){
-		return (this.text + "\n");
+		return (this.elementType.toString());
 	}
 	
 	// TODO metoda pentru a sparge elementul in subelemente.

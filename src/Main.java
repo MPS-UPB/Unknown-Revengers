@@ -9,16 +9,17 @@ public class Main {
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws InterruptedException {
-		
-
+		/*
 		if(1==1){
-			String xmlExample = "<Document image='3-sizes.tif' direction='descending'><TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock></Document>";
+			String xmlExample = "<Document image='3-sizes.tif' direction='descending'>" +
+								   "<TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock>" +
+								   "<TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock></Document>";
 			LayoutParser lp = new LayoutParser(xmlExample);
 			GenericTree<Element> gt = lp.parseXML(xmlExample);
-			System.out.println(gt);
-			// LayoutParser.parseXML();
+			System.out.println(gt.toStringWithDepth());
 			return;
 		}
+		*/
 
 		
 		/*

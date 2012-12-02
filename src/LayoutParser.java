@@ -39,6 +39,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+//import Element;
 import tree.GenericTree;
 import tree.GenericTreeNode;
 public class LayoutParser {
@@ -97,8 +98,8 @@ public class LayoutParser {
 		}
 	}
 
+	// Parseaza XML-ul primit ca string si returneaza un arbore de tip GenericTree
 	public GenericTree<Element> parseXML(String layoutXML){
-        int i, j;
         GenericTree<Element> newTree = new GenericTree<Element>();
 		
 		Document result = null;
@@ -170,7 +171,7 @@ public class LayoutParser {
 		GenericTreeNode<Element> parentTreeNode = new GenericTreeNode<Element>(rootElement);
 		
 		// Parsam copiii
-		for(i=0; i < currentMatch.children().size(); i++){
+		for(i = 0; i < currentMatch.children().size(); i++){
 			Match textLineElement = currentMatch.child(i);
 			GenericTreeNode<Element> newTreeNode = parseXMLRow(textLineElement);
 			parentTreeNode.addChild(newTreeNode);
@@ -179,4 +180,27 @@ public class LayoutParser {
 		// Intoarcem nodul parinte
 		return parentTreeNode;
 	}
+	
+	// Muta un nod de la un parinte la altul
+    public boolean moveChildToParent(GenericTreeNode<Element> movingNode, GenericTreeNode<Element> toParentNode){
+    	int i;
+    	
+    	// Gaseste parintele nodului care va fi mutat
+    	GenericTreeNode<Element> parent = movingNode.getParent();
+    
+    	// Adauga nodul mutat la noul nod
+    	toParentNode.addChild(movingNode);
+    	
+    	// Sterge nodul mutat de la vechiul parinte
+    	List<GenericTreeNode<Element>> parentChildrenList = parent.getChildren();
+    	for(i = 0; i < parentChildrenList.size(); i++){
+    		if(parentChildrenList.get(i) == movingNode){
+    			// Found child
+    			parent.removeChildAt(i);
+    			break;
+    		}
+    	}
+    	
+    	return true;
+    }
 }

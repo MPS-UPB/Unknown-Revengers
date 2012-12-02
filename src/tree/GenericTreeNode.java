@@ -81,7 +81,8 @@ public class GenericTreeNode<T> {
     }
 
     public String toString() {
-        return getData().toString();
+
+      return getData().toString();
     }
 
     @Override
