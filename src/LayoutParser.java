@@ -97,24 +97,13 @@ public class LayoutParser {
 		}
 	}
 
-	public static GenericTree<Element> parseXML(){
+	public GenericTree<Element> parseXML(String layoutXML){
         int i, j;
         GenericTree<Element> newTree = new GenericTree<Element>();
-        
-		String xmlExample = "<Document image='3-sizes.tif' direction='descending'><TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock></Document>";
-		InputStream xmlStream = null;
-		
-		// Creare stream XML pentru a crea obiectul JOOX
-		try {
-			xmlStream = new ByteArrayInputStream(xmlExample.getBytes("UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		Document result = null;
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        InputSource source = new InputSource(new StringReader(xmlExample));
+        InputSource source = new InputSource(new StringReader(layoutXML));
 
         try {
             result = factory.newDocumentBuilder().parse(source);
@@ -139,18 +128,45 @@ public class LayoutParser {
 	}
 	
 	// Parseaza XML-ul folosind DFS si in acelasi timp creeaza arborele
-	public static GenericTreeNode<Element> parseXMLRow(Match currentMatch){
-		int i;
+	public GenericTreeNode<Element> parseXMLRow(Match currentMatch){
+		int i, top = -1, bottom, right, left;
+		
+		// Parsam atributele ca sa nu dea eroare
+		if(currentMatch.attr("top") != null){
+			top = Integer.parseInt(currentMatch.attr("top"));
+		} else {
+			top = -1;
+		}
+		
+		if(currentMatch.attr("bottom") != null){
+			bottom = Integer.parseInt(currentMatch.attr("bottom"));
+		} else {
+			bottom = -1;
+		}
+		
+		if(currentMatch.attr("left") != null){
+			left = Integer.parseInt(currentMatch.attr("left"));
+		} else {
+			left = -1;
+		}
+		
+		if(currentMatch.attr("right") != null){
+			right = Integer.parseInt(currentMatch.attr("right"));
+		} else {
+			right = -1;
+		}
 		
 		// Suntem in frunza
 		if(currentMatch.children().size() == 0)
 		{			
-			Element new_element = new Element(currentMatch.tag(), currentMatch.content());
+			Element new_element = new Element(currentMatch.tag(), currentMatch.content(),
+											  top, bottom, right , left, currentMatch.attr("image"));
 			return new GenericTreeNode<Element>(new_element);
 		}
 	
 		// Cream nod parinte
-		Element rootElement = new Element(currentMatch.tag(), currentMatch.content());
+		Element rootElement = new Element( currentMatch.tag(), currentMatch.content(),
+										   top, bottom, left, right, currentMatch.attr("image"));
 		GenericTreeNode<Element> parentTreeNode = new GenericTreeNode<Element>(rootElement);
 		
 		// Parsam copiii
