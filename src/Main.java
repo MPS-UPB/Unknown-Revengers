@@ -1,4 +1,5 @@
 import javax.swing.JOptionPane;
+import javax.xml.transform.TransformerException;
 
 import tree.GenericTree;
 
@@ -7,24 +8,28 @@ public class Main {
 	/**
 	 * @param args
 	 * @throws InterruptedException
+	 * @throws TransformerException
 	 */
-	public static void main(String[] args) throws InterruptedException {
-		/*
+	public static void main(String[] args) throws InterruptedException, TransformerException {
+
 		if(1==1){
 			String xmlExample = "<Document image='3-sizes.tif' direction='descending'>" +
-								   "<TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock>" +
-								   "<TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock></Document>";
+					"<TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock>" +
+					"<TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock></Document>";
 			LayoutParser lp = new LayoutParser(xmlExample);
-			GenericTree<Element> gt = lp.parseXML(xmlExample);
+			GenericTree<Element1> gt = lp.parseXML(xmlExample);
+
 			System.out.println(gt.toStringWithDepth());
+			String xml = lp.construct_xml(gt);
+			System.out.println( xml);
 			return;
 		}
-		*/
 
-		
+
+
 		/*
 		 *  Incarca fisierul de config, iar daca citirea fisierului de configurare
-		 *  a esuat atunci inchide aplicatia cu mesaj de eroare. 
+		 *  a esuat atunci inchide aplicatia cu mesaj de eroare.
 		 */
 		if( Config.load() == false ) {
 			JOptionPane.showMessageDialog(null, "Eroare citire fisier configurare!");
@@ -38,7 +43,7 @@ public class Main {
 		 */
 		FileChooser fc = new FileChooser();
 		String selectedFile = fc.chooseFile();
-		
+
 		if (selectedFile == null) {
 			System.exit(0);
 		}
