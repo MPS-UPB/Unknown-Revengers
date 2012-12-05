@@ -4,6 +4,7 @@ import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.DefaultComboBoxModel;
@@ -71,11 +72,11 @@ public class LayoutGUI extends JFrame {
 		// Incarca zona in care se deseanza.
 		this.loadDrawZone();
 
-		// Incarca elementele din pagina.
-		this.loadElements();
-
 		// Adauga filtre si actiuni pentru document/elemente.
 		this.addFilters();
+
+		// Incarca elementele din pagina.
+		this.loadElements();
 
 		// Actiuni finale asupra documentului.
 		this.addFinalActions();
@@ -168,12 +169,30 @@ public class LayoutGUI extends JFrame {
 		draw.add(panel);
 
 		JPopupMenu popupMenu = new JPopupMenu();
+
+		// Action listener pentru popupMenu
+		ActionListener actionListener = new PopupListener();
+
 		// Face analiza OCR.
-		popupMenu.add(new JMenuItem("Analiza OCR"));
+		JMenuItem ocrItem = new JMenuItem("Analiza OCR");
+		ocrItem.addActionListener(actionListener);
+		popupMenu.add(ocrItem);
+
 		// Sparge blocul de text.
-		popupMenu.add(new JMenuItem("Sparge bloc text"));
+		JMenuItem splitItem = new JMenuItem("Sparge bloc text");
+		splitItem.addActionListener(actionListener);
+		popupMenu.add(splitItem);
+
 		// Marcheaza blocul de text ca fiind numar pagina.
-		popupMenu.add(new JMenuItem("Este numar pagina"));
+		JMenuItem paginaItem = new JMenuItem("Este numar pagina");
+		paginaItem.addActionListener(actionListener);
+		popupMenu.add(paginaItem);
+
+		// Vezi textul.
+		JMenuItem textItem = new JMenuItem("Vezi text");
+		textItem.addActionListener(actionListener);
+		popupMenu.add(textItem);
+
 		panel.setComponentPopupMenu(popupMenu);
 
 		/*
@@ -201,7 +220,6 @@ public class LayoutGUI extends JFrame {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void addFilters() {
-
 		// Label componentente.
 		JLabel lblComponente = new JLabel("Componente:");
 		lblComponente.setBounds(20, 20, 75, 20);
@@ -215,10 +233,12 @@ public class LayoutGUI extends JFrame {
 		JComboBox comboElements = new JComboBox();
 		comboElements.setModel(new DefaultComboBoxModel(new String[] {
 				"Litere", "Randuri", "Blocuri" }));
+		// Adauga listener pentru combo cu componente.
+		comboElements.addActionListener(new ComponentComboListener());
 		comboElements.setBounds(105, 20, 125, 20);
 		getContentPane().add(comboElements);
 
-		// Actiuni posibile pentru selectia curenta.
+		// Label actiuni posibile pentru selectia curenta.
 		JLabel lblActiuni = new JLabel("Actiuni:");
 		lblActiuni.setBounds(this.getMaximizedBounds().width - 310, 20, 50, 25);
 		getContentPane().add(lblActiuni);
@@ -239,6 +259,8 @@ public class LayoutGUI extends JFrame {
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton
 		.setBounds(this.getMaximizedBounds().width - 80, 20, 60, 25);
+		// Adauga listener pentru combo cu actiuni.
+		btnNewButton.addActionListener(new ActionButtonListener(comboBox, draw));
 		getContentPane().add(btnNewButton);
 	}
 
@@ -250,12 +272,16 @@ public class LayoutGUI extends JFrame {
 		JButton btnNumeroteaza = new JButton("Numeroteaza pagina");
 		btnNumeroteaza.setBounds(this.getMaximizedBounds().width - 290,
 				this.getMaximizedBounds().height - 70, 170, 23);
+		// Adauga listener pentru buton de numerotare pagina.
+		btnNumeroteaza.addActionListener(new NumeroteazaButtonListener());
 		getContentPane().add(btnNumeroteaza);
 
 		// TODO Salveaza schimbarile facute intr-un fisier de output.
 		JButton btnSalveaza = new JButton("Salveaza");
 		btnSalveaza.setBounds(this.getMaximizedBounds().width - 110,
 				this.getMaximizedBounds().height - 70, 90, 23);
+		// Adauga listener pentru buton de numerotare pagina.
+		btnSalveaza.addActionListener(new SalveazaButtonListener());
 		getContentPane().add(btnSalveaza);
 	}
 }
