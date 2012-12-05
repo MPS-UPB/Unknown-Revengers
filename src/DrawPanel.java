@@ -10,7 +10,10 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class DrawPanel extends JPanel {
-	Image image;
+	/**
+	 * Imaginea de analizat.
+	 */
+	private Image image;
 
 	/**
 	 * Constructor pentru zona de desenat.

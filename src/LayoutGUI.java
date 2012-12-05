@@ -31,19 +31,31 @@ import sun.java2d.SunGraphicsEnvironment;
  */
 @SuppressWarnings("serial")
 public class LayoutGUI extends JFrame {
+	/**
+	 *  Layout parser.
+	 */
+	private LayoutParser layoutParser;
 
-	// Layout parser.
-	LayoutParser layoutParser;
+	/**
+	 *  Imaginea ce este incarcata.
+	 */
+	private Image image;
 
-	// Imaginea ce este incarcata.
-	Image image;
+	/**
+	 *  Panelul in care se deseneaza imaginea.
+	 */
+	private DrawPanel draw;
 
-	// Panelul in care se deseneaza imaginea.
-	DrawPanel draw;
+	/**
+	 *  Scroll pane-ul in care se pun elementele din imagine.
+	 */
+	private JScrollPane scrollPane;
 
-	// Scroll pane-ul in care se pun elementele din imagine.
-	JScrollPane scrollPane;
-
+	/**
+	 * Constructor.
+	 * 
+	 * @param layoutParser
+	 */
 	public LayoutGUI(LayoutParser layoutParser) {
 
 		this.layoutParser = layoutParser;
@@ -124,9 +136,9 @@ public class LayoutGUI extends JFrame {
 		// Inizializeaza scroll panel si adauga draw panel in el.
 		scrollPane = new JScrollPane(draw);
 		scrollPane
-				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(20, 95, this.getMaximizedBounds().width - 40,
 				this.getMaximizedBounds().height - 180);
 
@@ -226,7 +238,7 @@ public class LayoutGUI extends JFrame {
 		// OK pentru actiunile posibile.
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton
-				.setBounds(this.getMaximizedBounds().width - 80, 20, 60, 25);
+		.setBounds(this.getMaximizedBounds().width - 80, 20, 60, 25);
 		getContentPane().add(btnNewButton);
 	}
 
