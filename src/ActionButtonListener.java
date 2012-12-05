@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -45,7 +46,7 @@ public class ActionButtonListener implements ActionListener {
 					&& ((JPanel)panels[i]).getToolTipText().compareTo(
 							"selected") == 0) {
 				// TODO Executa actiunea pe componentele selectate.
-
+				JOptionPane.showMessageDialog(null, "Executa actiunea '" + action + "' pe componentele selectate.");
 			}
 		}
 	}

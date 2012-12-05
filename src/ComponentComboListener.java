@@ -2,6 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 /**
  * Combo listener pentru dropdown cu componente.
@@ -16,7 +17,7 @@ public class ComponentComboListener implements ActionListener {
 		String component = (String) cb.getSelectedItem();
 
 		// TODO Afiseaza elementele conform selectiei: litere, randuri, blocuri
-		System.out.println(component);
+		JOptionPane.showMessageDialog(null, "Afiseaza elementele conform selectiei: " + component + ".");
 	}
 
 }
