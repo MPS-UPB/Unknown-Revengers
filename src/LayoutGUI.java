@@ -187,6 +187,12 @@ public class LayoutGUI extends JFrame {
 		JMenuItem paginaItem = new JMenuItem("Este numar pagina");
 		paginaItem.addActionListener(actionListener);
 		popupMenu.add(paginaItem);
+
+		// Vezi textul.
+		JMenuItem textItem = new JMenuItem("Vezi text");
+		textItem.addActionListener(actionListener);
+		popupMenu.add(textItem);
+
 		panel.setComponentPopupMenu(popupMenu);
 
 		/*
