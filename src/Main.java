@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 import javax.xml.transform.TransformerException;
 
@@ -11,21 +13,6 @@ public class Main {
 	 * @throws TransformerException
 	 */
 	public static void main(String[] args) throws InterruptedException, TransformerException {
-
-		if(1==1){
-			String xmlExample = "<Document image='3-sizes.tif' direction='descending'>" +
-					"<TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock>" +
-					"<TextBlock left='13' right='1089' top='26' bottom='109'><TextLine left='13' right='1089' top='26' bottom='109'><String>Nato</String><String>setzt</String></TextLine></TextBlock></Document>";
-			LayoutParser lp = new LayoutParser(xmlExample);
-			GenericTree<Element1> gt = lp.parseXML(xmlExample);
-
-			System.out.println(gt.toStringWithDepth());
-			String xml = lp.construct_xml(gt);
-			System.out.println( xml);
-			return;
-		}
-
-
 
 		/*
 		 *  Incarca fisierul de config, iar daca citirea fisierului de configurare
@@ -53,6 +40,7 @@ public class Main {
 		 */
 		while (!FileValidator.isValid(selectedFile)){
 			selectedFile = fc.chooseFile();
+			System.out.println("test");
 		}
 
 		/*
@@ -82,8 +70,10 @@ public class Main {
 		 * 
 		 * Urmatorul pas este sa reprezentam acest fisier in GUI
 		 */
+		/*
 		LayoutParser lp = new LayoutParser("path catre fisierul de layout");
 		LayoutGUI lg = new LayoutGUI(lp);
+		*/
 	}
 
 }
