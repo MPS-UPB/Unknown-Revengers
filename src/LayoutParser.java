@@ -17,9 +17,14 @@
 
 import static org.joox.JOOX.$;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
 
@@ -69,10 +74,17 @@ public class LayoutParser {
 			e.printStackTrace();
 		}
 
+		// Creaza noul document
 		Document doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement(InputTree.getRoot().toString());
+		
+		// Adauga radacina arborelui
 		doc.appendChild(rootElement);
-		doc  = addElements(doc, InputTree.getRoot());
+		
+		// Parseaza si creaza tot arborele
+		doc  = addElements(doc, rootElement, InputTree.getRoot());
+		
+		// Returneaza XML-ul sub forma de String din obiectul de tip DOM
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
 		DOMSource source = new DOMSource(doc);
@@ -84,44 +96,68 @@ public class LayoutParser {
 		return result_xml;
 	}
 
-	public Document addElements(Document doc1, GenericTreeNode<Element1> Node) throws TransformerException {
+	// Creaza arborele DOM pentru a fi transformat apoi sub forma de String
+	public Document addElements(Document doc1, Element currentElement, GenericTreeNode<Element1> Node) throws TransformerException {
+		Element child;
+		
+		// Gaseste copiii nodului curent
 		List<GenericTreeNode<Element1>> children = Node.getChildren();
 		Iterator<GenericTreeNode<Element1>> it =  children.iterator();
-		Document doc = doc1;
-		Element root = doc1.getDocumentElement();
-		Element current_element = root;
+		
+		// Itereaza prin fiecare copil
 		while(it.hasNext()) {
-			GenericTreeNode<Element1> nextNode = it.next();
-			Element1 nextElement = nextNode.getData();
-			if(nextElement.text != "" && nextElement.toString() == "String") {
-				Element current_string = doc.createElement(nextElement.toString());
-				current_string.appendChild(doc.createTextNode(nextElement.text.toString()));
-				current_element.appendChild(current_string);
+			GenericTreeNode<Element1> childNode = it.next();
+			Element1 childElement = childNode.getData();
+			
+			if(childElement.text != "" && childElement.toString() == "String") {
+				// Este frunza
+				child = doc1.createElement(childElement.toString());
+				child.appendChild(doc1.createTextNode(childElement.text.toString()));
+				currentElement.appendChild(child);
 			}
 			else {
-
-				Element child = doc.createElement(nextElement.toString());
-				Attr bottom = doc.createAttribute("bottom");
-				bottom.setValue(Integer.toString(nextElement.bottom));
+				// Creaza elementul
+				child = doc1.createElement(childElement.toString());
+				
+				// Adauga atributele
+				Attr bottom = doc1.createAttribute("bottom");
+				bottom.setValue(Integer.toString(childElement.bottom));
 				child.setAttributeNode(bottom);
-				Attr top = doc.createAttribute("top");
-				top.setValue(Integer.toString(nextElement.top));
+				Attr top = doc1.createAttribute("top");
+				top.setValue(Integer.toString(childElement.top));
 				child.setAttributeNode(top);
-				Attr right = doc.createAttribute("right");
-				right.setValue(Integer.toString(nextElement.right));
+				Attr right = doc1.createAttribute("right");
+				right.setValue(Integer.toString(childElement.right));
 				child.setAttributeNode(right);
-				Attr left = doc.createAttribute("left");
-				left.setValue(Integer.toString(nextElement.left));
+				Attr left = doc1.createAttribute("left");
+				left.setValue(Integer.toString(childElement.left));
 				child.setAttributeNode(left);
-				current_element.appendChild(child);
-				current_element= child;
+				
+				// Adauga elementul la arbore
+				currentElement.appendChild(child);
 			}
-			addElements(doc, nextNode);
+			
+			// Merge mai jos in arbore
+			addElements(doc1, child, childNode);
 		}
 
-		return doc;
+		return doc1;
 	}
 
+	// Citeste XML-ul dintr-un fisier primit ca parametru
+	public static String readFile(String path) throws IOException {
+	  FileInputStream stream = new FileInputStream(new File(path));
+	  try {
+	    FileChannel fc = stream.getChannel();
+	    MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+	    /* Instead of using default, pass in a decoder. */
+	    return Charset.defaultCharset().decode(bb).toString();
+	  }
+	  finally {
+	    stream.close();
+	  }
+	}
+	
 	// Parseaza XML-ul primit ca string si returneaza un arbore de tip GenericTree
 	public GenericTree<Element1> parseXML(String layoutXML){
 		GenericTree<Element1> newTree = new GenericTree<Element1>();
@@ -227,4 +263,28 @@ public class LayoutParser {
 
 		return true;
 	}
+	
+	public void test(){
+		String xmlExample = "";
+		try {
+			xmlExample = LayoutParser.readFile("C:\\workspace\\Unknown-Revengers\\layout_3_sizes.xml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}			
+		
+		LayoutParser lp = new LayoutParser(xmlExample);
+		GenericTree<Element1> gt = lp.parseXML(xmlExample);
+		System.out.println(gt.toStringWithDepth());
+		
+		String result = null;
+		try {
+			result = lp.construct_xml(gt);
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(result);
+	}
+
 }

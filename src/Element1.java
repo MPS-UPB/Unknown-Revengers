@@ -19,16 +19,12 @@ public class Element1 {
 		Document(1), Dir(2), Imposed(3), File(4), Point(5), Polygon(6), Block(7),
 		ComposedBlock(8), ImageBlock(9), TextBlock(10), String(11), TextLine(12);
 
-
-
 		/**
 		 * Type for element
 		 */
 		private ElementType(int type) {
 			type = type;
 		}
-
-
 	}
 
 	ElementType elementType;
