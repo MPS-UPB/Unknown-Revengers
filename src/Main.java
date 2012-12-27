@@ -40,7 +40,6 @@ public class Main {
 		 */
 		while (!FileValidator.isValid(selectedFile)){
 			selectedFile = fc.chooseFile();
-			System.out.println("test");
 		}
 
 		/*

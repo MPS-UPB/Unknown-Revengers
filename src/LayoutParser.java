@@ -59,8 +59,18 @@ public class LayoutParser {
 	 * 
 	 * @param layoutXML
 	 */
-	public LayoutParser(String layoutXML){
-
+	public LayoutParser(String xmlPath){
+		String xmlExample = "";
+		
+		// Reads the content of the XML
+		try {
+			xmlExample = LayoutParser.readFile(xmlPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// Creates the structure that will keep information of the XML
+		this.XMLTree = this.parseXML(xmlExample);
 	}
 
 	public String construct_xml(GenericTree<Element1> InputTree) throws TransformerException {
@@ -70,7 +80,6 @@ public class LayoutParser {
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -264,27 +273,32 @@ public class LayoutParser {
 		return true;
 	}
 	
+	/*
 	public void test(){
-		String xmlExample = "";
-		try {
-			xmlExample = LayoutParser.readFile("C:\\workspace\\Unknown-Revengers\\layout_3_sizes.xml");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}			
+
+        	String xmlPath 	  = "C:\\workspace\\Unknown-Revengers\\layout_3_sizes.xml";
+	String xmlExample = "";
+    		try {
+    			xmlExample = LayoutParser.readFile("");
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    
+    		LayoutParser lp = new LayoutParser(xmlPath);
+    		GenericTree<Element1> gt = lp.parseXML(xmlExample);
+    		System.out.println(gt.toStringWithDepth());
+
+    		String result = null;
+    		try {
+    			result = lp.construct_xml(gt);
+    		} catch (TransformerException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    		System.out.println(result);
 		
-		LayoutParser lp = new LayoutParser(xmlExample);
-		GenericTree<Element1> gt = lp.parseXML(xmlExample);
-		System.out.println(gt.toStringWithDepth());
-		
-		String result = null;
-		try {
-			result = lp.construct_xml(gt);
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(result);
 	}
+	*/
 
 }
