@@ -47,36 +47,53 @@ import org.xml.sax.SAXException;
 import tree.GenericTree;
 import tree.GenericTreeNode;
 
-//import Element;
 public class LayoutParser {
 
-	// TODO structura pentru a retine organizarea fisierului.. cred ca ar merge
-	// un arbore.
-	GenericTree<Element1> XMLTree = new GenericTree<Element1>();
+	// Pagina va fi tinuta intr-un arbore
+	GenericTree<Element1> XMLTree;
+	String xmlPath;
+	String imagePath;
+	String direction;
 
 	/**
-	 * TODO
+	 * Constructorul clasei
 	 * 
 	 * Reprezinta datele din fisierul de layout in memorie
 	 * 
-	 * @param layoutXML
+	 * @param String xmlPath
+	 *   Aici va fi retinuta calea catre XML. Calea este absoluta.
 	 */
 	public LayoutParser(String xmlPath) {
 		String xmlExample = "";
-
-		// Reads the content of the XML
+		this.xmlPath      = xmlPath;
+		
+		// Citeste continutul XML-ului
 		try {
 			xmlExample = LayoutParser.readFile(xmlPath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		// Creates the structure that will keep information of the XML
+		// Creaza arborele care va tine minte structura paginii
 		this.XMLTree = this.parseXML(xmlExample);
 
-		System.out.println(this.XMLTree.getRoot().getChildren());
+		//System.out.println(this.XMLTree.getRoot().getChildren());
 	}
 
+	/**
+	 * Parseaza arborele dat ca parametru si construieste XML-ul 
+	 * de layout din acesta
+	 * 
+	 * 
+	 * @param InputTree
+	 *   Arborele care contine informatiile despre pagina
+	 *   
+	 * @return string
+	 *   Returneaza XML-ul rezultat din parsarea arborelui ce va
+	 *   contine informatii despre pagina
+	 *   
+	 * @throws TransformerException
+	 */
 	public String construct_xml(GenericTree<Element1> InputTree)
 			throws TransformerException {
 		String result_xml = null;
@@ -112,7 +129,25 @@ public class LayoutParser {
 		return result_xml;
 	}
 
-	// Creaza arborele DOM pentru a fi transformat apoi sub forma de String
+	/**
+	 * In aceasta metoda a fost implementata logica de parsare a arborelui
+	 * pentru a construi XML-ul
+	 * 
+	 * @param doc1
+	 * 	 Arborele care este construit pentru a crea din el XML-ul
+	 * 
+	 * @param currentElement
+	 *   Elementul curent din arborele din care se va crea XML-ul 
+	 *   in care ne aflam 
+	 * 
+	 * @param Node
+	 *   Nodul curent din arborele in care e retinuta logica paginii
+	 * 
+	 * @return Document
+	 *   Intoarce arborele din care se va contstrui XML-ul
+	 *   
+	 * @throws TransformerException
+	 */
 	public Document addElements(Document doc1, Element currentElement,
 			GenericTreeNode<Element1> Node) throws TransformerException {
 		Element child;
@@ -162,13 +197,24 @@ public class LayoutParser {
 	}
 
 	// Citeste XML-ul dintr-un fisier primit ca parametru
+	
+	/**
+	 * Citeste XML-ul dintr-un fisier primit ca parametru
+	 * 
+	 * @param path
+	 * 	 Calea catre fisier
+	 * 
+	 * @return
+	 *   Returneaza XML-ul intr-un String
+	 * @throws IOException
+	 */
 	public static String readFile(String path) throws IOException {
 		FileInputStream stream = new FileInputStream(new File(path));
 		try {
 			FileChannel fc = stream.getChannel();
 			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0,
 					fc.size());
-			/* Instead of using default, pass in a decoder. */
+			
 			return Charset.defaultCharset().decode(bb).toString();
 		} finally {
 			stream.close();
@@ -177,12 +223,24 @@ public class LayoutParser {
 
 	// Parseaza XML-ul primit ca string si returneaza un arbore de tip
 	// GenericTree
+	
+	/**
+	 * Parseaza XML-ul primit ca String si returneaza un arbore de tip
+	 * GenericTree
+	 * 
+	 * @param string layoutXML
+	 *   XML-ul ce contine informatii despre pagina
+	 *   
+	 * @return GenericTree<Element1>
+	 *   Arborele ce va contine informatii despre pagina dupa ce a parsat 
+	 *   XML-ul
+	 */
 	public GenericTree<Element1> parseXML(String layoutXML) {
-		GenericTree<Element1> newTree = new GenericTree<Element1>();
+		GenericTree<Element1> newTree  = new GenericTree<Element1>();
 
-		Document result = null;
+		Document result 			   = null;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		InputSource source = new InputSource(new StringReader(layoutXML));
+		InputSource source 			   = new InputSource(new StringReader(layoutXML));
 
 		try {
 			result = factory.newDocumentBuilder().parse(source);
@@ -196,7 +254,7 @@ public class LayoutParser {
 
 		// Parsare XML
 		Match documentRoot = $(result).first();
-
+		
 		// Parseaza XML-ul si intoarce
 		GenericTreeNode<Element1> rootDocument = parseXMLRow(documentRoot);
 
@@ -205,8 +263,16 @@ public class LayoutParser {
 
 		return newTree;
 	}
-
-	// Parseaza XML-ul folosind DFS si in acelasi timp creeaza arborele
+	
+	/**
+	 * Parseaza XML-ul folosing DFS si in acelasi timp creaza arborele
+	 * 
+	 * @param currentMatch
+	 *   Reprezinta elementul curent
+	 * 
+	 * @return GenericTreeNode<Element1>
+	 * 	 Returneaza nodul curent
+	 */
 	public GenericTreeNode<Element1> parseXMLRow(Match currentMatch) {
 		int i, top = -1, bottom, right, left;
 
@@ -261,7 +327,17 @@ public class LayoutParser {
 		return parentTreeNode;
 	}
 
-	// Muta un nod de la un parinte la altul
+	/**
+	 * Muta un nod de la un parinte la altul intr-un arbore
+	 * 
+	 * @param movingNode
+	 * 	 Nodul mutat
+	 * @param toParentNode
+	 *   Nodul parinte destinatie
+	 *   
+	 * @return boolen
+	 *   True daca operatia a fost indeplinita cu succes, sau false altfel
+	 */
 	public boolean moveChildToParent(GenericTreeNode<Element1> movingNode,
 			GenericTreeNode<Element1> toParentNode) {
 		int i;
@@ -284,5 +360,22 @@ public class LayoutParser {
 		}
 
 		return true;
+	}
+	
+	/**
+	 * Salveaza calea catre imagine din radacina XML-ului
+	 * 
+	 * @param documentRoot
+	 * 	 Radacina documentului
+	 *   
+	 */
+	private void saveImageFromXML(Match documentRoot){
+    	if (documentRoot.attr("image") != null) {
+    		this.imagePath = documentRoot.attr("image");
+    	}
+    	
+    	if (documentRoot.attr("direction") != null) {
+    		this.imagePath = documentRoot.attr("direction");
+    	}	  	
 	}
 }
