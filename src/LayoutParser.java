@@ -255,6 +255,9 @@ public class LayoutParser {
 		// Parsare XML
 		Match documentRoot = $(result).first();
 		
+		// Salveaza imaginea si directia din tag-ul Documentului
+		saveImageFromXML(documentRoot);
+		
 		// Parseaza XML-ul si intoarce
 		GenericTreeNode<Element1> rootDocument = parseXMLRow(documentRoot);
 
@@ -326,6 +329,15 @@ public class LayoutParser {
 		// Intoarcem nodul parinte
 		return parentTreeNode;
 	}
+	
+	/** 
+	 *
+	 * @return String
+	 * 	 Returneaza calea catre imagine
+	 */
+	public String getImagePath(){
+		return this.imagePath;
+	}
 
 	/**
 	 * Muta un nod de la un parinte la altul intr-un arbore
@@ -363,7 +375,9 @@ public class LayoutParser {
 	}
 	
 	/**
-	 * Salveaza calea catre imagine din radacina XML-ului
+	 * Salveaza calea catre imagine din radacina XML-ului.
+	 * Functia va functiona cum trebuie chiar daca calea XML-ului
+	 * este relativa sau absoluta
 	 * 
 	 * @param documentRoot
 	 * 	 Radacina documentului
@@ -371,11 +385,17 @@ public class LayoutParser {
 	 */
 	private void saveImageFromXML(Match documentRoot){
     	if (documentRoot.attr("image") != null) {
-    		this.imagePath = documentRoot.attr("image");
+    		if(xmlPath.contains("\\")){
+    			String auxImagePath = documentRoot.attr("image");
+    			int subpathIndex = this.xmlPath.lastIndexOf("\\") + 1;
+    			this.imagePath = this.xmlPath.substring(0, subpathIndex) + auxImagePath; 
+    		} else {
+    			this.imagePath = documentRoot.attr("image");
+    		}
     	}
     	
     	if (documentRoot.attr("direction") != null) {
-    		this.imagePath = documentRoot.attr("direction");
+    		this.direction = documentRoot.attr("direction");
     	}	  	
 	}
 }
