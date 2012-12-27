@@ -177,7 +177,7 @@ public class AnalyzerSelector extends JFrame {
 		public void actionPerformed(final ActionEvent e) {
 			String execName = (String) analyzerList.getSelectedItem();
 			String description = AnalyzerSelector.this.
-			getDescription(execName);
+					getDescription(execName);
 
 			// Incarca analizator selectat din dropdown.
 			selectedAnalyzer = new Analyzer(execName, description);
@@ -234,7 +234,7 @@ public class AnalyzerSelector extends JFrame {
 	private Analyzer getAnalyzer(final String file) {
 		Document dom = null;
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.
-		newInstance();
+				newInstance();
 		dbf.setNamespaceAware(true);
 
 		try {
