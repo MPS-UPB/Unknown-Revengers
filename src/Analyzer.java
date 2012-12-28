@@ -32,6 +32,8 @@ public class Analyzer {
 	 * Temporary output file absolute path.
 	 */
 	private String output;
+	
+	private String type;
 
 	/**
 	 * Constructor.
@@ -39,9 +41,10 @@ public class Analyzer {
 	 * @param name        Analyzer's name.
 	 * @param description Analyzer's description.
 	 */
-	public Analyzer(String name, String description) {
+	public Analyzer(String name, String description,String type) {
 		this.name = name;
 		this.description = description;
+		this.type=type;
 	}
 
 	/**
