@@ -46,7 +46,7 @@ public class Main {
 		 */
 		if (selectedFile.endsWith("xml") == false) {
 			// Selecteaza analizator.
-			AnalyzerSelector as = new AnalyzerSelector();
+			AnalyzerSelector as = new AnalyzerSelector("layout");
 			Analyzer selectedAnalyzer = as.chooseAnalyzer();
 
 			// Seteaza calea catre imagine.
