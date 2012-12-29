@@ -16,12 +16,13 @@ import org.xml.sax.SAXException;
  * Valideaza un fisier dat ca input.
  * 
  * @author Unknown-Revengers
- *
+ * 
  */
 public class FileValidator {
 
 	/**
-	 * Verifica daca e un fisier valid (imagine JPG sau fisier XML formatat conform cu layout specifications).
+	 * Verifica daca e un fisier valid (imagine JPG sau fisier XML formatat
+	 * conform cu layout specifications).
 	 * 
 	 * @param fileName Calea fisierului pentru input (JPG sau XML).
 	 * 
@@ -47,18 +48,19 @@ public class FileValidator {
 	}
 
 	/**
-	 *  Verifica daca XML-ul dat este OK din pct de vedere al layoutului.
+	 * Verifica daca XML-ul dat este OK din pct de vedere al layoutului.
 	 * 
-	 * @param  XMLPath  Calea catre fisierul XML analizat.
+	 * @param XMLPath Calea catre fisierul XML analizat.
 	 * 
 	 * @return boolean
 	 */
 	private static boolean validXML(String XMLPath) {
-		/* Verifica XML in baza unui XSD*/
-		String xsdPath = Config.output_schemas + "layout_specs.xsd";
+		/* Verifica XML in baza unui XSD */
+		String xsdPath = Config.output_schemas + "\\layout_specs.xsd";
 		Source xsdFile = new StreamSource(new File(xsdPath));
 		Source xmlFile = new StreamSource(new File(XMLPath));
-		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		SchemaFactory schemaFactory = SchemaFactory
+				.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		try {
 			Schema schema = schemaFactory.newSchema(xsdFile);
 			Validator validator = schema.newValidator();
@@ -70,7 +72,8 @@ public class FileValidator {
 	}
 
 	/**
-	 * Verifica daca imaginea data este valida (am vazut ca exista diverse moduri de a face asta).
+	 * Verifica daca imaginea data este valida (am vazut ca exista diverse
+	 * moduri de a face asta).
 	 * 
 	 * @param imagePath Calea catre imaginea JPG analizata.
 	 * 
