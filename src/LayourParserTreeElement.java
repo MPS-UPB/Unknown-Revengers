@@ -3,7 +3,7 @@
  * 
  * @author Unknown-Revengers
  */
-public class Element1 {
+public class LayourParserTreeElement {
 	int top;
 	int bottom;
 	int left;
@@ -23,13 +23,12 @@ public class Element1 {
 		 * Type for element
 		 */
 		private ElementType(int type) {
-			type = type;
 		}
 	}
 
 	ElementType elementType;
 
-	public Element1() {
+	public LayourParserTreeElement() {
 		this.top = 0;
 		this.bottom = 0;
 		this.right = 0;
@@ -38,7 +37,7 @@ public class Element1 {
 		this.type = 0;
 	};
 
-	public Element1(int top, int bottom, int right, int left, String text, int type) {
+	public LayourParserTreeElement(int top, int bottom, int right, int left, String text, int type) {
 		this.top = top;
 		this.bottom = bottom;
 		this.right = right;
@@ -47,11 +46,11 @@ public class Element1 {
 		this.type = 0;
 	};
 
-	public Element1(ElementType type) {
+	public LayourParserTreeElement(ElementType type) {
 		this.elementType = type;
 	};
 
-	public Element1(String tag, String text, int top, int bottom, int right, int left, String image){
+	public LayourParserTreeElement(String tag, String text, int top, int bottom, int right, int left, String image) {
 		this.top    = top;
 		this.bottom = bottom;
 		this.right  = right;
@@ -60,7 +59,7 @@ public class Element1 {
 		this.image  = image;
 
 		// Parseaza tipul elementului din text in ElementType
-		if(tag == "String"){
+		if(tag == "String") {
 			this.elementType = ElementType.String;
 		} else if(tag == "Document") {
 			this.elementType = ElementType.Document;
@@ -89,14 +88,14 @@ public class Element1 {
 		}
 	}
 
-	public Element1(ElementType type, String text){
+	public LayourParserTreeElement(ElementType type, String text) {
 		this.elementType = type;
 		this.text = text;
 	}
 
 	// Cum va fi tiparit un nod cand vrem sa-l afisam
 	@Override
-	public String toString(){
+	public String toString() {
 		return (this.elementType.toString());
 	}
 

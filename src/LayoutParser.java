@@ -50,7 +50,7 @@ import tree.GenericTreeNode;
 public class LayoutParser {
 
 	// Pagina va fi tinuta intr-un arbore
-	GenericTree<Element1> XMLTree;
+	GenericTree<LayourParserTreeElement> XMLTree;
 	String xmlPath;
 	String imagePath;
 	String direction;
@@ -71,6 +71,7 @@ public class LayoutParser {
 		try {
 			xmlExample = LayoutParser.readFile(xmlPath);
 		} catch (IOException e) {
+			System.out.println("EROARE: XML-ul nu a fost citit cum trebuie");
 			e.printStackTrace();
 		}
 
@@ -94,7 +95,7 @@ public class LayoutParser {
 	 *   
 	 * @throws TransformerException
 	 */
-	public String construct_xml(GenericTree<Element1> InputTree)
+	public String construct_xml(GenericTree<LayourParserTreeElement> InputTree)
 			throws TransformerException {
 		String result_xml = null;
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory
@@ -103,6 +104,7 @@ public class LayoutParser {
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
+			System.out.println("EROARE: A fost o eroare cand a fost creat documentul");
 			e.printStackTrace();
 		}
 
@@ -149,19 +151,20 @@ public class LayoutParser {
 	 * @throws TransformerException
 	 */
 	public Document addElements(Document doc1, Element currentElement,
-			GenericTreeNode<Element1> Node) throws TransformerException {
+			GenericTreeNode<LayourParserTreeElement> Node) throws TransformerException {
 		Element child;
 
 		// Gaseste copiii nodului curent
-		List<GenericTreeNode<Element1>> children = Node.getChildren();
-		Iterator<GenericTreeNode<Element1>> it = children.iterator();
+		List<GenericTreeNode<LayourParserTreeElement>> children = Node.getChildren();
+		Iterator<GenericTreeNode<LayourParserTreeElement>> it = children.iterator();
 
 		// Itereaza prin fiecare copil
 		while (it.hasNext()) {
-			GenericTreeNode<Element1> childNode = it.next();
-			Element1 childElement = childNode.getData();
+			GenericTreeNode<LayourParserTreeElement> childNode = it.next();
+			LayourParserTreeElement childElement = childNode.getData();
 
-			if (childElement.text != "" && childElement.toString() == "String") {
+			if (childElement.text.isEmpty() == false && 
+				childElement.toString().compareTo("String") == 0) {
 				// Este frunza
 				child = doc1.createElement(childElement.toString());
 				child.appendChild(doc1.createTextNode(childElement.text
@@ -195,8 +198,6 @@ public class LayoutParser {
 
 		return doc1;
 	}
-
-	// Citeste XML-ul dintr-un fisier primit ca parametru
 	
 	/**
 	 * Citeste XML-ul dintr-un fisier primit ca parametru
@@ -220,9 +221,6 @@ public class LayoutParser {
 			stream.close();
 		}
 	}
-
-	// Parseaza XML-ul primit ca string si returneaza un arbore de tip
-	// GenericTree
 	
 	/**
 	 * Parseaza XML-ul primit ca String si returneaza un arbore de tip
@@ -231,12 +229,12 @@ public class LayoutParser {
 	 * @param string layoutXML
 	 *   XML-ul ce contine informatii despre pagina
 	 *   
-	 * @return GenericTree<Element1>
+	 * @return GenericTree<LayoutParserTreeElement>
 	 *   Arborele ce va contine informatii despre pagina dupa ce a parsat 
 	 *   XML-ul
 	 */
-	public GenericTree<Element1> parseXML(String layoutXML) {
-		GenericTree<Element1> newTree  = new GenericTree<Element1>();
+	public GenericTree<LayourParserTreeElement> parseXML(String layoutXML) {
+		GenericTree<LayourParserTreeElement> newTree  = new GenericTree<LayourParserTreeElement>();
 
 		Document result 			   = null;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -245,10 +243,13 @@ public class LayoutParser {
 		try {
 			result = factory.newDocumentBuilder().parse(source);
 		} catch (SAXException e) {
+			System.out.println("Eroare SAX");
 			e.printStackTrace();
 		} catch (IOException e) {
+			System.out.println("Eroare IOException");
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
+			System.out.println("Eroare ParserConfigurationException");
 			e.printStackTrace();
 		}
 
@@ -259,7 +260,7 @@ public class LayoutParser {
 		saveImageFromXML(documentRoot);
 		
 		// Parseaza XML-ul si intoarce
-		GenericTreeNode<Element1> rootDocument = parseXMLRow(documentRoot);
+		GenericTreeNode<LayourParserTreeElement> rootDocument = parseXMLRow(documentRoot);
 
 		// Creaza arbore din structura de noduri
 		newTree.setRoot(rootDocument);
@@ -273,11 +274,15 @@ public class LayoutParser {
 	 * @param currentMatch
 	 *   Reprezinta elementul curent
 	 * 
-	 * @return GenericTreeNode<Element1>
+	 * @return GenericTreeNode<LayoutParserTreeElement>
 	 * 	 Returneaza nodul curent
 	 */
-	public GenericTreeNode<Element1> parseXMLRow(Match currentMatch) {
-		int i, top = -1, bottom, right, left;
+	public GenericTreeNode<LayourParserTreeElement> parseXMLRow(Match currentMatch) {
+		int i; 
+		int top = -1; 
+		int bottom; 
+		int right;
+		int left;
 
 		// Parsam atributele ca sa nu dea eroare
 		if (currentMatch.attr("top") != null) {
@@ -306,23 +311,23 @@ public class LayoutParser {
 
 		// Suntem in frunza
 		if (currentMatch.children().size() == 0) {
-			Element1 new_element = new Element1(currentMatch.tag(),
+			LayourParserTreeElement new_element = new LayourParserTreeElement(currentMatch.tag(),
 					currentMatch.content(), top, bottom, right, left,
 					currentMatch.attr("image"));
-			return new GenericTreeNode<Element1>(new_element);
+			return new GenericTreeNode<LayourParserTreeElement>(new_element);
 		}
 
 		// Cream nod parinte
-		Element1 rootElement = new Element1(currentMatch.tag(),
+		LayourParserTreeElement rootElement = new LayourParserTreeElement(currentMatch.tag(),
 				currentMatch.content(), top, bottom, left, right,
 				currentMatch.attr("image"));
-		GenericTreeNode<Element1> parentTreeNode = new GenericTreeNode<Element1>(
+		GenericTreeNode<LayourParserTreeElement> parentTreeNode = new GenericTreeNode<LayourParserTreeElement>(
 				rootElement);
 
 		// Parsam copiii
 		for (i = 0; i < currentMatch.children().size(); i++) {
 			Match textLineElement = currentMatch.child(i);
-			GenericTreeNode<Element1> newTreeNode = parseXMLRow(textLineElement);
+			GenericTreeNode<LayourParserTreeElement> newTreeNode = parseXMLRow(textLineElement);
 			parentTreeNode.addChild(newTreeNode);
 		}
 
@@ -335,7 +340,7 @@ public class LayoutParser {
 	 * @return String
 	 * 	 Returneaza calea catre imagine
 	 */
-	public String getImagePath(){
+	public String getImagePath() {
 		return this.imagePath;
 	}
 
@@ -350,18 +355,18 @@ public class LayoutParser {
 	 * @return boolen
 	 *   True daca operatia a fost indeplinita cu succes, sau false altfel
 	 */
-	public boolean moveChildToParent(GenericTreeNode<Element1> movingNode,
-			GenericTreeNode<Element1> toParentNode) {
+	public boolean moveChildToParent(GenericTreeNode<LayourParserTreeElement> movingNode,
+			GenericTreeNode<LayourParserTreeElement> toParentNode) {
 		int i;
 
 		// Gaseste parintele nodului care va fi mutat
-		GenericTreeNode<Element1> parent = movingNode.getParent();
+		GenericTreeNode<LayourParserTreeElement> parent = movingNode.getParent();
 
 		// Adauga nodul mutat la noul nod
 		toParentNode.addChild(movingNode);
 
 		// Sterge nodul mutat de la vechiul parinte
-		List<GenericTreeNode<Element1>> parentChildrenList = parent
+		List<GenericTreeNode<LayourParserTreeElement>> parentChildrenList = parent
 				.getChildren();
 		for (i = 0; i < parentChildrenList.size(); i++) {
 			if (parentChildrenList.get(i) == movingNode) {
@@ -383,9 +388,9 @@ public class LayoutParser {
 	 * 	 Radacina documentului
 	 *   
 	 */
-	private void saveImageFromXML(Match documentRoot){
+	private void saveImageFromXML(Match documentRoot) {
     	if (documentRoot.attr("image") != null) {
-    		if(xmlPath.contains("\\")){
+    		if(xmlPath.contains("\\")) {
     			String auxImagePath = documentRoot.attr("image");
     			int subpathIndex = this.xmlPath.lastIndexOf("\\") + 1;
     			this.imagePath = this.xmlPath.substring(0, subpathIndex) + auxImagePath; 
