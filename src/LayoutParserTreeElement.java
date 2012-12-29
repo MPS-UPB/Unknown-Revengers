@@ -3,7 +3,7 @@
  * 
  * @author Unknown-Revengers
  */
-public class LayourParserTreeElement {
+public class LayoutParserTreeElement {
 	int top;
 	int bottom;
 	int left;
@@ -28,7 +28,7 @@ public class LayourParserTreeElement {
 
 	ElementType elementType;
 
-	public LayourParserTreeElement() {
+	public LayoutParserTreeElement() {
 		this.top = 0;
 		this.bottom = 0;
 		this.right = 0;
@@ -37,7 +37,7 @@ public class LayourParserTreeElement {
 		this.type = 0;
 	};
 
-	public LayourParserTreeElement(int top, int bottom, int right, int left, String text, int type) {
+	public LayoutParserTreeElement(int top, int bottom, int right, int left, String text, int type) {
 		this.top = top;
 		this.bottom = bottom;
 		this.right = right;
@@ -46,11 +46,11 @@ public class LayourParserTreeElement {
 		this.type = 0;
 	};
 
-	public LayourParserTreeElement(ElementType type) {
+	public LayoutParserTreeElement(ElementType type) {
 		this.elementType = type;
 	};
 
-	public LayourParserTreeElement(String tag, String text, int top, int bottom, int right, int left, String image) {
+	public LayoutParserTreeElement(String tag, String text, int top, int bottom, int right, int left, String image) {
 		this.top    = top;
 		this.bottom = bottom;
 		this.right  = right;
@@ -88,7 +88,7 @@ public class LayourParserTreeElement {
 		}
 	}
 
-	public LayourParserTreeElement(ElementType type, String text) {
+	public LayoutParserTreeElement(ElementType type, String text) {
 		this.elementType = type;
 		this.text = text;
 	}
