@@ -70,7 +70,7 @@ public class LayoutParser {
 
 	// Citeste continutul XML-ului
 	try {
-	    xmlExample = LayoutParser.readFile(xmlPath);
+	    xmlExample = this.readFile(xmlPath);
 	} catch (IOException e) {
 	    System.out.println("EROARE: XML-ul nu a fost citit cum trebuie");
 	    e.printStackTrace();
@@ -95,7 +95,7 @@ public class LayoutParser {
      * 
      * @throws TransformerException
      */
-    public String construct_xml(GenericTree<LayoutParserTreeElement> InputTree)
+    private String construct_xml(GenericTree<LayoutParserTreeElement> InputTree)
 	    throws TransformerException {
 	String result_xml = null;
 	DocumentBuilderFactory docFactory = DocumentBuilderFactory
@@ -150,7 +150,7 @@ public class LayoutParser {
      * 
      * @throws TransformerException
      */
-    public Document addElements(Document doc, Element currentElement,
+    private Document addElements(Document doc, Element currentElement,
 	    GenericTreeNode<LayoutParserTreeElement> Node)
 	    throws TransformerException {
 	Element child;
@@ -211,7 +211,7 @@ public class LayoutParser {
      * @return Returneaza XML-ul intr-un String
      * @throws IOException
      */
-    public static String readFile(String path) throws IOException {
+    private String readFile(String path) throws IOException {
 	FileInputStream stream = new FileInputStream(new File(path));
 	try {
 	    FileChannel fc = stream.getChannel();
@@ -234,7 +234,7 @@ public class LayoutParser {
      * @return GenericTree<LayoutParserTreeElement> Arborele ce va contine
      *         informatii despre pagina dupa ce a parsat XML-ul
      */
-    public GenericTree<LayoutParserTreeElement> parseXML(String layoutXML) {
+    private GenericTree<LayoutParserTreeElement> parseXML(String layoutXML) {
 	GenericTree<LayoutParserTreeElement> newTree = new GenericTree<LayoutParserTreeElement>();
 
 	Document result = null;
@@ -277,7 +277,7 @@ public class LayoutParser {
      * 
      * @return GenericTreeNode<LayoutParserTreeElement> Returneaza nodul curent
      */
-    public GenericTreeNode<LayoutParserTreeElement> parseXMLRow(
+    private GenericTreeNode<LayoutParserTreeElement> parseXMLRow(
 	    Match currentMatch) {
 	int i;
 	int top = -1;
@@ -342,7 +342,7 @@ public class LayoutParser {
      * 
      * @return String Returneaza calea catre imagine
      */
-    public String getImagePath() {
+    private String getImagePath() {
 	return this.imagePath;
     }
 
