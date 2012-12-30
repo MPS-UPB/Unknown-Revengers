@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -54,6 +55,11 @@ public class LayoutGUI extends JFrame {
 	 * Scroll pane-ul in care se pun elementele din imagine.
 	 */
 	private JScrollPane scrollPane;
+	
+	/**
+	 * Lista cu elementele din arbore
+	 */
+	private List <GenericTreeNode<LayoutParserTreeElement>> list;
 
 	/**
 	 * Constructor.
@@ -61,21 +67,17 @@ public class LayoutGUI extends JFrame {
 	 * @param layoutParser
 	 * @throws IOException
 	 */
-	List <GenericTreeNode<LayoutParserTreeElement>> list;
-	
 	public LayoutGUI(LayoutParser layoutParser) {
 
 		this.layoutParser = layoutParser;
 		
 		this.list=this.layoutParser.XMLTree.build(GenericTreeTraversalOrderEnum.PRE_ORDER);
-		for(int i=0; i<list.size();i++){
-			System.out.println(list.get(i).getData().elementType);
-		}
 		
 		// TODO Incarca imaginea in fereastra. Trebuie luata din layoutParser
 		// imaginea.
-		File f = new File(layoutParser.imagePath);
-		this.image = ImageIO.read(f);
+		String img = this.layoutParser.XMLTree.getRoot().getData().image;
+		File f = new File("resources"+"\\"+ img);
+		this.image = new ImageIcon(f.getAbsolutePath()).getImage();
 
 		// Initializeaza fereastra.
 		this.initFrame();
@@ -166,29 +168,27 @@ public class LayoutGUI extends JFrame {
 	 */
 	public void loadElements(String type) {
 
-		/**
-		 * TODO Incarca elemente
-		 */
-		/*
-		 * Element 1
-		 */
 		draw.removeAll();
 		for(int i = 0; i < list.size(); i ++) {
 			
 			LayoutParserTreeElement e = list.get(i).getData();
 			
 			if(e.elementType.toString().contains(type)) {
-				JPanel panel = new JPanel();
+				
+				ElementJPanel panel = new ElementJPanel(e);
 				panel.addMouseListener(new BlockMouseListener());
 				panel.setBorder(new LineBorder(Color.GREEN));
 				panel.setOpaque(false);
-				panel.setBounds(e.right, e.top, e.left, e.bottom);
+				panel.setBounds(e.right, e.top, e.left - e.right, e.bottom - e.top);
 				draw.add(panel);
 
 				JPopupMenu popupMenu = new JPopupMenu();
 
-				// Action listener pentru popupMenu
-				ActionListener actionListener = new PopupListener();
+				/*
+				 * Action listener pentru popupMenu 
+				 * Primeste ca parametru ElementJPanel pentru a extrage LayoutParserTreeElement
+				 */
+				ActionListener actionListener = new PopupListener(panel);
 
 				// Face analiza OCR.
 				JMenuItem ocrItem = new JMenuItem("Analiza OCR");

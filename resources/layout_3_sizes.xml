@@ -1,4 +1,4 @@
-<Document image="3-sizes.tif" direction="descending">
+<Document image="3-sizes.jpg" direction="descending">
   <TextBlock left="13" right="1089" top="26" bottom="109">
     <TextLine left="13" right="1089" top="26" bottom="109">
       <String>Nato</String>
@@ -8,8 +8,8 @@
     </TextLine>
   </TextBlock>
 
-  <TextBlock left="13" right="1339" top="139" bottom="100">  
-    <TextLine left="13" right="1339" top="139" bottom="100">
+  <TextBlock left="13" right="1339" top="139" bottom="192">  
+    <TextLine left="13" right="1339" top="139" bottom="192">
       <String>Solana:</String>
 	  <String>Militareinsatz</String>
 	  <String>wegen</String>
@@ -18,8 +18,8 @@
     </TextLine>
   </TextBlock>
  
-  <TextBlock left="13" right="702" top="257" bottom="320">
-    <TextLine left="44" right="702" top="257" bottom="200">
+  <TextBlock left="13" right="702" top="257" bottom="499">
+    <TextLine left="44" right="702" top="257" bottom="298">
       <String>something</String>
 	  <String>something</String>
     </TextLine>
@@ -45,8 +45,8 @@
     </TextLine>
   </TextBlock>
   
-  <TextBlock left="738" right="1400" top="257" bottom="320">
-    <TextLine left="741" right="1000" top="257" bottom="298">
+  <TextBlock left="738" right="1432" top="257" bottom="499">
+    <TextLine left="741" right="1432" top="257" bottom="298">
       <String>something</String>
 	  <String>something</String>
     </TextLine>
