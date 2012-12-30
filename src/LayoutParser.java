@@ -86,16 +86,12 @@ public class LayoutParser {
      * Parseaza arborele dat ca parametru si construieste XML-ul de layout din
      * acesta
      * 
-     * 
-     * @param InputTree
-     *            Arborele care contine informatiile despre pagina
-     * 
      * @return string Returneaza XML-ul rezultat din parsarea arborelui ce va
      *         contine informatii despre pagina
      * 
      * @throws TransformerException
      */
-    private String construct_xml(GenericTree<LayoutParserTreeElement> InputTree)
+    public String constructXml()
 	    throws TransformerException {
     	String result_xml = null;
     	DocumentBuilderFactory docFactory = DocumentBuilderFactory
@@ -111,13 +107,13 @@ public class LayoutParser {
     
     	// Creaza noul document
     	Document doc = docBuilder.newDocument();
-    	Element rootElement = doc.createElement(InputTree.getRoot().toString());
+    	Element rootElement = doc.createElement(XMLTree.getRoot().toString());
     
     	// Adauga radacina arborelui
     	doc.appendChild(rootElement);
     
     	// Parseaza si creaza tot arborele
-    	doc = addElements(doc, rootElement, InputTree.getRoot());
+    	doc = addElements(doc, rootElement, XMLTree.getRoot());
     
     	// Returneaza XML-ul sub forma de String din obiectul de tip DOM
     	TransformerFactory transformerFactory = TransformerFactory
