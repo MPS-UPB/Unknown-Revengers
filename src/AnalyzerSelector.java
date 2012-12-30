@@ -65,12 +65,19 @@ public class AnalyzerSelector extends JFrame {
 	 * Fereastra curenta.
 	 */
 	private JFrame frame = this;
-
+	
+	/**
+	 * Tipul de analizor
+	 */
+	private String type;
 	/**
 	 * Constructor.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public AnalyzerSelector() {
+	public AnalyzerSelector( String type) {
+		
+		this.type=type;
+		
 		// Incarca analizatoare.
 		this.loadAnalyzers();
 
@@ -177,10 +184,10 @@ public class AnalyzerSelector extends JFrame {
 		public void actionPerformed(final ActionEvent e) {
 			String execName = (String) analyzerList.getSelectedItem();
 			String description = AnalyzerSelector.this.
-			getDescription(execName);
+					getDescription(execName);
 
 			// Incarca analizator selectat din dropdown.
-			selectedAnalyzer = new Analyzer(execName, description);
+			selectedAnalyzer = new Analyzer(execName, description,AnalyzerSelector.this.type);
 
 			synchronized (frame) {
 				frame.notifyAll();
@@ -234,7 +241,7 @@ public class AnalyzerSelector extends JFrame {
 	private Analyzer getAnalyzer(final String file) {
 		Document dom = null;
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.
-		newInstance();
+				newInstance();
 		dbf.setNamespaceAware(true);
 
 		try {
@@ -268,9 +275,9 @@ public class AnalyzerSelector extends JFrame {
 
 		// Avem nevoie de analizator de layout.
 		if (dt.get("execType") != null
-				&& dt.get("execType").compareTo("layout") == 0) {
+				&& dt.get("execType").compareTo(this.type) == 0) {
 			return new Analyzer(dt.get("execName"),
-					dt.get("execDescription"));
+					dt.get("execDescription"),this.type);
 		}
 
 		return null;
