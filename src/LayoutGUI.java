@@ -2,13 +2,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -33,22 +34,22 @@ import sun.java2d.SunGraphicsEnvironment;
 @SuppressWarnings("serial")
 public class LayoutGUI extends JFrame {
 	/**
-	 *  Layout parser.
+	 * Layout parser.
 	 */
-	private LayoutParser layoutParser;
+	private final LayoutParser layoutParser;
 
 	/**
-	 *  Imaginea ce este incarcata.
+	 * Imaginea ce este incarcata.
 	 */
-	private Image image;
+	private final BufferedImage image;
 
 	/**
-	 *  Panelul in care se deseneaza imaginea.
+	 * Panelul in care se deseneaza imaginea.
 	 */
 	private DrawPanel draw;
 
 	/**
-	 *  Scroll pane-ul in care se pun elementele din imagine.
+	 * Scroll pane-ul in care se pun elementele din imagine.
 	 */
 	private JScrollPane scrollPane;
 
@@ -56,15 +57,16 @@ public class LayoutGUI extends JFrame {
 	 * Constructor.
 	 * 
 	 * @param layoutParser
+	 * @throws IOException
 	 */
-	public LayoutGUI(LayoutParser layoutParser) {
+	public LayoutGUI(LayoutParser layoutParser) throws IOException {
 
 		this.layoutParser = layoutParser;
 
 		// TODO Incarca imaginea in fereastra. Trebuie luata din layoutParser
 		// imaginea.
-		File f = new File("resources\\3-sizes.jpg");
-		this.image = new ImageIcon(f.getAbsolutePath()).getImage();
+		File f = new File(layoutParser.imagePath);
+		this.image = ImageIO.read(f);
 
 		// Initializeaza fereastra.
 		this.initFrame();
@@ -130,6 +132,7 @@ public class LayoutGUI extends JFrame {
 	private void loadDrawZone() {
 		// Initializeaza draw panel.
 		draw = new DrawPanel(image);
+		System.out.println(image.getWidth());
 		draw.setPreferredSize(new Dimension(image.getWidth(this), image
 				.getHeight(this)));
 		draw.setLayout(null);
@@ -137,9 +140,9 @@ public class LayoutGUI extends JFrame {
 		// Inizializeaza scroll panel si adauga draw panel in el.
 		scrollPane = new JScrollPane(draw);
 		scrollPane
-		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane
-		.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(20, 95, this.getMaximizedBounds().width - 40,
 				this.getMaximizedBounds().height - 180);
 
@@ -258,9 +261,10 @@ public class LayoutGUI extends JFrame {
 		// OK pentru actiunile posibile.
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton
-		.setBounds(this.getMaximizedBounds().width - 80, 20, 60, 25);
+				.setBounds(this.getMaximizedBounds().width - 80, 20, 60, 25);
 		// Adauga listener pentru combo cu actiuni.
-		btnNewButton.addActionListener(new ActionButtonListener(comboBox, draw));
+		btnNewButton
+				.addActionListener(new ActionButtonListener(comboBox, draw));
 		getContentPane().add(btnNewButton);
 	}
 
