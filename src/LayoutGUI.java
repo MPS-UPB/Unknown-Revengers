@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -42,7 +43,7 @@ public class LayoutGUI extends JFrame {
 	/**
 	 * Imaginea ce este incarcata.
 	 */
-	private final Image image;
+	private final BufferedImage image;
 
 	/**
 	 * Panelul in care se deseneaza imaginea.
@@ -65,18 +66,17 @@ public class LayoutGUI extends JFrame {
 	 * @param layoutParser
 	 * @throws IOException
 	 */
-	public LayoutGUI(LayoutParser layoutParser) {
+	public LayoutGUI(LayoutParser layoutParser) throws IOException {
 
 		this.layoutParser = layoutParser;
 
 		this.list = this.layoutParser.XMLTree
 				.build(GenericTreeTraversalOrderEnum.PRE_ORDER);
 
-		// TODO Incarca imaginea in fereastra. Trebuie luata din layoutParser
+		// Incarca imaginea in fereastra. Trebuie luata din layoutParser
 		// imaginea.
-		String img = this.layoutParser.XMLTree.getRoot().getData().image;
-		File f = new File("resources" + "\\3-sizes.jpg");
-		this.image = new ImageIcon(f.getAbsolutePath()).getImage();
+		File f = new File(this.layoutParser.imagePath);
+		this.image = ImageIO.read(f);
 
 		// Initializeaza fereastra.
 		this.initFrame();
