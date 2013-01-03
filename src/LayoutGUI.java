@@ -132,7 +132,6 @@ public class LayoutGUI extends JFrame {
 	private void loadDrawZone() {
 		// Initializeaza draw panel.
 		draw = new DrawPanel(image);
-		System.out.println(image.getWidth());
 		draw.setPreferredSize(new Dimension(image.getWidth(this), image
 				.getHeight(this)));
 		draw.setLayout(null);
