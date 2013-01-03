@@ -1,5 +1,5 @@
 import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -13,7 +13,7 @@ public class DrawPanel extends JPanel {
 	/**
 	 * Imaginea de analizat.
 	 */
-	private Image image;
+	private final BufferedImage image;
 
 	/**
 	 * Constructor pentru zona de desenat.
@@ -22,7 +22,7 @@ public class DrawPanel extends JPanel {
 	 * 
 	 * @return void
 	 */
-	public DrawPanel(Image image) {
+	public DrawPanel(BufferedImage image) {
 		this.image = image;
 	}
 

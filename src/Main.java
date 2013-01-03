@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 import javax.xml.transform.TransformerException;
 
@@ -6,9 +8,10 @@ public class Main {
 	 * @param args
 	 * @throws InterruptedException
 	 * @throws TransformerException
+	 * @throws IOException
 	 */
 	public static void main(String[] args) throws InterruptedException,
-			TransformerException {
+			TransformerException, IOException {
 
 		/*
 		 * Incarca fisierul de config, iar daca citirea fisierului de
