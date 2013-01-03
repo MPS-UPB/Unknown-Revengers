@@ -15,17 +15,20 @@ public class FileChooser extends Frame {
 
 	public FileChooser() {
 		// Creaza un file dialog.
-		fileDialog = new JFileChooser();
+		fileDialog = new JFileChooser(System.getProperty("user.dir"));
 
 		// Seteaza titlu.
 		fileDialog.setDialogTitle("Select the file you want to analyze.");
 
 		// Seteaza filtru XML.
-		FileFilter xmlFilter = new ExtensionFileFilter("XML (*.xml)", new String[] { "XML" });
+		FileFilter xmlFilter = new ExtensionFileFilter("XML (*.xml)",
+				new String[] { "XML" });
 		fileDialog.setFileFilter(xmlFilter);
 
 		// Seteaza filtru imagine.
-		FileFilter imageFilter = new ExtensionFileFilter("Image (*.jpg, *.jpeg)", new String[] { "JPG", "JPEG" });
+		FileFilter imageFilter = new ExtensionFileFilter(
+				"Image (*.jpg, *.jpeg, *.tif)", new String[] { "JPG", "JPEG",
+						"TIF" });
 		fileDialog.setFileFilter(imageFilter);
 
 		// Accepta numai filtrele adaugate.
@@ -33,13 +36,16 @@ public class FileChooser extends Frame {
 	}
 
 	/**
-	 * Returneaza fisierul selectat sau null daca nu a fost selectat niciun fisier.
+	 * Returneaza fisierul selectat sau null daca nu a fost selectat niciun
+	 * fisier.
+	 * 
 	 * @return String
 	 */
-	public String chooseFile(){
+	public String chooseFile() {
 		int rVal = fileDialog.showOpenDialog(FileChooser.this);
 		if (rVal == JFileChooser.APPROVE_OPTION) {
-			return fileDialog.getCurrentDirectory().toString() + "\\" + fileDialog.getSelectedFile().getName();
+			return fileDialog.getCurrentDirectory().toString() + "\\"
+					+ fileDialog.getSelectedFile().getName();
 		}
 
 		return null;
@@ -81,9 +87,9 @@ public class FileChooser extends Frame {
 				return true;
 			} else {
 				String path = file.getAbsolutePath().toLowerCase();
-				for (int i = 0, n = extensions.length; i < n; i++) {
-					String extension = extensions[i];
-					if ((path.endsWith(extension) && (path.charAt(path.length() - extension.length() - 1)) == '.')) {
+				for (String extension : extensions) {
+					if ((path.endsWith(extension) && (path.charAt(path.length()
+							- extension.length() - 1)) == '.')) {
 						return true;
 					}
 				}
