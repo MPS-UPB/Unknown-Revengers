@@ -178,8 +178,14 @@ public class LayoutGUI extends JFrame {
 				panel.addMouseListener(new BlockMouseListener());
 				panel.setBorder(new LineBorder(Color.GREEN));
 				panel.setOpaque(false);
-				panel.setBounds(e.right, e.top, e.left - e.right, e.bottom
-						- e.top);
+				if(this.layoutParser.direction.compareTo("ascending") == 0) {
+					int top = e.top;
+					int bottom = e.bottom;
+					int height = this.image.getHeight(this);
+					e.top = height - bottom;
+					e.bottom = height - top;
+				}
+				panel.setBounds(e.right, e.top, e.left - e.right, e.bottom - e.top);
 				draw.add(panel);
 
 				JPopupMenu popupMenu = new JPopupMenu();
