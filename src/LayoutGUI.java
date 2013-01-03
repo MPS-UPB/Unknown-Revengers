@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
@@ -15,13 +16,14 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
 import sun.java2d.SunGraphicsEnvironment;
+import tree.GenericTreeNode;
+import tree.GenericTreeTraversalOrderEnum;
 
 /**
  * Interfata grafica (ar fi recomandat ca pentru fiecare TODO sa existe o metoda
@@ -54,6 +56,11 @@ public class LayoutGUI extends JFrame {
 	private JScrollPane scrollPane;
 
 	/**
+	 * Lista cu elementele din arbore
+	 */
+	private final List<GenericTreeNode<LayoutParserTreeElement>> list;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param layoutParser
@@ -63,9 +70,12 @@ public class LayoutGUI extends JFrame {
 
 		this.layoutParser = layoutParser;
 
+		this.list = this.layoutParser.XMLTree
+				.build(GenericTreeTraversalOrderEnum.PRE_ORDER);
+
 		// Incarca imaginea in fereastra. Trebuie luata din layoutParser
 		// imaginea.
-		File f = new File(layoutParser.imagePath);
+		File f = new File(this.layoutParser.imagePath);
 		this.image = ImageIO.read(f);
 
 		// Initializeaza fereastra.
@@ -78,7 +88,7 @@ public class LayoutGUI extends JFrame {
 		this.addFilters();
 
 		// Incarca elementele din pagina.
-		this.loadElements();
+		// this.loadElements(null);
 
 		// Actiuni finale asupra documentului.
 		this.addFinalActions();
@@ -150,71 +160,79 @@ public class LayoutGUI extends JFrame {
 	}
 
 	/**
-	 * TODO Incarca elementele in fereastra parsand fisierul de layout (se
+	 * Incarca elementele in fereastra parsand fisierul de layout (se
 	 * folosesc functii din this.layoutParser)
 	 * 
 	 * @return void
 	 */
-	private void loadElements() {
+	public void loadElements(String type) {
 
-		/**
-		 * TODO Incarca elemente
-		 */
-		/*
-		 * Element 1
-		 */
-		JPanel panel = new JPanel();
-		panel.addMouseListener(new BlockMouseListener());
-		panel.setBorder(new LineBorder(Color.GREEN));
-		panel.setOpaque(false);
-		panel.setBounds(10, 20, 209, 87);
-		draw.add(panel);
+		// Remove all drawed elements.
+		draw.removeAll();
+		
+		// Go through all elements.
+		for (int i = 0; i < list.size(); i++) {
 
-		JPopupMenu popupMenu = new JPopupMenu();
+			LayoutParserTreeElement e = list.get(i).getData();
 
-		// Action listener pentru popupMenu
-		ActionListener actionListener = new PopupListener();
+			// Check if element is of selected type.
+			if (e.elementType.toString().contains(type)) {
 
-		// Face analiza OCR.
-		JMenuItem ocrItem = new JMenuItem("Analiza OCR");
-		ocrItem.addActionListener(actionListener);
-		popupMenu.add(ocrItem);
+				ElementJPanel panel = new ElementJPanel(e);
+				panel.addMouseListener(new BlockMouseListener());
+				panel.setBorder(new LineBorder(Color.GREEN));
+				panel.setOpaque(false);
+				
+				// Set height and width so that the element is visible..
+				int width = e.right - e.left > 1 ? e.right - e.left : 3;
+				int height = e.bottom - e.top > 1 ? e.bottom - e.top : 3;
+				
+				// Check direction.
+				if (this.layoutParser.direction.compareTo("descending") == 0) {
+					panel.setBounds(e.left, e.top, width, height);
+				}
+				else {
+					int m_height = this.image.getHeight(this);
+					panel.setBounds(e.left, m_height - e.bottom, width, height);
+				}
+				
+				// Draw panel
+				draw.add(panel);
 
-		// Sparge blocul de text.
-		JMenuItem splitItem = new JMenuItem("Sparge bloc text");
-		splitItem.addActionListener(actionListener);
-		popupMenu.add(splitItem);
+				// Create the popup menu for the current panel
+				JPopupMenu popupMenu = new JPopupMenu();
 
-		// Marcheaza blocul de text ca fiind numar pagina.
-		JMenuItem paginaItem = new JMenuItem("Este numar pagina");
-		paginaItem.addActionListener(actionListener);
-		popupMenu.add(paginaItem);
+				/*
+				 * Action listener pentru popupMenu Primeste ca parametru
+				 * ElementJPanel pentru a extrage LayoutParserTreeElement
+				 */
+				ActionListener actionListener = new PopupListener(panel);
 
-		// Vezi textul.
-		JMenuItem textItem = new JMenuItem("Vezi text");
-		textItem.addActionListener(actionListener);
-		popupMenu.add(textItem);
+				// Face analiza OCR.
+				JMenuItem ocrItem = new JMenuItem("Analiza OCR");
+				ocrItem.addActionListener(actionListener);
+				popupMenu.add(ocrItem);
 
-		panel.setComponentPopupMenu(popupMenu);
+				// Sparge blocul de text.
+				JMenuItem splitItem = new JMenuItem("Sparge bloc text");
+				splitItem.addActionListener(actionListener);
+				popupMenu.add(splitItem);
 
-		/*
-		 * Element 2
-		 */
-		JPanel panel_1 = new JPanel();
-		panel_1.addMouseListener(new BlockMouseListener());
-		panel_1.setOpaque(false);
-		panel_1.setBorder(new LineBorder(Color.GREEN));
-		panel_1.setBounds(230, 20, 209, 87);
-		draw.add(panel_1);
+				// Marcheaza blocul de text ca fiind numar pagina.
+				JMenuItem paginaItem = new JMenuItem("Este numar pagina");
+				paginaItem.addActionListener(actionListener);
+				popupMenu.add(paginaItem);
 
-		JPopupMenu popupMenu_1 = new JPopupMenu();
-		// Face analiza OCR.
-		popupMenu_1.add(new JMenuItem("Analiza OCR"));
-		// Sparge blocul de text.
-		popupMenu_1.add(new JMenuItem("Sparge bloc text"));
-		// Marcheaza blocul de text ca fiind numar pagina.
-		popupMenu_1.add(new JMenuItem("Este numar pagina"));
-		panel_1.setComponentPopupMenu(popupMenu_1);
+				// Vezi textul.
+				JMenuItem textItem = new JMenuItem("Vezi text");
+				textItem.addActionListener(actionListener);
+				popupMenu.add(textItem);
+
+				panel.setComponentPopupMenu(popupMenu);
+
+			}
+		}
+
 	}
 
 	/**
@@ -236,7 +254,7 @@ public class LayoutGUI extends JFrame {
 		comboElements.setModel(new DefaultComboBoxModel(new String[] {
 				"Litere", "Randuri", "Blocuri" }));
 		// Adauga listener pentru combo cu componente.
-		comboElements.addActionListener(new ComponentComboListener());
+		comboElements.addActionListener(new ComponentComboListener(this));
 		comboElements.setBounds(105, 20, 125, 20);
 		getContentPane().add(comboElements);
 
