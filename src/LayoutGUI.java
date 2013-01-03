@@ -160,34 +160,46 @@ public class LayoutGUI extends JFrame {
 	}
 
 	/**
-	 * TODO Incarca elementele in fereastra parsand fisierul de layout (se
+	 * Incarca elementele in fereastra parsand fisierul de layout (se
 	 * folosesc functii din this.layoutParser)
 	 * 
 	 * @return void
 	 */
 	public void loadElements(String type) {
 
+		// Remove all drawed elements.
 		draw.removeAll();
+		
+		// Go through all elements.
 		for (int i = 0; i < list.size(); i++) {
 
 			LayoutParserTreeElement e = list.get(i).getData();
 
+			// Check if element is of selected type.
 			if (e.elementType.toString().contains(type)) {
 
 				ElementJPanel panel = new ElementJPanel(e);
 				panel.addMouseListener(new BlockMouseListener());
 				panel.setBorder(new LineBorder(Color.GREEN));
 				panel.setOpaque(false);
-				if(this.layoutParser.direction.compareTo("ascending") == 0) {
-					int top = e.top;
-					int bottom = e.bottom;
-					int height = this.image.getHeight(this);
-					e.top = height - bottom;
-					e.bottom = height - top;
+				
+				// Set height and width so that the element is visible..
+				int width = e.right - e.left > 1 ? e.right - e.left : 3;
+				int height = e.bottom - e.top > 1 ? e.bottom - e.top : 3;
+				
+				// Check direction.
+				if(this.layoutParser.direction.compareTo("descending") == 0) {
+					panel.setBounds(e.left, e.top, width, height);
 				}
-				panel.setBounds(e.right, e.top, e.left - e.right, e.bottom - e.top);
+				else{
+					int m_height = this.image.getHeight(this);
+					panel.setBounds(e.left, m_height - e.bottom, width, height);
+				}
+				
+				// Draw panel
 				draw.add(panel);
 
+				// Create the popup menu for the current panel
 				JPopupMenu popupMenu = new JPopupMenu();
 
 				/*
