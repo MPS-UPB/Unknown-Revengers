@@ -381,6 +381,8 @@ public class LayoutParser {
 	private void saveImageFromXML(Match documentRoot) {
 		if (documentRoot.attr("image") != null) {
 			File filePath = new File(documentRoot.attr("image"));
+
+			// Verifica daca path-ul este absolut.
 			if (filePath.isAbsolute()) {
 				this.imagePath = filePath.getAbsolutePath();
 			} else {
