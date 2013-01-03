@@ -1,6 +1,5 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JOptionPane;
 
 /**
@@ -10,11 +9,23 @@ import javax.swing.JOptionPane;
  */
 public class PopupListener implements ActionListener {
 
+	private ElementJPanel panel;
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param panel
+	 */
+	public PopupListener(ElementJPanel panel){
+		this.panel = panel;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Realizeaza actiune selectata
-		JOptionPane.showMessageDialog(null, "Realizeaza actiunea selectata: " + e.getActionCommand() + ".");
-
+		
+		String action = e.getActionCommand();
+		JOptionPane.showMessageDialog(null, "Realizeaza actiunea selectata: " + action + ".");
+		
 	}
 
 }
