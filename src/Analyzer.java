@@ -9,19 +9,19 @@ import java.io.IOException;
 
 /**
  * Structura unui analizator.
- *
+ * 
  * @author Unknown-Revengers
  */
 public class Analyzer {
 	/**
 	 * Analyzer's name.
 	 */
-	private String name;
+	private final String name;
 
 	/**
 	 * Analyzer's description.
 	 */
-	private String description;
+	private final String description;
 
 	/**
 	 * Image absolute path.
@@ -32,24 +32,24 @@ public class Analyzer {
 	 * Temporary output file absolute path.
 	 */
 	private String output;
-	
-	private String type;
+
+	private final String type;
 
 	/**
 	 * Constructor.
-	 *
-	 * @param name        Analyzer's name.
+	 * 
+	 * @param name Analyzer's name.
 	 * @param description Analyzer's description.
 	 */
-	public Analyzer(String name, String description,String type) {
+	public Analyzer(String name, String description, String type) {
 		this.name = name;
 		this.description = description;
-		this.type=type;
+		this.type = type;
 	}
 
 	/**
 	 * Seteaza imaginea de input pentru analizator.
-	 *
+	 * 
 	 * @param input Calea absoluta a imaginii de input.
 	 */
 	public void setInput(String input) {
@@ -58,7 +58,7 @@ public class Analyzer {
 
 	/**
 	 * Returneaza numele analizatorului.
-	 *
+	 * 
 	 * @return String
 	 */
 	public String getName() {
@@ -67,7 +67,7 @@ public class Analyzer {
 
 	/**
 	 * Returneaza descrierea analizatorului.
-	 *
+	 * 
 	 * @return String
 	 */
 	public String getDescription() {
@@ -76,7 +76,7 @@ public class Analyzer {
 
 	/**
 	 * Se construieste un XML care va fi input pentru analizator.
-	 *
+	 * 
 	 * @return String
 	 */
 	private String createAnalyzerInputXML() {
@@ -89,9 +89,9 @@ public class Analyzer {
 	}
 
 	/**
-	 * Ruleaza analizatorul pe fisierul XML temporar
-	 * de input si returneaza outputul/calea fisierului.
-	 *
+	 * Ruleaza analizatorul pe fisierul XML temporar de input si returneaza
+	 * outputul/calea fisierului.
+	 * 
 	 * @return String Calea catre outputul analizatorului.
 	 */
 	public String analyzeXML() {
@@ -100,8 +100,9 @@ public class Analyzer {
 		try {
 			fout = File.createTempFile("output", ".xml");
 		} catch (IOException e) {
-			ErrorMessage.show("Exceptie la crearea fisierului temporar de output:"
-					+ e.getMessage());
+			ErrorMessage
+					.show("Exceptie la crearea fisierului temporar de output:"
+							+ e.getMessage());
 		}
 		fout.deleteOnExit();
 
@@ -116,29 +117,30 @@ public class Analyzer {
 		try {
 			fin = File.createTempFile("input", ".xml");
 		} catch (IOException e) {
-			ErrorMessage.show("Exceptie la crearea fisierului temporar de input:"
-					+ e.getMessage());
+			ErrorMessage
+					.show("Exceptie la crearea fisierului temporar de input:"
+							+ e.getMessage());
 		}
 		fin.deleteOnExit();
 
 		try {
 			// Scrie xml-ul in fisierul de intrare.
-			FileWriter fstream = new FileWriter(
-					fin.getAbsolutePath());
+			FileWriter fstream = new FileWriter(fin.getAbsolutePath());
 			BufferedWriter in = new BufferedWriter(fstream);
 			in.write(xml);
 
 			// Close the input stream.
 			in.close();
 		} catch (Exception e) {
-			ErrorMessage.show("Exceptie la scrierea in fisierul temporar de input:"
-					+ e.getMessage());
+			ErrorMessage
+					.show("Exceptie la scrierea in fisierul temporar de input:"
+							+ e.getMessage());
 		}
 
 		// Ruleaza analizator.
 		try {
-			ProcessBuilder pb = new ProcessBuilder(Config.execs
-					+ "\\" + this.name, fin.getAbsolutePath());
+			ProcessBuilder pb = new ProcessBuilder(Config.execs + "\\"
+					+ this.name, fin.getAbsolutePath());
 			Process p = pb.start();
 
 			// Asteapta incheierea procesului.

@@ -312,8 +312,8 @@ public class LayoutParser {
 
 		// Cream nod parinte
 		LayoutParserTreeElement rootElement = new LayoutParserTreeElement(
-				currentMatch.tag(), currentMatch.content(), top, bottom, left,
-				right, currentMatch.attr("image"));
+				currentMatch.tag(), currentMatch.content(), top, bottom, right,
+				left, currentMatch.attr("image"));
 		GenericTreeNode<LayoutParserTreeElement> parentTreeNode = new GenericTreeNode<LayoutParserTreeElement>(
 				rootElement);
 
