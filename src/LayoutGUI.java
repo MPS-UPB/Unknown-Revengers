@@ -188,10 +188,10 @@ public class LayoutGUI extends JFrame {
 				int height = e.bottom - e.top > 1 ? e.bottom - e.top : 3;
 				
 				// Check direction.
-				if(this.layoutParser.direction.compareTo("descending") == 0) {
+				if (this.layoutParser.direction.compareTo("descending") == 0) {
 					panel.setBounds(e.left, e.top, width, height);
 				}
-				else{
+				else {
 					int m_height = this.image.getHeight(this);
 					panel.setBounds(e.left, m_height - e.bottom, width, height);
 				}

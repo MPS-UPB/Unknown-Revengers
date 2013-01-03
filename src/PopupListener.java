@@ -16,16 +16,13 @@ public class PopupListener implements ActionListener {
 	 * 
 	 * @param panel
 	 */
-	public PopupListener(ElementJPanel panel){
+	public PopupListener(ElementJPanel panel) {
 		this.panel = panel;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
 		String action = e.getActionCommand();
 		JOptionPane.showMessageDialog(null, "Realizeaza actiunea selectata: " + action + ".");
-		
 	}
-
 }

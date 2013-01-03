@@ -25,14 +25,12 @@ public class ComponentComboListener implements ActionListener {
 
 		// TODO Afiseaza elementele conform selectiei: litere, randuri, blocuri
 		JOptionPane.showMessageDialog(null, "Afiseaza elementele conform selectiei: " + component + ".");
-		switch (component){
+		switch (component) {
 		case "Blocuri" : this.gui.loadElements("Block");
 						 break;
 		case "Randuri" : this.gui.loadElements("Line"); 
 						 break;
 		}
-
-		
 	}
 
 }

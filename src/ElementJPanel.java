@@ -7,5 +7,4 @@ public class ElementJPanel extends JPanel {
 	public ElementJPanel(LayoutParserTreeElement element) {
 		this.element = element;
 	}
-
 }
