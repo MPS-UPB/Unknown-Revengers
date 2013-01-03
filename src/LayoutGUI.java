@@ -6,7 +6,6 @@ import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -16,7 +15,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -44,7 +42,7 @@ public class LayoutGUI extends JFrame {
 	/**
 	 * Imaginea ce este incarcata.
 	 */
-	private final BufferedImage image;
+	private final Image image;
 
 	/**
 	 * Panelul in care se deseneaza imaginea.
@@ -55,11 +53,11 @@ public class LayoutGUI extends JFrame {
 	 * Scroll pane-ul in care se pun elementele din imagine.
 	 */
 	private JScrollPane scrollPane;
-	
+
 	/**
 	 * Lista cu elementele din arbore
 	 */
-	private List <GenericTreeNode<LayoutParserTreeElement>> list;
+	private final List<GenericTreeNode<LayoutParserTreeElement>> list;
 
 	/**
 	 * Constructor.
@@ -70,13 +68,14 @@ public class LayoutGUI extends JFrame {
 	public LayoutGUI(LayoutParser layoutParser) {
 
 		this.layoutParser = layoutParser;
-		
-		this.list=this.layoutParser.XMLTree.build(GenericTreeTraversalOrderEnum.PRE_ORDER);
-		
+
+		this.list = this.layoutParser.XMLTree
+				.build(GenericTreeTraversalOrderEnum.PRE_ORDER);
+
 		// TODO Incarca imaginea in fereastra. Trebuie luata din layoutParser
 		// imaginea.
 		String img = this.layoutParser.XMLTree.getRoot().getData().image;
-		File f = new File("resources"+"\\"+ img);
+		File f = new File("resources" + "\\3-sizes.jpg");
 		this.image = new ImageIcon(f.getAbsolutePath()).getImage();
 
 		// Initializeaza fereastra.
@@ -89,7 +88,7 @@ public class LayoutGUI extends JFrame {
 		this.addFilters();
 
 		// Incarca elementele din pagina.
-		//this.loadElements(null);
+		// this.loadElements(null);
 
 		// Actiuni finale asupra documentului.
 		this.addFinalActions();
@@ -169,24 +168,25 @@ public class LayoutGUI extends JFrame {
 	public void loadElements(String type) {
 
 		draw.removeAll();
-		for(int i = 0; i < list.size(); i ++) {
-			
+		for (int i = 0; i < list.size(); i++) {
+
 			LayoutParserTreeElement e = list.get(i).getData();
-			
-			if(e.elementType.toString().contains(type)) {
-				
+
+			if (e.elementType.toString().contains(type)) {
+
 				ElementJPanel panel = new ElementJPanel(e);
 				panel.addMouseListener(new BlockMouseListener());
 				panel.setBorder(new LineBorder(Color.GREEN));
 				panel.setOpaque(false);
-				panel.setBounds(e.right, e.top, e.left - e.right, e.bottom - e.top);
+				panel.setBounds(e.right, e.top, e.left - e.right, e.bottom
+						- e.top);
 				draw.add(panel);
 
 				JPopupMenu popupMenu = new JPopupMenu();
 
 				/*
-				 * Action listener pentru popupMenu 
-				 * Primeste ca parametru ElementJPanel pentru a extrage LayoutParserTreeElement
+				 * Action listener pentru popupMenu Primeste ca parametru
+				 * ElementJPanel pentru a extrage LayoutParserTreeElement
 				 */
 				ActionListener actionListener = new PopupListener(panel);
 
@@ -211,11 +211,10 @@ public class LayoutGUI extends JFrame {
 				popupMenu.add(textItem);
 
 				panel.setComponentPopupMenu(popupMenu);
-				
+
 			}
 		}
 
-		
 	}
 
 	/**
