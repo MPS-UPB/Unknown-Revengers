@@ -63,7 +63,7 @@ public class LayoutGUI extends JFrame {
 
 		this.layoutParser = layoutParser;
 
-		// TODO Incarca imaginea in fereastra. Trebuie luata din layoutParser
+		// Incarca imaginea in fereastra. Trebuie luata din layoutParser
 		// imaginea.
 		File f = new File(layoutParser.imagePath);
 		this.image = ImageIO.read(f);
