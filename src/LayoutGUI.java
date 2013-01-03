@@ -188,7 +188,7 @@ public class LayoutGUI extends JFrame {
 				 * Action listener pentru popupMenu 
 				 * Primeste ca parametru ElementJPanel pentru a extrage LayoutParserTreeElement
 				 */
-				ActionListener actionListener = new PopupListener(panel);
+				ActionListener actionListener = new PopupListener();
 
 				// Face analiza OCR.
 				JMenuItem ocrItem = new JMenuItem("Analiza OCR");
