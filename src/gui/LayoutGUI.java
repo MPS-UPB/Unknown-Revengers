@@ -1,3 +1,5 @@
+package gui;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -20,6 +22,16 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
+
+import element_actions.BlockMouseListener;
+import element_actions.PopupListener;
+import elements_actions.ActionButtonListener;
+import elements_actions.ComponentComboListener;
+
+import page_actions.NumeroteazaButtonListener;
+import page_actions.SalveazaButtonListener;
+import parser.LayoutParser;
+import parser.LayoutParserTreeElement;
 
 import sun.java2d.SunGraphicsEnvironment;
 import tree.GenericTreeNode;

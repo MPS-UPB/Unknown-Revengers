@@ -1,7 +1,15 @@
+package layout;
+import gui.LayoutGUI;
+
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
 import javax.xml.transform.TransformerException;
+
+import analyzer.Analyzer;
+import analyzer.AnalyzerSelector;
+
+import parser.LayoutParser;
 
 public class Main {
 	/**

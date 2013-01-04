@@ -1,3 +1,4 @@
+package parser;
 /**
  * TODO
  * Parseaza fisierul de layout XML si reprezinta datele in memorie.
@@ -50,10 +51,10 @@ import tree.GenericTreeNode;
 public class LayoutParser {
 
 	// Pagina va fi tinuta intr-un arbore
-	GenericTree<LayoutParserTreeElement> XMLTree;
+	public GenericTree<LayoutParserTreeElement> XMLTree;
 	String xmlPath;
-	String imagePath;
-	String direction;
+	public String imagePath;
+	public String direction;
 
 	/**
 	 * Constructorul clasei
