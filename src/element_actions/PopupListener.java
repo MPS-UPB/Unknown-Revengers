@@ -1,30 +1,11 @@
 package element_actions;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
-import layout.Config;
-import layout.ErrorMessage;
-
-import parser.LayoutParser;
-
 import gui.ElementJPanel;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import analyzer.Analyzer;
-import analyzer.AnalyzerSelector;
+import parser.LayoutParser;
 
 /**
  * Button listener pentru salvare modificari.
@@ -33,10 +14,10 @@ import analyzer.AnalyzerSelector;
  */
 public class PopupListener implements ActionListener {
 
+	private final ElementJPanel panel;
 
-	private ElementJPanel panel;
-	
-	private LayoutParser layoutParser;
+	private final LayoutParser layoutParser;
+
 	/**
 	 * Constructor.
 	 * 
@@ -55,27 +36,13 @@ public class PopupListener implements ActionListener {
 			@Override
 			public void run() {
 				try {
-					switch (action) {
-					case "Analiza OCR":
-						AnalyzerSelector as = new AnalyzerSelector("ocr");
-						Analyzer selectedAnalyzer = as.chooseAnalyzer();
-						selectedAnalyzer.setInput(layoutParser.imagePath);
-						String text = selectedAnalyzer.analyzeXML("ocr", panel, layoutParser);
-						
-						break;
-
-					case "Vezi text":
-						ViewText tf = new ViewText(panel);
-						break;
-
-					case "Sparge bloc text":
-						break;
-
-					case "Este numar pagina":
-						break;
+					if (action == "Analiza OCR") {
+						new GetText(panel, layoutParser);
 					}
-				}
-				catch (Exception e) {
+					else if (action == "Vezi text") {
+						new ViewText(panel);
+					}
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}

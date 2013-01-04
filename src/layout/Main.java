@@ -1,4 +1,5 @@
 package layout;
+
 import gui.LayoutGUI;
 
 import java.io.IOException;
@@ -6,10 +7,9 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.xml.transform.TransformerException;
 
+import parser.LayoutParser;
 import analyzer.Analyzer;
 import analyzer.AnalyzerSelector;
-
-import parser.LayoutParser;
 
 public class Main {
 	/**
@@ -67,7 +67,7 @@ public class Main {
 
 			// Returneaza calea catre fisierul rezultat in urma analizei layout
 			// a imaginii.
-			selectedFile = selectedAnalyzer.analyzeXML("layout", null, null);
+			selectedFile = selectedAnalyzer.analyzeXML();
 		}
 
 		/**
