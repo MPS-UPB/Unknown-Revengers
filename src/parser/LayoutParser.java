@@ -395,23 +395,27 @@ public class LayoutParser {
 	 * @param newNode
 	 * @return void
 	 */
-	public void mergeNodeIntoOtherNode(LayoutParserTreeElement movingNode,
-			LayoutParserTreeElement newNode) {
+	public void mergeNodeIntoOtherNode(
+			GenericTreeNode<LayoutParserTreeElement> movingNode,
+			GenericTreeNode<LayoutParserTreeElement> newNode) {
 
-		newNode.left = Math.min(newNode.left, movingNode.left);
-		newNode.right = Math.max(newNode.right, movingNode.right);
-		newNode.top = Math.min(newNode.top, movingNode.top);
-		newNode.bottom = Math.max(newNode.bottom, movingNode.bottom);
+		newNode.getData().left = Math.min(newNode.getData().left,
+				movingNode.getData().left);
+		newNode.getData().right = Math.max(newNode.getData().right,
+				movingNode.getData().right);
+		newNode.getData().top = Math.min(newNode.getData().top,
+				movingNode.getData().top);
+		newNode.getData().bottom = Math.max(newNode.getData().bottom,
+				movingNode.getData().bottom);
 
-		List<GenericTreeNode<LayoutParserTreeElement>> children = this.XMLTree
-				.find(movingNode).getChildren();
+		List<GenericTreeNode<LayoutParserTreeElement>> children = movingNode
+				.getChildren();
 
 		for (int i = 0; i < children.size(); i++) {
-			this.moveChildToParent(children.get(i),
-					this.XMLTree.find(movingNode));
+			this.moveChildToParent(children.get(i), newNode);
 		}
 
-		this.XMLTree.delete(movingNode);
+		this.XMLTree.delete(movingNode.getData());
 	}
 
 	/**

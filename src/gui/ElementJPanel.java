@@ -3,12 +3,13 @@ package gui;
 import javax.swing.JPanel;
 
 import parser.LayoutParserTreeElement;
+import tree.GenericTreeNode;
 
 public class ElementJPanel extends JPanel {
 
-	public LayoutParserTreeElement element;
+	public GenericTreeNode<LayoutParserTreeElement> element;
 
-	public ElementJPanel(LayoutParserTreeElement element) {
+	public ElementJPanel(GenericTreeNode<LayoutParserTreeElement> element) {
 		this.element = element;
 	}
 }

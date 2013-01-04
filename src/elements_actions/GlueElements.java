@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import layout.ErrorMessage;
 import parser.LayoutParserTreeElement;
+import tree.GenericTreeNode;
 
 /**
  * 
@@ -40,13 +41,12 @@ public class GlueElements {
 	private void glueElements() {
 
 		// Get parent of the first selected node.
-		LayoutParserTreeElement parent = this.gui.layoutParser.XMLTree
-				.find(this.panels.get(0).element).getParent().getData();
+		GenericTreeNode<LayoutParserTreeElement> parent = this.panels.get(0).element
+				.getParent();
 
 		// Check if elements are inside the same parent.
 		for (int i = 1; i < panels.size(); i++) {
-			if (this.gui.layoutParser.XMLTree.find(this.panels.get(i).element)
-					.getParent().getData() != parent) {
+			if (this.panels.get(i).element.getParent() != parent) {
 				ErrorMessage.show("Elements should be inside the same parent.",
 						false);
 				return;
