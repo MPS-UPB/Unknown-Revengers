@@ -1,4 +1,5 @@
 package parser;
+
 /**
  * TODO
  * Parseaza fisierul de layout XML si reprezinta datele in memorie.
@@ -61,7 +62,8 @@ public class LayoutParser {
 	 * 
 	 * Reprezinta datele din fisierul de layout in memorie
 	 * 
-	 * @param String xmlPath Aici va fi retinuta calea catre XML. Calea este
+	 * @param String
+	 *            xmlPath Aici va fi retinuta calea catre XML. Calea este
 	 *            absoluta.
 	 */
 	public LayoutParser(String xmlPath) {
@@ -87,7 +89,8 @@ public class LayoutParser {
 	 * acesta
 	 * 
 	 * 
-	 * @param InputTree Arborele care contine informatiile despre pagina
+	 * @param InputTree
+	 *            Arborele care contine informatiile despre pagina
 	 * 
 	 * @return string Returneaza XML-ul rezultat din parsarea arborelui ce va
 	 *         contine informatii despre pagina
@@ -135,12 +138,15 @@ public class LayoutParser {
 	 * In aceasta metoda a fost implementata logica de parsare a arborelui
 	 * pentru a construi XML-ul
 	 * 
-	 * @param doc Arborele care este construit pentru a crea din el XML-ul
+	 * @param doc
+	 *            Arborele care este construit pentru a crea din el XML-ul
 	 * 
-	 * @param currentElement Elementul curent din arborele din care se va crea
-	 *            XML-ul in care ne aflam
+	 * @param currentElement
+	 *            Elementul curent din arborele din care se va crea XML-ul in
+	 *            care ne aflam
 	 * 
-	 * @param Node Nodul curent din arborele in care e retinuta logica paginii
+	 * @param Node
+	 *            Nodul curent din arborele in care e retinuta logica paginii
 	 * 
 	 * @return Document Intoarce arborele din care se va contstrui XML-ul
 	 * 
@@ -169,7 +175,8 @@ public class LayoutParser {
 				child.appendChild(doc.createTextNode(childElement.text
 						.toString()));
 				currentElement.appendChild(child);
-			} else {
+			}
+			else {
 				// Creaza elementul
 				child = doc.createElement(childElement.toString());
 
@@ -201,7 +208,8 @@ public class LayoutParser {
 	/**
 	 * Citeste XML-ul dintr-un fisier primit ca parametru
 	 * 
-	 * @param path Calea catre fisier
+	 * @param path
+	 *            Calea catre fisier
 	 * 
 	 * @return Returneaza XML-ul intr-un String
 	 * @throws IOException
@@ -223,7 +231,8 @@ public class LayoutParser {
 	 * Parseaza XML-ul primit ca String si returneaza un arbore de tip
 	 * GenericTree
 	 * 
-	 * @param string layoutXML XML-ul ce contine informatii despre pagina
+	 * @param string
+	 *            layoutXML XML-ul ce contine informatii despre pagina
 	 * 
 	 * @return GenericTree<LayoutParserTreeElement> Arborele ce va contine
 	 *         informatii despre pagina dupa ce a parsat XML-ul
@@ -266,7 +275,8 @@ public class LayoutParser {
 	/**
 	 * Parseaza XML-ul folosing DFS si in acelasi timp creaza arborele
 	 * 
-	 * @param currentMatch Reprezinta elementul curent
+	 * @param currentMatch
+	 *            Reprezinta elementul curent
 	 * 
 	 * @return GenericTreeNode<LayoutParserTreeElement> Returneaza nodul curent
 	 */
@@ -281,25 +291,29 @@ public class LayoutParser {
 		// Parsam atributele ca sa nu dea eroare
 		if (currentMatch.attr("top") != null) {
 			top = Integer.parseInt(currentMatch.attr("top"));
-		} else {
+		}
+		else {
 			top = -1;
 		}
 
 		if (currentMatch.attr("bottom") != null) {
 			bottom = Integer.parseInt(currentMatch.attr("bottom"));
-		} else {
+		}
+		else {
 			bottom = -1;
 		}
 
 		if (currentMatch.attr("left") != null) {
 			left = Integer.parseInt(currentMatch.attr("left"));
-		} else {
+		}
+		else {
 			left = -1;
 		}
 
 		if (currentMatch.attr("right") != null) {
 			right = Integer.parseInt(currentMatch.attr("right"));
-		} else {
+		}
+		else {
 			right = -1;
 		}
 
@@ -340,8 +354,10 @@ public class LayoutParser {
 	/**
 	 * Muta un nod de la un parinte la altul intr-un arbore
 	 * 
-	 * @param movingNode Nodul mutat
-	 * @param toParentNode Nodul parinte destinatie
+	 * @param movingNode
+	 *            Nodul mutat
+	 * @param toParentNode
+	 *            Nodul parinte destinatie
 	 * 
 	 * @return boolen True daca operatia a fost indeplinita cu succes, sau false
 	 *         altfel
@@ -373,10 +389,41 @@ public class LayoutParser {
 	}
 
 	/**
+	 * Merge all childs from one node to another and then remove the first node
+	 * 
+	 * @param movingNode
+	 * @param newNode
+	 * @return void
+	 */
+	public void mergeNodeIntoOtherNode(
+			GenericTreeNode<LayoutParserTreeElement> movingNode,
+			GenericTreeNode<LayoutParserTreeElement> newNode) {
+
+		newNode.getData().left = Math.min(newNode.getData().left,
+				movingNode.getData().left);
+		newNode.getData().right = Math.max(newNode.getData().right,
+				movingNode.getData().right);
+		newNode.getData().top = Math.min(newNode.getData().top,
+				movingNode.getData().top);
+		newNode.getData().bottom = Math.max(newNode.getData().bottom,
+				movingNode.getData().bottom);
+
+		List<GenericTreeNode<LayoutParserTreeElement>> children = movingNode
+				.getChildren();
+
+		for (int i = 0; i < children.size(); i++) {
+			this.moveChildToParent(children.get(i), newNode);
+		}
+
+		this.XMLTree.delete(movingNode.getData());
+	}
+
+	/**
 	 * Salveaza calea catre imagine din radacina XML-ului. Functia va functiona
 	 * cum trebuie chiar daca calea XML-ului este relativa sau absoluta
 	 * 
-	 * @param documentRoot Radacina documentului
+	 * @param documentRoot
+	 *            Radacina documentului
 	 * 
 	 */
 	private void saveImageFromXML(Match documentRoot) {
@@ -386,7 +433,8 @@ public class LayoutParser {
 			// Verifica daca path-ul este absolut.
 			if (filePath.isAbsolute()) {
 				this.imagePath = filePath.getAbsolutePath();
-			} else {
+			}
+			else {
 				this.imagePath = (new File(this.xmlPath)).getParent() + "\\"
 						+ documentRoot.attr("image");
 			}
