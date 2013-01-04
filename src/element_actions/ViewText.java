@@ -29,7 +29,7 @@ public class ViewText extends JFrame {
 	/**
 	 * Content panel.
 	 */
-	private Container contentPanel;
+	private final Container contentPanel;
 
 	/**
 	 * Save button.
@@ -59,7 +59,7 @@ public class ViewText extends JFrame {
 		contentPanel = this.getContentPane();
 
 		// Adauga textul elementului la frame.
-		this.addText(elementPanel.element.text);
+		this.addText(elementPanel.element.getData().text);
 
 		// Adauga buton.
 		this.addButton();
@@ -83,7 +83,7 @@ public class ViewText extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Save text.
-				elementPanel.element.text = descriptionArea.getText();
+				elementPanel.element.getData().text = descriptionArea.getText();
 
 				frame.dispose();
 			}

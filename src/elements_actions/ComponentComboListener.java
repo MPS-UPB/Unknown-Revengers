@@ -1,6 +1,7 @@
 package elements_actions;
 
 import gui.LayoutGUI;
+import gui.VisibleElements;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,11 +30,11 @@ public class ComponentComboListener implements ActionListener {
 
 		// TODO Afiseaza elementele conform selectiei: litere, randuri, blocuri
 		JOptionPane.showMessageDialog(null, "Afiseaza elementele conform selectiei: " + component + ".");
-		switch (component) {
-		case "Blocuri" : this.gui.loadElements("Block");
-						 break;
-		case "Randuri" : this.gui.loadElements("Line"); 
-						 break;
+		if (component.compareTo(VisibleElements.S_BLOCK.toString()) == 0) {
+			this.gui.loadElements(VisibleElements.S_BLOCK);
+		}
+		else if (component.compareTo(VisibleElements.S_LINE.toString()) == 0) {
+			this.gui.loadElements(VisibleElements.S_LINE);
 		}
 	}
 

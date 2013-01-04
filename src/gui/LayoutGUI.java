@@ -23,19 +23,18 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
-import element_actions.BlockMouseListener;
-import element_actions.PopupListener;
-import elements_actions.ActionButtonListener;
-import elements_actions.ComponentComboListener;
-
 import page_actions.NumeroteazaButtonListener;
 import page_actions.SalveazaButtonListener;
 import parser.LayoutParser;
 import parser.LayoutParserTreeElement;
-
 import sun.java2d.SunGraphicsEnvironment;
 import tree.GenericTreeNode;
 import tree.GenericTreeTraversalOrderEnum;
+import element_actions.BlockMouseListener;
+import element_actions.PopupListener;
+import elements_actions.ActionButtonListener;
+import elements_actions.ComponentComboListener;
+import elements_actions.ElementsActions;
 
 /**
  * Interfata grafica (ar fi recomandat ca pentru fiecare TODO sa existe o metoda
@@ -50,7 +49,7 @@ public class LayoutGUI extends JFrame {
 	/**
 	 * Layout parser.
 	 */
-	private final LayoutParser layoutParser;
+	public final LayoutParser layoutParser;
 
 	/**
 	 * Imaginea ce este incarcata.
@@ -67,10 +66,7 @@ public class LayoutGUI extends JFrame {
 	 */
 	private JScrollPane scrollPane;
 
-	/**
-	 * Lista cu elementele din arbore
-	 */
-	private final List<GenericTreeNode<LayoutParserTreeElement>> list;
+	public VisibleElements visibleElements;
 
 	/**
 	 * Constructor.
@@ -81,9 +77,6 @@ public class LayoutGUI extends JFrame {
 	public LayoutGUI(LayoutParser layoutParser) throws IOException {
 
 		this.layoutParser = layoutParser;
-
-		this.list = this.layoutParser.XMLTree
-				.build(GenericTreeTraversalOrderEnum.PRE_ORDER);
 
 		// Incarca imaginea in fereastra. Trebuie luata din layoutParser
 		// imaginea.
@@ -100,7 +93,7 @@ public class LayoutGUI extends JFrame {
 		this.addFilters();
 
 		// Incarca elementele din pagina.
-		// this.loadElements(null);
+		this.loadElements(VisibleElements.S_BLOCK);
 
 		// Actiuni finale asupra documentului.
 		this.addFinalActions();
@@ -172,33 +165,38 @@ public class LayoutGUI extends JFrame {
 	}
 
 	/**
-	 * Incarca elementele in fereastra parsand fisierul de layout (se
-	 * folosesc functii din this.layoutParser)
+	 * Incarca elementele in fereastra parsand fisierul de layout (se folosesc
+	 * functii din this.layoutParser)
 	 * 
 	 * @return void
 	 */
-	public void loadElements(String type) {
+	public void loadElements(VisibleElements type) {
+
+		this.visibleElements = type;
 
 		// Remove all drawed elements.
 		draw.removeAll();
-		
+
+		List<GenericTreeNode<LayoutParserTreeElement>> list = this.layoutParser.XMLTree
+				.build(GenericTreeTraversalOrderEnum.PRE_ORDER);
+
 		// Go through all elements.
 		for (int i = 0; i < list.size(); i++) {
 
 			LayoutParserTreeElement e = list.get(i).getData();
 
 			// Check if element is of selected type.
-			if (e.elementType.toString().contains(type)) {
+			if (e.elementType == type.toType()) {
 
-				ElementJPanel panel = new ElementJPanel(e);
+				ElementJPanel panel = new ElementJPanel(list.get(i));
 				panel.addMouseListener(new BlockMouseListener());
 				panel.setBorder(new LineBorder(Color.GREEN));
 				panel.setOpaque(false);
-				
+
 				// Set height and width so that the element is visible..
 				int width = e.right - e.left > 1 ? e.right - e.left : 3;
 				int height = e.bottom - e.top > 1 ? e.bottom - e.top : 3;
-				
+
 				// Check direction.
 				if (this.layoutParser.direction.compareTo("descending") == 0) {
 					panel.setBounds(e.left, e.top, width, height);
@@ -207,7 +205,7 @@ public class LayoutGUI extends JFrame {
 					int m_height = this.image.getHeight(this);
 					panel.setBounds(e.left, m_height - e.bottom, width, height);
 				}
-				
+
 				// Draw panel
 				draw.add(panel);
 
@@ -241,7 +239,6 @@ public class LayoutGUI extends JFrame {
 				popupMenu.add(textItem);
 
 				panel.setComponentPopupMenu(popupMenu);
-
 			}
 		}
 
@@ -264,7 +261,8 @@ public class LayoutGUI extends JFrame {
 		 */
 		JComboBox comboElements = new JComboBox();
 		comboElements.setModel(new DefaultComboBoxModel(new String[] {
-				"Litere", "Randuri", "Blocuri" }));
+				VisibleElements.S_BLOCK.toString(),
+				VisibleElements.S_LINE.toString() }));
 		// Adauga listener pentru combo cu componente.
 		comboElements.addActionListener(new ComponentComboListener(this));
 		comboElements.setBounds(105, 20, 125, 20);
@@ -283,7 +281,8 @@ public class LayoutGUI extends JFrame {
 		 */
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {
-				"Analiza OCR", "Uneste comonente", "Sparge componente" }));
+				ElementsActions.S_OCR.toString(),
+				ElementsActions.S_GLUE.toString() }));
 		comboBox.setBounds(this.getMaximizedBounds().width - 250, 20, 160, 25);
 		getContentPane().add(comboBox);
 
@@ -292,8 +291,8 @@ public class LayoutGUI extends JFrame {
 		btnNewButton
 				.setBounds(this.getMaximizedBounds().width - 80, 20, 60, 25);
 		// Adauga listener pentru combo cu actiuni.
-		btnNewButton
-				.addActionListener(new ActionButtonListener(comboBox, draw));
+		btnNewButton.addActionListener(new ActionButtonListener(comboBox, draw,
+				this));
 		getContentPane().add(btnNewButton);
 	}
 

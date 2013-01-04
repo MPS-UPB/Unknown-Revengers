@@ -1,191 +1,229 @@
 /*
  Copyright 2010 Vivin Suresh Paliath
  Distributed under the BSD License
-*/
+ */
 
 package tree;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GenericTree<T> {
 
-    private GenericTreeNode<T> root;
+	private GenericTreeNode<T> root;
 
-    public GenericTree() {
-        super();
-    }
+	public GenericTree() {
+		super();
+	}
 
-    public GenericTreeNode<T> getRoot() {
-        return this.root;
-    }
+	public GenericTreeNode<T> getRoot() {
+		return this.root;
+	}
 
-    public void setRoot(GenericTreeNode<T> root) {
-        this.root = root;
-    }
+	public void setRoot(GenericTreeNode<T> root) {
+		this.root = root;
+	}
 
-    public int getNumberOfNodes() {
-        int numberOfNodes = 0;
+	public int getNumberOfNodes() {
+		int numberOfNodes = 0;
 
-        if(root != null) {
-            numberOfNodes = auxiliaryGetNumberOfNodes(root) + 1; //1 for the root!
-        }
+		if (root != null) {
+			numberOfNodes = auxiliaryGetNumberOfNodes(root) + 1; // 1 for the
+																 // root!
+		}
 
-        return numberOfNodes;
-    }
+		return numberOfNodes;
+	}
 
-    private int auxiliaryGetNumberOfNodes(GenericTreeNode<T> node) {
-        int numberOfNodes = node.getNumberOfChildren();
+	private int auxiliaryGetNumberOfNodes(GenericTreeNode<T> node) {
+		int numberOfNodes = node.getNumberOfChildren();
 
-        for(GenericTreeNode<T> child : node.getChildren()) {
-            numberOfNodes += auxiliaryGetNumberOfNodes(child);
-        }
+		for (GenericTreeNode<T> child : node.getChildren()) {
+			numberOfNodes += auxiliaryGetNumberOfNodes(child);
+		}
 
-        return numberOfNodes;
-    }
+		return numberOfNodes;
+	}
 
-    public boolean exists(T dataToFind) {
-        return (find(dataToFind) != null);
-    }
+	public boolean exists(T dataToFind) {
+		return (find(dataToFind) != null);
+	}
 
-    public GenericTreeNode<T> find(T dataToFind) {
-        GenericTreeNode<T> returnNode = null;
+	public GenericTreeNode<T> find(T dataToFind) {
+		GenericTreeNode<T> returnNode = null;
 
-        if(root != null) {
-            returnNode = auxiliaryFind(root, dataToFind);
-        }
+		if (root != null) {
+			returnNode = auxiliaryFind(root, dataToFind);
+		}
 
-        return returnNode;
-    }
+		return returnNode;
+	}
 
-    private GenericTreeNode<T> auxiliaryFind(GenericTreeNode<T> currentNode, T dataToFind) {
-        GenericTreeNode<T> returnNode = null;
-        int i = 0;
+	public boolean delete(T dataToFind) {
+		GenericTreeNode<T> returnNode = null;
 
-        if (currentNode.getData().equals(dataToFind)) {
-            returnNode = currentNode;
-        }
+		if (root != null) {
+			returnNode = auxiliaryFind(root, dataToFind);
+		}
 
-        else if(currentNode.hasChildren()) {
-            i = 0;
-            while(returnNode == null && i < currentNode.getNumberOfChildren()) {
-                returnNode = auxiliaryFind(currentNode.getChildAt(i), dataToFind);
-                i++;
-            }
-        }
+		GenericTreeNode<T> parent = returnNode.getParent();
+		List<GenericTreeNode<T>> childrenList = parent.getChildren();
 
-        return returnNode;
-    }
+		for (int i = 0; i < childrenList.size(); i++) {
+			if (childrenList.get(i) == returnNode) {
+				parent.removeChildAt(i);
+				return true;
+			}
+		}
 
-    public boolean isEmpty() {
-        return (root == null);
-    }
+		return false;
+	}
 
-    public List<GenericTreeNode<T>> build(GenericTreeTraversalOrderEnum traversalOrder) {
-        List<GenericTreeNode<T>> returnList = null;
+	private GenericTreeNode<T> auxiliaryFind(GenericTreeNode<T> currentNode,
+			T dataToFind) {
+		GenericTreeNode<T> returnNode = null;
+		int i = 0;
 
-        if(root != null) {
-            returnList = build(root, traversalOrder);
-        }
+		if (currentNode.getData().equals(dataToFind)) {
+			returnNode = currentNode;
+		}
 
-        return returnList;
-    }
+		else if (currentNode.hasChildren()) {
+			i = 0;
+			while (returnNode == null && i < currentNode.getNumberOfChildren()) {
+				returnNode = auxiliaryFind(currentNode.getChildAt(i),
+						dataToFind);
+				i++;
+			}
+		}
 
-    public List<GenericTreeNode<T>> build(GenericTreeNode<T> node, GenericTreeTraversalOrderEnum traversalOrder) {
-        List<GenericTreeNode<T>> traversalResult = new ArrayList<GenericTreeNode<T>>();
+		return returnNode;
+	}
 
-        if(traversalOrder == GenericTreeTraversalOrderEnum.PRE_ORDER) {
-            buildPreOrder(node, traversalResult);
-        }
+	public boolean isEmpty() {
+		return (root == null);
+	}
 
-        else if(traversalOrder == GenericTreeTraversalOrderEnum.POST_ORDER) {
-            buildPostOrder(node, traversalResult);
-        }
+	public List<GenericTreeNode<T>> build(
+			GenericTreeTraversalOrderEnum traversalOrder) {
+		List<GenericTreeNode<T>> returnList = null;
 
-        return traversalResult;
-    }
+		if (root != null) {
+			returnList = build(root, traversalOrder);
+		}
 
-    private void buildPreOrder(GenericTreeNode<T> node, List<GenericTreeNode<T>> traversalResult) {
-        traversalResult.add(node);
+		return returnList;
+	}
 
-        for(GenericTreeNode<T> child : node.getChildren()) {
-            buildPreOrder(child, traversalResult);
-        }
-    }
+	public List<GenericTreeNode<T>> build(GenericTreeNode<T> node,
+			GenericTreeTraversalOrderEnum traversalOrder) {
+		List<GenericTreeNode<T>> traversalResult = new ArrayList<GenericTreeNode<T>>();
 
-    private void buildPostOrder(GenericTreeNode<T> node, List<GenericTreeNode<T>> traversalResult) {
-        for(GenericTreeNode<T> child : node.getChildren()) {
-            buildPostOrder(child, traversalResult);
-        }
+		if (traversalOrder == GenericTreeTraversalOrderEnum.PRE_ORDER) {
+			buildPreOrder(node, traversalResult);
+		}
 
-        traversalResult.add(node);
-    }
+		else if (traversalOrder == GenericTreeTraversalOrderEnum.POST_ORDER) {
+			buildPostOrder(node, traversalResult);
+		}
 
-    public Map<GenericTreeNode<T>, Integer> buildWithDepth(GenericTreeTraversalOrderEnum traversalOrder) {
-        Map<GenericTreeNode<T>, Integer> returnMap = null;
+		return traversalResult;
+	}
 
-        if(root != null) {
-            returnMap = buildWithDepth(root, traversalOrder);
-        }
+	private void buildPreOrder(GenericTreeNode<T> node,
+			List<GenericTreeNode<T>> traversalResult) {
+		traversalResult.add(node);
 
-        return returnMap;
-    }
+		for (GenericTreeNode<T> child : node.getChildren()) {
+			buildPreOrder(child, traversalResult);
+		}
+	}
 
-    public Map<GenericTreeNode<T>, Integer> buildWithDepth(GenericTreeNode<T> node, GenericTreeTraversalOrderEnum traversalOrder) {
-        Map<GenericTreeNode<T>, Integer> traversalResult = new LinkedHashMap<GenericTreeNode<T>, Integer>();
+	private void buildPostOrder(GenericTreeNode<T> node,
+			List<GenericTreeNode<T>> traversalResult) {
+		for (GenericTreeNode<T> child : node.getChildren()) {
+			buildPostOrder(child, traversalResult);
+		}
 
-        if(traversalOrder == GenericTreeTraversalOrderEnum.PRE_ORDER) {
-            buildPreOrderWithDepth(node, traversalResult, 0);
-        }
+		traversalResult.add(node);
+	}
 
-        else if(traversalOrder == GenericTreeTraversalOrderEnum.POST_ORDER) {
-            buildPostOrderWithDepth(node, traversalResult, 0);
-        }
+	public Map<GenericTreeNode<T>, Integer> buildWithDepth(
+			GenericTreeTraversalOrderEnum traversalOrder) {
+		Map<GenericTreeNode<T>, Integer> returnMap = null;
 
-        return traversalResult;
-    }
+		if (root != null) {
+			returnMap = buildWithDepth(root, traversalOrder);
+		}
 
-    private void buildPreOrderWithDepth(GenericTreeNode<T> node, Map<GenericTreeNode<T>, Integer> traversalResult, int depth) {
-        traversalResult.put(node, depth);
+		return returnMap;
+	}
 
-        for(GenericTreeNode<T> child : node.getChildren()) {
-            buildPreOrderWithDepth(child, traversalResult, depth + 1);
-        }
-    }
+	public Map<GenericTreeNode<T>, Integer> buildWithDepth(
+			GenericTreeNode<T> node,
+			GenericTreeTraversalOrderEnum traversalOrder) {
+		Map<GenericTreeNode<T>, Integer> traversalResult = new LinkedHashMap<GenericTreeNode<T>, Integer>();
 
-    private void buildPostOrderWithDepth(GenericTreeNode<T> node, Map<GenericTreeNode<T>, Integer> traversalResult, int depth) {
-        for(GenericTreeNode<T> child : node.getChildren()) {
-            buildPostOrderWithDepth(child, traversalResult, depth + 1);
-        }
+		if (traversalOrder == GenericTreeTraversalOrderEnum.PRE_ORDER) {
+			buildPreOrderWithDepth(node, traversalResult, 0);
+		}
 
-        traversalResult.put(node, depth);
-    }
+		else if (traversalOrder == GenericTreeTraversalOrderEnum.POST_ORDER) {
+			buildPostOrderWithDepth(node, traversalResult, 0);
+		}
 
-    public String toString() {
-        /*
-        We're going to assume a pre-order traversal by default
-         */
+		return traversalResult;
+	}
 
-        String stringRepresentation = "";
+	private void buildPreOrderWithDepth(GenericTreeNode<T> node,
+			Map<GenericTreeNode<T>, Integer> traversalResult, int depth) {
+		traversalResult.put(node, depth);
 
-        if(root != null) {
-            stringRepresentation = build(GenericTreeTraversalOrderEnum.PRE_ORDER).toString();
+		for (GenericTreeNode<T> child : node.getChildren()) {
+			buildPreOrderWithDepth(child, traversalResult, depth + 1);
+		}
+	}
 
-        }
+	private void buildPostOrderWithDepth(GenericTreeNode<T> node,
+			Map<GenericTreeNode<T>, Integer> traversalResult, int depth) {
+		for (GenericTreeNode<T> child : node.getChildren()) {
+			buildPostOrderWithDepth(child, traversalResult, depth + 1);
+		}
 
-        return stringRepresentation;
-    }
+		traversalResult.put(node, depth);
+	}
 
-    public String toStringWithDepth() {
-        /*
-        We're going to assume a pre-order traversal by default
-         */
+	@Override
+	public String toString() {
+		/*
+		 * We're going to assume a pre-order traversal by default
+		 */
 
-        String stringRepresentation = "";
+		String stringRepresentation = "";
 
-        if(root != null) {
-            stringRepresentation = buildWithDepth(GenericTreeTraversalOrderEnum.PRE_ORDER).toString();
-        }
+		if (root != null) {
+			stringRepresentation = build(
+					GenericTreeTraversalOrderEnum.PRE_ORDER).toString();
 
-        return stringRepresentation;
-    }
+		}
+
+		return stringRepresentation;
+	}
+
+	public String toStringWithDepth() {
+		/*
+		 * We're going to assume a pre-order traversal by default
+		 */
+
+		String stringRepresentation = "";
+
+		if (root != null) {
+			stringRepresentation = buildWithDepth(
+					GenericTreeTraversalOrderEnum.PRE_ORDER).toString();
+		}
+
+		return stringRepresentation;
+	}
 }
