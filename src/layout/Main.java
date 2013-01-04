@@ -67,7 +67,7 @@ public class Main {
 
 			// Returneaza calea catre fisierul rezultat in urma analizei layout
 			// a imaginii.
-			selectedFile = selectedAnalyzer.analyzeXML();
+			selectedFile = selectedAnalyzer.analyzeXML("layout", null, null);
 		}
 
 		/**

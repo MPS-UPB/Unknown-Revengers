@@ -3,10 +3,15 @@ package analyzer;
  * @author Unknown-Revengers
  */
 
+import gui.ElementJPanel;
+
+import java.awt.Rectangle;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import parser.LayoutParser;
 
 import layout.Config;
 import layout.ErrorMessage;
@@ -91,31 +96,63 @@ public class Analyzer {
 
 		return xml;
 	}
-
+	/**
+	 * Construieste un XML care va fi input pentru analiza OCR.
+	 * 
+	 * @return String
+	 */
+	public String createOCRInputXML(ElementJPanel panel, LayoutParser lp){
+		
+		Rectangle r = panel.getBounds();
+		int left = r.x;
+		int top = r.y;
+		int right = left + r.width;
+		int bottom = top + r.height;
+		
+		String xml = "<task>";
+		xml += "<inputFile name=" + "\"" + this.input + "\"" + "/>";
+		xml += "<outputFile name=" + "\"" + this.output + "\"" + "/>";
+		xml += "<processRectangle direction=" + "\"" + lp.direction + "\" " + 
+				"top=" + "\"" + top + "\" " + 
+				"bottom=" + "\"" + bottom + "\" " + 
+				"left=" + "\"" + left + "\" " + 
+				"right=" + "\"" + right + "\" " + "/>" ;
+		xml += "</task>";
+		
+		return xml;
+	}
 	/**
 	 * Ruleaza analizatorul pe fisierul XML temporar de input si returneaza
 	 * outputul/calea fisierului.
 	 * 
 	 * @return String Calea catre outputul analizatorului.
 	 */
-	public String analyzeXML() {
-		// Creaza fisier temporar de output.
+	public String analyzeXML(String type, ElementJPanel panel, LayoutParser lp) {
 		File fout = new File("");
-		try {
-			fout = File.createTempFile("output", ".xml");
-		} catch (IOException e) {
-			ErrorMessage
-					.show("Exceptie la crearea fisierului temporar de output:"
-							+ e.getMessage());
+		String xml = "";
+		switch (type) {
+		case "layout":
+			// Creaza fisier temporar de output.
+			try {
+				fout = File.createTempFile("output", ".xml");
+			} catch (IOException e) {
+				ErrorMessage
+						.show("Exceptie la crearea fisierului temporar de output:"
+								+ e.getMessage());
+			}
+			fout.deleteOnExit();
+			this.output = fout.getAbsolutePath();
+			xml = this.createAnalyzerInputXML();
+			
+			
+			break;
+		case "ocr":
+			fout = new File("text");
+			this.output = fout.getAbsolutePath();
+			xml = this.createOCRInputXML(panel, lp);
+			break;
 		}
-		fout.deleteOnExit();
-
-		// Set output file.
-		this.output = fout.getAbsolutePath();
-
-		// Creaza xml pentru input.
-		String xml = this.createAnalyzerInputXML();
-
+		
 		// Creaza fisier temporar de input.
 		File fin = new File("");
 		try {

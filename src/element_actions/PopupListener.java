@@ -5,12 +5,20 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
+import layout.Config;
+import layout.ErrorMessage;
+
+import parser.LayoutParser;
 
 import gui.ElementJPanel;
 
@@ -25,15 +33,18 @@ import analyzer.AnalyzerSelector;
  */
 public class PopupListener implements ActionListener {
 
-	private ElementJPanel panel;
 
+	private ElementJPanel panel;
+	
+	private LayoutParser layoutParser;
 	/**
 	 * Constructor.
 	 * 
 	 * @param panel
 	 */
-	public PopupListener(ElementJPanel panel) {
+	public PopupListener(ElementJPanel panel, LayoutParser lp) {
 		this.panel = panel;
+		this.layoutParser = lp;
 	}
 
 	@Override
@@ -48,6 +59,9 @@ public class PopupListener implements ActionListener {
 					case "Analiza OCR":
 						AnalyzerSelector as = new AnalyzerSelector("ocr");
 						Analyzer selectedAnalyzer = as.chooseAnalyzer();
+						selectedAnalyzer.setInput(layoutParser.imagePath);
+						String text = selectedAnalyzer.analyzeXML("ocr", panel, layoutParser);
+						
 						break;
 
 					case "Vezi text":
