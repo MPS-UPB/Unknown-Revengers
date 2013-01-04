@@ -1,22 +1,11 @@
 package element_actions;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
+import gui.ElementJPanel;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
-import gui.ElementJPanel;
-
-
-import analyzer.Analyzer;
-import analyzer.AnalyzerSelector;
+import parser.LayoutParser;
 
 /**
  * Button listener pentru salvare modificari.
@@ -25,15 +14,18 @@ import analyzer.AnalyzerSelector;
  */
 public class PopupListener implements ActionListener {
 
-	private ElementJPanel panel;
+	private final ElementJPanel panel;
+
+	private final LayoutParser layoutParser;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param panel
 	 */
-	public PopupListener(ElementJPanel panel) {
+	public PopupListener(ElementJPanel panel, LayoutParser lp) {
 		this.panel = panel;
+		this.layoutParser = lp;
 	}
 
 	@Override
@@ -44,24 +36,13 @@ public class PopupListener implements ActionListener {
 			@Override
 			public void run() {
 				try {
-					switch (action) {
-					case "Analiza OCR":
-						AnalyzerSelector as = new AnalyzerSelector("ocr");
-						Analyzer selectedAnalyzer = as.chooseAnalyzer();
-						break;
-
-					case "Vezi text":
-						ViewText tf = new ViewText(panel);
-						break;
-
-					case "Sparge bloc text":
-						break;
-
-					case "Este numar pagina":
-						break;
+					if (action == "Analiza OCR") {
+						new GetText(panel, layoutParser);
 					}
-				}
-				catch (Exception e) {
+					else if (action == "Vezi text") {
+						new ViewText(panel);
+					}
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
