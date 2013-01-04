@@ -36,10 +36,10 @@ public class PopupListener implements ActionListener {
 			@Override
 			public void run() {
 				try {
-					if (action == "Analiza OCR") {
+					if (action.compareTo(ElementActions.S_OCR.toString()) == 0) {
 						new GetText(panel, layoutParser);
 					}
-					else if (action == "Vezi text") {
+					else if (action.compareTo(ElementActions.S_TEXT.toString()) == 0) {
 						new ViewText(panel);
 					}
 				} catch (Exception e) {

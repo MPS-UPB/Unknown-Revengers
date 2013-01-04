@@ -31,6 +31,7 @@ import sun.java2d.SunGraphicsEnvironment;
 import tree.GenericTreeNode;
 import tree.GenericTreeTraversalOrderEnum;
 import element_actions.BlockMouseListener;
+import element_actions.ElementActions;
 import element_actions.PopupListener;
 import elements_actions.ActionButtonListener;
 import elements_actions.ComponentComboListener;
@@ -216,25 +217,42 @@ public class LayoutGUI extends JFrame {
 				 * Action listener pentru popupMenu Primeste ca parametru
 				 * ElementJPanel pentru a extrage LayoutParserTreeElement
 				 */
-				ActionListener actionListener = new PopupListener(panel,layoutParser);
+				ActionListener actionListener = new PopupListener(panel,
+						layoutParser);
 
 				// Face analiza OCR.
-				JMenuItem ocrItem = new JMenuItem("Analiza OCR");
+				JMenuItem ocrItem = new JMenuItem(
+						ElementActions.S_OCR.toString());
 				ocrItem.addActionListener(actionListener);
 				popupMenu.add(ocrItem);
 
-				// Sparge blocul de text.
-				JMenuItem splitItem = new JMenuItem("Sparge bloc text");
-				splitItem.addActionListener(actionListener);
-				popupMenu.add(splitItem);
+				// Sparge blocul de text orizontal.
+				JMenuItem splitItemH = new JMenuItem(
+						ElementActions.S_BREAK_H.toString());
+				splitItemH.addActionListener(actionListener);
+				popupMenu.add(splitItemH);
+
+				// Sparge blocul de text veritcal.
+				JMenuItem splitItemV = new JMenuItem(
+						ElementActions.S_BREAK_V.toString());
+				splitItemV.addActionListener(actionListener);
+				popupMenu.add(splitItemV);
 
 				// Marcheaza blocul de text ca fiind numar pagina.
-				JMenuItem paginaItem = new JMenuItem("Este numar pagina");
+				JMenuItem paginaItem = new JMenuItem(
+						ElementActions.S_PAGE.toString());
 				paginaItem.addActionListener(actionListener);
 				popupMenu.add(paginaItem);
 
+				// Marcheaza blocul de text ca fiind numar pagina.
+				JMenuItem deleteItem = new JMenuItem(
+						ElementActions.S_DELETE.toString());
+				deleteItem.addActionListener(actionListener);
+				popupMenu.add(deleteItem);
+
 				// Vezi textul.
-				JMenuItem textItem = new JMenuItem("Vezi text");
+				JMenuItem textItem = new JMenuItem(
+						ElementActions.S_TEXT.toString());
 				textItem.addActionListener(actionListener);
 				popupMenu.add(textItem);
 
