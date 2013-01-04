@@ -10,20 +10,26 @@ import analyzer.AnalyzerSelector;
 
 public class OCRComponents {
 	
-	//Lista de componente selectate
+	// List of selected components
 	ArrayList<ElementJPanel> panels;
 
 	LayoutGUI gui;
 
 	/*
-	 * Constructor
+	 * Constructor 
 	 */
 	public OCRComponents(ArrayList<ElementJPanel> panels, LayoutGUI gui) throws InterruptedException {
 		this.panels = panels;
 		this.gui = gui;
+		
+		// Call OCR analyzer method
 		this.AnalyzeOCRComponents();
 	}
-	
+	/**
+	 * Run OCR analyzer on each selected components
+	 * @return void
+	 * @throws InterruptedException
+	 */
 	private void AnalyzeOCRComponents() throws InterruptedException{
 		
 		// Select an analyzer.
@@ -32,9 +38,10 @@ public class OCRComponents {
 		selectedAnalyzer.setInput(gui.layoutParser.imagePath);
 		selectedAnalyzer.setLayoutParser(gui.layoutParser);
 		
-		//Pentru fiecare element returneaza calea fisierului de output
+		// For each selected component return output file path
 		String filePath = "";
 		
+		// For each selected component run OCR analyzer
 		for (int i = 0; i < this.panels.size(); i ++) {
 			
 			selectedAnalyzer.setPanel(this.panels.get(i));
