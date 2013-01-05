@@ -161,7 +161,7 @@ public class LayoutParser {
     	while (it.hasNext()) {
     	    GenericTreeNode<LayoutParserTreeElement> childNode = it.next();
     	    LayoutParserTreeElement childElement = childNode.getData();
-    
+    	    
     	    if (childElement.text.isEmpty() == false &&
     		    childElement.toString().compareTo("String") == 0) {
     		// Este frunza
