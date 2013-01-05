@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import parser.TextActions;
+
 /**
  * @author Unknown-Revengers
  * 
@@ -59,7 +61,7 @@ public class ViewText extends JFrame {
 		contentPanel = this.getContentPane();
 
 		// Adauga textul elementului la frame.
-		this.addText(elementPanel.element.getData().text);
+		this.addText();
 
 		// Adauga buton.
 		this.addButton();
@@ -83,7 +85,8 @@ public class ViewText extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Save text.
-				elementPanel.element.getData().text = descriptionArea.getText();
+				TextActions.saveText(elementPanel.element,
+						descriptionArea.getText());
 
 				frame.dispose();
 			}
@@ -95,13 +98,12 @@ public class ViewText extends JFrame {
 
 	/**
 	 * Adauga text la fereastra.
-	 * 
-	 * @param text
-	 *            Textul de adaugat.
 	 */
-	private void addText(String text) {
+	private void addText() {
 		// New Panel.
 		JPanel panel = new JPanel();
+
+		String text = TextActions.getText(elementPanel.element);
 
 		// Creaza Text Area pentru text.
 		descriptionArea = new JTextArea(text);
