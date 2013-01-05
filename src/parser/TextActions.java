@@ -39,15 +39,16 @@ public class TextActions {
 			text = text.concat(getText(child));
 			if (child.getData().elementType.toString().compareTo("TextLine") == 0) {
 				text = text.concat("\n");
-			}
-			else if (child.getData().elementType.toString().compareTo("String") == 0) {
+			} else if (child.getData().elementType.toString().compareTo(
+					"String") == 0) {
 				text = text.concat(" ");
 			}
 		}
 
 		// Remove space and new line added only after last component.
 		text = text.replaceAll(" $", "");
-		if (element.getData().elementType.toString().compareTo("TextBlock") == 0) {
+		if (element.getData().elementType.toString().compareTo("TextBlock") == 0
+				&& text.length() > 0) {
 			text = text.substring(0, text.length() - 1);
 		}
 		return text;
@@ -60,8 +61,7 @@ public class TextActions {
 	 *            Textul de salvat in arbore.
 	 */
 	public static void saveText(
-			GenericTreeNode<LayoutParserTreeElement> element,
-			String text) {
+			GenericTreeNode<LayoutParserTreeElement> element, String text) {
 		/*
 		 * Daca elementul curent este nod frunza, modifica atributul text.
 		 */
@@ -112,8 +112,8 @@ public class TextActions {
 				 * ultimile TextLine la ultimul nod TextLine din arbore.
 				 */
 				for (int j = i + 1; j < textComponents.length; j++) {
-					textComponents[i] = textComponents[i].concat(" ")
-							.concat(textComponents[j]);
+					textComponents[i] = textComponents[i].concat(" ").concat(
+							textComponents[j]);
 				}
 
 				textComponents[i] = textComponents[i].trim();
@@ -155,8 +155,7 @@ public class TextActions {
 	 *            Numarul de elemente ramase.
 	 */
 	private static void deleteText(
-			GenericTreeNode<LayoutParserTreeElement> element,
-			int textLength) {
+			GenericTreeNode<LayoutParserTreeElement> element, int textLength) {
 		// Ia copii elementului curent.
 		List<GenericTreeNode<LayoutParserTreeElement>> children = element
 				.getChildren();

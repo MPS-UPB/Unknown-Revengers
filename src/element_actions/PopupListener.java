@@ -1,53 +1,26 @@
 package element_actions;
 
-import gui.GElement;
+import gui.GPopup;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
-import parser.LayoutParser;
+public class PopupListener implements PopupMenuListener {
 
-/**
- * Button listener pentru salvare modificari.
- * 
- * @author Unknown-Revengers
- */
-public class PopupListener implements ActionListener {
-
-	private GElement panel;
-
-	private LayoutParser layoutParser;
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param panel
-	 */
-	public PopupListener(GElement panel, LayoutParser lp) {
-		this.panel = panel;
-		this.layoutParser = lp;
+	@Override
+	public void popupMenuCanceled(PopupMenuEvent arg0) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		final String action = e.getActionCommand();
-
-		Thread actionThread = new Thread() {
-			@Override
-			public void run() {
-				try {
-					if (action.compareTo(ElementActions.S_OCR.toString()) == 0) {
-						new GetText(panel, layoutParser);
-					}
-					else if (action.compareTo(ElementActions.S_TEXT.toString()) == 0) {
-						new ViewText(panel);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		};
-
-		actionThread.start();
+	public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) {
+		GPopup popup = (GPopup) arg0.getSource();
+		popup.storeLocation();
 	}
+
+	@Override
+	public void popupMenuWillBecomeVisible(PopupMenuEvent arg0) {
+		// TODO Auto-generated method stub
+	}
+
 }
