@@ -52,31 +52,44 @@ public class ActionButtonListener implements ActionListener {
 	@Override
 	public void actionPerformed(final ActionEvent e) {
 		// Get selected action.
-		String action = (String) comboBox.getSelectedItem();
+		final String action = (String) comboBox.getSelectedItem();
 
 		// Get all panels that are drawn.
 		Component[] panels = pane.getComponents();
 
 		// Selected panels.
-		ArrayList<GElement> elementPanels = new ArrayList<GElement>();
+		final ArrayList<GElement> elementPanels = new ArrayList<GElement>();
 
 		for (Component panel : panels) {
 			// Selected panels.
 			if (((GElement) panel).getToolTipText() != null
-					&& ((GElement) panel).getToolTipText().compareTo(
-							"selected") == 0) {
+					&& ((GElement) panel).getToolTipText()
+							.compareTo("selected") == 0) {
 				elementPanels.add((GElement) panel);
 			}
 		}
+		Thread actionThread = new Thread() {
+			@Override
+			public void run() {
+				try {
 
-		if (elementPanels.size() == 0) {
-			ErrorMessage.show("Nu a fost selectat niciun element", false);
-		}
-		else if (action.compareTo(ElementsActions.S_OCR.toString()) == 0) {
+					if (elementPanels.size() == 0) {
+						ErrorMessage.show("Nu a fost selectat niciun element",
+								false);
+					} else if (action.compareTo(ElementsActions.S_OCR
+							.toString()) == 0) {
+						new OCRComponents(elementPanels, layoutGUI);
+					} else if (action.compareTo(ElementsActions.S_GLUE
+							.toString()) == 0) {
+						new GlueElements(elementPanels, layoutGUI);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
 
-		}
-		else if (action.compareTo(ElementsActions.S_GLUE.toString()) == 0) {
-			new GlueElements(elementPanels, this.layoutGUI);
-		}
+		actionThread.start();
+
 	}
 }
