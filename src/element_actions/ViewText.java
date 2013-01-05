@@ -187,21 +187,38 @@ public class ViewText extends JFrame {
 
 		// Sterge text din arbore.
 		if (children.size() > textComponents.length) {
-			for (int i = textComponents.length; i < children.size(); i++) {
-				// Daca este frunza, sterge nodul
-				if (children.get(i).getData().elementType.toString().compareTo(
-						"String") == 0) {
-					element.removeChildAt(i);
-				}
+			this.deleteText(element, textComponents.length);
+		}
+	}
 
-				// Daca este TextLine sterge frunzele.
-				else if (children.get(i).getData().elementType.toString()
-						.compareTo(
-								"TextLine") == 0) {
-					for (int j = 0; j < children.get(i).getNumberOfChildren(); j++) {
-						children.get(i).removeChildAt(j);
-					}
-				}
+	/**
+	 * Sterge noduri frunza daca la editare s-au sters cuvinte.
+	 * 
+	 * @param element
+	 *            Elementul din care s-au sters cuvinte.
+	 * @param textLength
+	 *            Numarul de elemente ramase.
+	 */
+	private void deleteText(GenericTreeNode<LayoutParserTreeElement> element,
+			int textLength) {
+		// Ia copii elementului curent.
+		List<GenericTreeNode<LayoutParserTreeElement>> children = element
+				.getChildren();
+
+		// Sorteaza dupa top.
+		Collections.sort(children, new ElementComparator());
+
+		for (int i = textLength; i < children.size(); i++) {
+			// Daca este frunza, sterge nodul
+			if (children.get(i).getData().elementType.toString().compareTo(
+					"String") == 0) {
+				element.removeChildAt(i);
+
+				// One child removed, size drops by 1.
+				i--;
+
+			} else {
+				this.deleteText(children.get(i), 0);
 			}
 		}
 	}
@@ -267,8 +284,11 @@ public class ViewText extends JFrame {
 			}
 		}
 
-		// Remove space or newline added after last component.
-		text = text.trim();
+		// Remove space and new line added only after last component.
+		text = text.replaceAll(" $", "");
+		if (element.getData().elementType.toString().compareTo("TextBlock") == 0) {
+			text = text.substring(0, text.length() - 1);
+		}
 		return text;
 	}
 
