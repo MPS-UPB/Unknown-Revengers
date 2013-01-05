@@ -15,15 +15,13 @@ public class BreakH {
 		LayoutParserTreeElement newElementData = new LayoutParserTreeElement();
 
 		int newLeft = element.getData().left;
+		int newRight = element.getData().right;
 
 		int newTop = y;
+		int newBottom = element.getData().bottom;
 		if (dir == Direction.ASCENDING) {
 			newTop = height - y;
 		}
-
-		int newRight = element.getData().right;
-
-		int newBottom = element.getData().bottom;
 
 		newElementData.left = newLeft;
 		newElementData.right = newRight;
@@ -37,19 +35,27 @@ public class BreakH {
 		parent.addChild(newElement);
 
 		// Setup the old element.
-		element.getData().bottom = y;
-		if (dir == Direction.ASCENDING) {
-			element.getData().bottom = height - y;
-		}
+		element.getData().bottom = newElementData.top;
 
-		List<GenericTreeNode<LayoutParserTreeElement>> children = newElement
+		List<GenericTreeNode<LayoutParserTreeElement>> children = element
 				.getChildren();
 		for (int i = children.size() - 1; i >= 0; i--) {
-			if (children.get(i).getData().top > element.getData().bottom) {
-				GenericTreeNode<LayoutParserTreeElement> rElement = children
-						.get(i);
-				element.removeChildAt(i);
-				newElement.addChild(rElement);
+			if (dir == Direction.DESCENDING) {
+				if (children.get(i).getData().top < newElementData.bottom
+						&& children.get(i).getData().top > newElementData.top) {
+					GenericTreeNode<LayoutParserTreeElement> rElement = children
+							.get(i);
+					element.removeChildAt(i);
+					newElement.addChild(rElement);
+				}
+			} else {
+				if (children.get(i).getData().top < element.getData().bottom
+						&& children.get(i).getData().top > element.getData().top) {
+					GenericTreeNode<LayoutParserTreeElement> rElement = children
+							.get(i);
+					element.removeChildAt(i);
+					newElement.addChild(rElement);
+				}
 			}
 		}
 	}

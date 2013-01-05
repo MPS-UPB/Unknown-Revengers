@@ -10,7 +10,6 @@ public class PopupListener implements PopupMenuListener {
 	@Override
 	public void popupMenuCanceled(PopupMenuEvent arg0) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
