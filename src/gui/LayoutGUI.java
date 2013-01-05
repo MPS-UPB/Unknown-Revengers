@@ -1,26 +1,38 @@
-import java.awt.Color;
+package gui;
+
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.LineBorder;
 
+import page_actions.NumeroteazaButtonListener;
+import page_actions.SalveazaButtonListener;
+import parser.LayoutParser;
+import parser.LayoutParserTreeElement;
 import sun.java2d.SunGraphicsEnvironment;
+import tree.GenericTreeNode;
+import tree.GenericTreeTraversalOrderEnum;
+import element_actions.ElementActions;
+import element_actions.PopupListener;
+import elements_actions.ActionButtonListener;
+import elements_actions.ComponentComboListener;
+import elements_actions.ElementsActions;
 
 /**
  * Interfata grafica (ar fi recomandat ca pentru fiecare TODO sa existe o metoda
@@ -33,38 +45,41 @@ import sun.java2d.SunGraphicsEnvironment;
 @SuppressWarnings("serial")
 public class LayoutGUI extends JFrame {
 	/**
-	 *  Layout parser.
+	 * Layout parser.
 	 */
-	private LayoutParser layoutParser;
+	public final LayoutParser layoutParser;
 
 	/**
-	 *  Imaginea ce este incarcata.
+	 * Imaginea ce este incarcata.
 	 */
-	private Image image;
+	private final BufferedImage image;
 
 	/**
-	 *  Panelul in care se deseneaza imaginea.
+	 * Panelul in care se deseneaza imaginea.
 	 */
 	private DrawPanel draw;
 
 	/**
-	 *  Scroll pane-ul in care se pun elementele din imagine.
+	 * Scroll pane-ul in care se pun elementele din imagine.
 	 */
 	private JScrollPane scrollPane;
+
+	public VisibleElements visibleElements;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param layoutParser
+	 * @throws IOException
 	 */
-	public LayoutGUI(LayoutParser layoutParser) {
+	public LayoutGUI(LayoutParser layoutParser) throws IOException {
 
 		this.layoutParser = layoutParser;
 
-		// TODO Incarca imaginea in fereastra. Trebuie luata din layoutParser
+		// Incarca imaginea in fereastra. Trebuie luata din layoutParser
 		// imaginea.
-		File f = new File("resources\\3-sizes.jpg");
-		this.image = new ImageIcon(f.getAbsolutePath()).getImage();
+		File f = new File(this.layoutParser.imagePath);
+		this.image = ImageIO.read(f);
 
 		// Initializeaza fereastra.
 		this.initFrame();
@@ -76,7 +91,7 @@ public class LayoutGUI extends JFrame {
 		this.addFilters();
 
 		// Incarca elementele din pagina.
-		this.loadElements();
+		this.loadElements(VisibleElements.S_BLOCK);
 
 		// Actiuni finale asupra documentului.
 		this.addFinalActions();
@@ -137,9 +152,9 @@ public class LayoutGUI extends JFrame {
 		// Inizializeaza scroll panel si adauga draw panel in el.
 		scrollPane = new JScrollPane(draw);
 		scrollPane
-		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane
-		.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(20, 95, this.getMaximizedBounds().width - 40,
 				this.getMaximizedBounds().height - 180);
 
@@ -148,71 +163,96 @@ public class LayoutGUI extends JFrame {
 	}
 
 	/**
-	 * TODO Incarca elementele in fereastra parsand fisierul de layout (se
-	 * folosesc functii din this.layoutParser)
+	 * Incarca elementele in fereastra parsand fisierul de layout (se folosesc
+	 * functii din this.layoutParser)
 	 * 
 	 * @return void
 	 */
-	private void loadElements() {
+	public void loadElements(VisibleElements type) {
 
-		/**
-		 * TODO Incarca elemente
-		 */
-		/*
-		 * Element 1
-		 */
-		JPanel panel = new JPanel();
-		panel.addMouseListener(new BlockMouseListener());
-		panel.setBorder(new LineBorder(Color.GREEN));
-		panel.setOpaque(false);
-		panel.setBounds(10, 20, 209, 87);
-		draw.add(panel);
+		this.visibleElements = type;
 
-		JPopupMenu popupMenu = new JPopupMenu();
+		// Remove all drawed elements.
+		draw.removeAll();
 
-		// Action listener pentru popupMenu
-		ActionListener actionListener = new PopupListener();
+		List<GenericTreeNode<LayoutParserTreeElement>> list = this.layoutParser.XMLTree
+				.build(GenericTreeTraversalOrderEnum.PRE_ORDER);
 
-		// Face analiza OCR.
-		JMenuItem ocrItem = new JMenuItem("Analiza OCR");
-		ocrItem.addActionListener(actionListener);
-		popupMenu.add(ocrItem);
+		// Go through all elements.
+		for (int i = 0; i < list.size(); i++) {
 
-		// Sparge blocul de text.
-		JMenuItem splitItem = new JMenuItem("Sparge bloc text");
-		splitItem.addActionListener(actionListener);
-		popupMenu.add(splitItem);
+			LayoutParserTreeElement e = list.get(i).getData();
 
-		// Marcheaza blocul de text ca fiind numar pagina.
-		JMenuItem paginaItem = new JMenuItem("Este numar pagina");
-		paginaItem.addActionListener(actionListener);
-		popupMenu.add(paginaItem);
+			// Check if element is of selected type.
+			if (e.elementType == type.toType()) {
 
-		// Vezi textul.
-		JMenuItem textItem = new JMenuItem("Vezi text");
-		textItem.addActionListener(actionListener);
-		popupMenu.add(textItem);
+				GElement panel = new GElement(list.get(i));
 
-		panel.setComponentPopupMenu(popupMenu);
+				// Set height and width so that the element is visible..
+				int width = e.right - e.left > 1 ? e.right - e.left : 3;
+				int height = e.bottom - e.top > 1 ? e.bottom - e.top : 3;
 
-		/*
-		 * Element 2
-		 */
-		JPanel panel_1 = new JPanel();
-		panel_1.addMouseListener(new BlockMouseListener());
-		panel_1.setOpaque(false);
-		panel_1.setBorder(new LineBorder(Color.GREEN));
-		panel_1.setBounds(230, 20, 209, 87);
-		draw.add(panel_1);
+				// Check direction.
+				if (this.layoutParser.direction.compareTo("descending") == 0) {
+					panel.setBounds(e.left, e.top, width, height);
+				} else {
+					int m_height = this.image.getHeight(this);
+					panel.setBounds(e.left, m_height - e.bottom, width, height);
+				}
 
-		JPopupMenu popupMenu_1 = new JPopupMenu();
-		// Face analiza OCR.
-		popupMenu_1.add(new JMenuItem("Analiza OCR"));
-		// Sparge blocul de text.
-		popupMenu_1.add(new JMenuItem("Sparge bloc text"));
-		// Marcheaza blocul de text ca fiind numar pagina.
-		popupMenu_1.add(new JMenuItem("Este numar pagina"));
-		panel_1.setComponentPopupMenu(popupMenu_1);
+				// Draw panel
+				draw.add(panel);
+
+				// Create the popup menu for the current panel
+				JPopupMenu popupMenu = new JPopupMenu();
+
+				/*
+				 * Action listener pentru popupMenu Primeste ca parametru
+				 * ElementJPanel pentru a extrage LayoutParserTreeElement
+				 */
+				ActionListener actionListener = new PopupListener(panel,
+						layoutParser);
+
+				// Face analiza OCR.
+				JMenuItem ocrItem = new JMenuItem(
+						ElementActions.S_OCR.toString());
+				ocrItem.addActionListener(actionListener);
+				popupMenu.add(ocrItem);
+
+				// Sparge blocul de text orizontal.
+				JMenuItem splitItemH = new JMenuItem(
+						ElementActions.S_BREAK_H.toString());
+				splitItemH.addActionListener(actionListener);
+				popupMenu.add(splitItemH);
+
+				// Sparge blocul de text veritcal.
+				JMenuItem splitItemV = new JMenuItem(
+						ElementActions.S_BREAK_V.toString());
+				splitItemV.addActionListener(actionListener);
+				popupMenu.add(splitItemV);
+
+				// Marcheaza blocul de text ca fiind numar pagina.
+				JMenuItem paginaItem = new JMenuItem(
+						ElementActions.S_PAGE.toString());
+				paginaItem.addActionListener(actionListener);
+				popupMenu.add(paginaItem);
+
+				// Marcheaza blocul de text ca fiind numar pagina.
+				JMenuItem deleteItem = new JMenuItem(
+						ElementActions.S_DELETE.toString());
+				deleteItem.addActionListener(actionListener);
+				popupMenu.add(deleteItem);
+
+				// Vezi textul.
+				JMenuItem textItem = new JMenuItem(
+						ElementActions.S_TEXT.toString());
+				textItem.addActionListener(actionListener);
+				popupMenu.add(textItem);
+
+				panel.setComponentPopupMenu(popupMenu);
+			}
+		}
+
 	}
 
 	/**
@@ -232,9 +272,10 @@ public class LayoutGUI extends JFrame {
 		 */
 		JComboBox comboElements = new JComboBox();
 		comboElements.setModel(new DefaultComboBoxModel(new String[] {
-				"Litere", "Randuri", "Blocuri" }));
+				VisibleElements.S_BLOCK.toString(),
+				VisibleElements.S_LINE.toString() }));
 		// Adauga listener pentru combo cu componente.
-		comboElements.addActionListener(new ComponentComboListener());
+		comboElements.addActionListener(new ComponentComboListener(this));
 		comboElements.setBounds(105, 20, 125, 20);
 		getContentPane().add(comboElements);
 
@@ -251,16 +292,18 @@ public class LayoutGUI extends JFrame {
 		 */
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {
-				"Analiza OCR", "Uneste comonente", "Sparge componente" }));
+				ElementsActions.S_OCR.toString(),
+				ElementsActions.S_GLUE.toString() }));
 		comboBox.setBounds(this.getMaximizedBounds().width - 250, 20, 160, 25);
 		getContentPane().add(comboBox);
 
 		// OK pentru actiunile posibile.
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton
-		.setBounds(this.getMaximizedBounds().width - 80, 20, 60, 25);
+				.setBounds(this.getMaximizedBounds().width - 80, 20, 60, 25);
 		// Adauga listener pentru combo cu actiuni.
-		btnNewButton.addActionListener(new ActionButtonListener(comboBox, draw));
+		btnNewButton.addActionListener(new ActionButtonListener(comboBox, draw,
+				this));
 		getContentPane().add(btnNewButton);
 	}
 

@@ -1,3 +1,4 @@
+package analyzer;
 /**
  * @author Unknown-Revengers
  */
@@ -23,6 +24,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import layout.Config;
+import layout.ErrorMessage;
 
 import org.joox.Match;
 import org.w3c.dom.Document;

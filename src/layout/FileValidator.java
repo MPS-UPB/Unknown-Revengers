@@ -1,3 +1,4 @@
+package layout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -39,12 +40,14 @@ public class FileValidator {
 		}
 
 		// Daca e XML atunci se verifica sa fie respectat XSD-ul de layout
-		if (fileExt.equalsIgnoreCase("xml")) {
+		else if (fileExt.equalsIgnoreCase("xml")) {
 			return validXML(fileName);
 		}
 
-		// Daca e altceva return false
-		return false;
+		// TODO validate tiff file
+		else {
+			return true;
+		}
 	}
 
 	/**
