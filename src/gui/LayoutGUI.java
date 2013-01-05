@@ -47,12 +47,12 @@ public class LayoutGUI extends JFrame {
 	/**
 	 * Layout parser.
 	 */
-	public final LayoutParser layoutParser;
+	public LayoutParser layoutParser;
 
 	/**
 	 * Imaginea ce este incarcata.
 	 */
-	private final BufferedImage image;
+	private BufferedImage image;
 
 	/**
 	 * Panelul in care se deseneaza imaginea.
@@ -93,8 +93,8 @@ public class LayoutGUI extends JFrame {
 		// Incarca elementele din pagina.
 		this.loadElements(VisibleElements.S_BLOCK);
 
-		// Actiuni finale asupra documentului.
-		this.addFinalActions();
+		// Actiuni e asupra documentului.
+		this.addActions();
 
 		// Afiseaza fereastra.
 		this.setVisible(true);
@@ -310,7 +310,7 @@ public class LayoutGUI extends JFrame {
 	/**
 	 * TODO Buton pentru salvat schimbarile facute intr-un fisier de output.
 	 */
-	private void addFinalActions() {
+	private void addActions() {
 		// TODO Ruleaza modul de numerotare a paginii.
 		JButton btnNumeroteaza = new JButton("Numeroteaza pagina");
 		btnNumeroteaza.setBounds(this.getMaximizedBounds().width - 290,
