@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
@@ -21,7 +20,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.LineBorder;
 
 import page_actions.NumeroteazaButtonListener;
 import page_actions.SalveazaButtonListener;
@@ -30,7 +28,6 @@ import parser.LayoutParserTreeElement;
 import sun.java2d.SunGraphicsEnvironment;
 import tree.GenericTreeNode;
 import tree.GenericTreeTraversalOrderEnum;
-import element_actions.BlockMouseListener;
 import element_actions.ElementActions;
 import element_actions.PopupListener;
 import elements_actions.ActionButtonListener;
@@ -190,9 +187,6 @@ public class LayoutGUI extends JFrame {
 			if (e.elementType == type.toType()) {
 
 				GElement panel = new GElement(list.get(i));
-				panel.addMouseListener(new BlockMouseListener());
-				panel.setBorder(new LineBorder(Color.GREEN));
-				panel.setOpaque(false);
 
 				// Set height and width so that the element is visible..
 				int width = e.right - e.left > 1 ? e.right - e.left : 3;
@@ -201,8 +195,7 @@ public class LayoutGUI extends JFrame {
 				// Check direction.
 				if (this.layoutParser.direction.compareTo("descending") == 0) {
 					panel.setBounds(e.left, e.top, width, height);
-				}
-				else {
+				} else {
 					int m_height = this.image.getHeight(this);
 					panel.setBounds(e.left, m_height - e.bottom, width, height);
 				}
