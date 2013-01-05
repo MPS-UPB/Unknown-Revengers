@@ -218,6 +218,7 @@ public class Analyzer {
 					+ e.getMessage());
 		}
 
+		System.out.println(this.output);
 		return this.output;
 	}
 }
