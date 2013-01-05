@@ -14,9 +14,9 @@ import parser.LayoutParser;
  */
 public class PopupListener implements ActionListener {
 
-	private final GElement panel;
+	private GElement panel;
 
-	private final LayoutParser layoutParser;
+	private LayoutParser layoutParser;
 
 	/**
 	 * Constructor.
