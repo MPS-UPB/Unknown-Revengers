@@ -1,6 +1,6 @@
 package element_actions;
 
-import gui.ElementJPanel;
+import gui.GElement;
 import parser.LayoutParser;
 import analyzer.Analyzer;
 import analyzer.AnalyzerSelector;
@@ -22,7 +22,7 @@ public class GetText {
 	 * @param lp
 	 * @throws InterruptedException
 	 */
-	public GetText(ElementJPanel panel, LayoutParser lp)
+	public GetText(GElement panel, LayoutParser lp)
 			throws InterruptedException {
 
 		// Select an analyzer.
