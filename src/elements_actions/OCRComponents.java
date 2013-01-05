@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import analyzer.Analyzer;
 import analyzer.AnalyzerSelector;
 
+/**
+ * Run OCR analyzer on list of components passed in constructor
+ * 
+ * @author Unknown-revengers
+ *
+ */
 public class OCRComponents {
 	
 	// List of selected components
