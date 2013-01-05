@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
@@ -21,17 +20,18 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.LineBorder;
 
 import page_actions.NumeroteazaButtonListener;
 import page_actions.SalveazaButtonListener;
+import parser.Direction;
 import parser.LayoutParser;
 import parser.LayoutParserTreeElement;
 import sun.java2d.SunGraphicsEnvironment;
 import tree.GenericTreeNode;
 import tree.GenericTreeTraversalOrderEnum;
-import element_actions.BlockMouseListener;
 import element_actions.ElementActions;
+import element_actions.PopupItemListener;
+import element_actions.PopupItemMouseListener;
 import element_actions.PopupListener;
 import elements_actions.ActionButtonListener;
 import elements_actions.ComponentComboListener;
@@ -50,12 +50,12 @@ public class LayoutGUI extends JFrame {
 	/**
 	 * Layout parser.
 	 */
-	public final LayoutParser layoutParser;
+	public LayoutParser layoutParser;
 
 	/**
 	 * Imaginea ce este incarcata.
 	 */
-	private final BufferedImage image;
+	public BufferedImage image;
 
 	/**
 	 * Panelul in care se deseneaza imaginea.
@@ -96,8 +96,8 @@ public class LayoutGUI extends JFrame {
 		// Incarca elementele din pagina.
 		this.loadElements(VisibleElements.S_BLOCK);
 
-		// Actiuni finale asupra documentului.
-		this.addFinalActions();
+		// Actiuni e asupra documentului.
+		this.addActions();
 
 		// Afiseaza fereastra.
 		this.setVisible(true);
@@ -190,19 +190,15 @@ public class LayoutGUI extends JFrame {
 			if (e.elementType == type.toType()) {
 
 				GElement panel = new GElement(list.get(i));
-				panel.addMouseListener(new BlockMouseListener());
-				panel.setBorder(new LineBorder(Color.GREEN));
-				panel.setOpaque(false);
 
 				// Set height and width so that the element is visible..
 				int width = e.right - e.left > 1 ? e.right - e.left : 3;
 				int height = e.bottom - e.top > 1 ? e.bottom - e.top : 3;
 
 				// Check direction.
-				if (this.layoutParser.direction.compareTo("descending") == 0) {
+				if (this.layoutParser.direction == Direction.DESCENDING) {
 					panel.setBounds(e.left, e.top, width, height);
-				}
-				else {
+				} else {
 					int m_height = this.image.getHeight(this);
 					panel.setBounds(e.left, m_height - e.bottom, width, height);
 				}
@@ -211,14 +207,14 @@ public class LayoutGUI extends JFrame {
 				draw.add(panel);
 
 				// Create the popup menu for the current panel
-				JPopupMenu popupMenu = new JPopupMenu();
+				JPopupMenu popupMenu = new GPopup();
 
 				/*
 				 * Action listener pentru popupMenu Primeste ca parametru
 				 * ElementJPanel pentru a extrage LayoutParserTreeElement
 				 */
-				ActionListener actionListener = new PopupListener(panel,
-						layoutParser);
+				ActionListener actionListener = new PopupItemListener(panel,
+						this);
 
 				// Face analiza OCR.
 				JMenuItem ocrItem = new JMenuItem(
@@ -230,12 +226,16 @@ public class LayoutGUI extends JFrame {
 				JMenuItem splitItemH = new JMenuItem(
 						ElementActions.S_BREAK_H.toString());
 				splitItemH.addActionListener(actionListener);
+				splitItemH.addMouseListener(new PopupItemMouseListener(panel,
+						draw));
 				popupMenu.add(splitItemH);
 
 				// Sparge blocul de text veritcal.
 				JMenuItem splitItemV = new JMenuItem(
 						ElementActions.S_BREAK_V.toString());
 				splitItemV.addActionListener(actionListener);
+				splitItemV.addMouseListener(new PopupItemMouseListener(panel,
+						draw));
 				popupMenu.add(splitItemV);
 
 				// Marcheaza blocul de text ca fiind numar pagina.
@@ -257,6 +257,7 @@ public class LayoutGUI extends JFrame {
 				popupMenu.add(textItem);
 
 				panel.setComponentPopupMenu(popupMenu);
+				popupMenu.addPopupMenuListener(new PopupListener());
 			}
 		}
 
@@ -317,7 +318,7 @@ public class LayoutGUI extends JFrame {
 	/**
 	 * TODO Buton pentru salvat schimbarile facute intr-un fisier de output.
 	 */
-	private void addFinalActions() {
+	private void addActions() {
 		// TODO Ruleaza modul de numerotare a paginii.
 		JButton btnNumeroteaza = new JButton("Numeroteaza pagina");
 		btnNumeroteaza.setBounds(this.getMaximizedBounds().width - 290,

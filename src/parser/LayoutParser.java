@@ -55,7 +55,7 @@ public class LayoutParser {
 	public GenericTree<LayoutParserTreeElement> XMLTree;
 	public String xmlPath;
 	public String imagePath;
-	public String direction;
+	public Direction direction;
 
 	/**
 	 * Constructorul clasei
@@ -175,8 +175,7 @@ public class LayoutParser {
 				child.appendChild(doc.createTextNode(childElement.text
 						.toString()));
 				currentElement.appendChild(child);
-			}
-			else {
+			} else {
 				// Creaza elementul
 				child = doc.createElement(childElement.toString());
 
@@ -291,29 +290,25 @@ public class LayoutParser {
 		// Parsam atributele ca sa nu dea eroare
 		if (currentMatch.attr("top") != null) {
 			top = Integer.parseInt(currentMatch.attr("top"));
-		}
-		else {
+		} else {
 			top = -1;
 		}
 
 		if (currentMatch.attr("bottom") != null) {
 			bottom = Integer.parseInt(currentMatch.attr("bottom"));
-		}
-		else {
+		} else {
 			bottom = -1;
 		}
 
 		if (currentMatch.attr("left") != null) {
 			left = Integer.parseInt(currentMatch.attr("left"));
-		}
-		else {
+		} else {
 			left = -1;
 		}
 
 		if (currentMatch.attr("right") != null) {
 			right = Integer.parseInt(currentMatch.attr("right"));
-		}
-		else {
+		} else {
 			right = -1;
 		}
 
@@ -433,15 +428,21 @@ public class LayoutParser {
 			// Verifica daca path-ul este absolut.
 			if (filePath.isAbsolute()) {
 				this.imagePath = filePath.getAbsolutePath();
-			}
-			else {
+			} else {
 				this.imagePath = (new File(this.xmlPath)).getParent() + "\\"
 						+ documentRoot.attr("image");
 			}
 		}
 
 		if (documentRoot.attr("direction") != null) {
-			this.direction = documentRoot.attr("direction");
+			switch (documentRoot.attr("direction")) {
+			case "ascending":
+				this.direction = Direction.ASCENDING;
+				break;
+			case "descending":
+				this.direction = Direction.DESCENDING;
+				break;
+			}
 		}
 	}
 }
