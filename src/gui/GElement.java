@@ -20,10 +20,10 @@ public class GElement extends JScrollPane {
 		this.setOpaque(false);
 		this.getViewport().setOpaque(false);
 
-		// Add mouse listener.
-		this.addMouseListener(new BlockMouseListener());
-
 		// Set initial border.
 		this.setBorder(new LineBorder(Color.GREEN));
+
+		//
+		this.addMouseListener(new BlockMouseListener());
 	}
 }
