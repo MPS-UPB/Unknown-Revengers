@@ -152,6 +152,9 @@ public class Analyzer {
 			case "layout":
 				fout = File.createTempFile("output", ".xml");
 				break;
+			case "paging":
+				fout = File.createTempFile("output", ".xml");
+				break;
 			case "ocr":
 				fout = File.createTempFile("output", "");
 				break;
@@ -166,6 +169,10 @@ public class Analyzer {
 
 		switch (type) {
 		case "layout":
+			// Creaza fisier temporar de output.
+			xml = this.createAnalyzerInputXML();
+			break;
+		case "paging":
 			// Creaza fisier temporar de output.
 			xml = this.createAnalyzerInputXML();
 			break;

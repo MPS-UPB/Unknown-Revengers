@@ -53,7 +53,7 @@ public class LayoutParser {
 
 	// Pagina va fi tinuta intr-un arbore
 	public GenericTree<LayoutParserTreeElement> XMLTree;
-	String xmlPath;
+	public String xmlPath;
 	public String imagePath;
 	public String direction;
 
