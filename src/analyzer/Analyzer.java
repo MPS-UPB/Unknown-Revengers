@@ -4,7 +4,7 @@ package analyzer;
  * @author Unknown-Revengers
  */
 
-import gui.ElementJPanel;
+import gui.GElement;
 
 import java.awt.Rectangle;
 import java.io.BufferedWriter;
@@ -44,7 +44,7 @@ public class Analyzer {
 
 	private final String type;
 
-	private ElementJPanel panel;
+	private GElement panel;
 
 	private LayoutParser lp;
 
@@ -72,7 +72,7 @@ public class Analyzer {
 		this.input = input;
 	}
 
-	public void setPanel(ElementJPanel panel) {
+	public void setPanel(GElement panel) {
 		this.panel = panel;
 	}
 

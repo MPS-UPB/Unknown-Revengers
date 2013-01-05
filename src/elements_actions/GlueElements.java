@@ -1,6 +1,6 @@
 package elements_actions;
 
-import gui.ElementJPanel;
+import gui.GElement;
 import gui.LayoutGUI;
 
 import java.util.ArrayList;
@@ -18,14 +18,14 @@ import tree.GenericTreeNode;
  */
 public class GlueElements {
 
-	ArrayList<ElementJPanel> panels;
+	ArrayList<GElement> panels;
 
 	LayoutGUI gui;
 
 	/*
 	 * Glue elements contructor
 	 */
-	public GlueElements(ArrayList<ElementJPanel> panels, LayoutGUI gui) {
+	public GlueElements(ArrayList<GElement> panels, LayoutGUI gui) {
 		this.panels = panels;
 		this.gui = gui;
 

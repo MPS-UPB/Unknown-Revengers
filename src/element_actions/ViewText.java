@@ -1,6 +1,6 @@
 package element_actions;
 
-import gui.ElementJPanel;
+import gui.GElement;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -39,7 +39,7 @@ public class ViewText extends JFrame {
 	/**
 	 * Elementul selectat.
 	 */
-	public ElementJPanel elementPanel;
+	public GElement elementPanel;
 
 	/**
 	 * TextArea pentru textul elementului.
@@ -52,7 +52,7 @@ public class ViewText extends JFrame {
 	 * @param panel
 	 *            Elementul selectat.
 	 */
-	public ViewText(ElementJPanel panel) {
+	public ViewText(GElement panel) {
 		this.elementPanel = panel;
 
 		// Creaza content panel.
