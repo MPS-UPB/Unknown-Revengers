@@ -1,6 +1,6 @@
 package elements_actions;
 
-import gui.ElementJPanel;
+import gui.GElement;
 import gui.LayoutGUI;
 
 import java.awt.Component;
@@ -58,14 +58,14 @@ public class ActionButtonListener implements ActionListener {
 		Component[] panels = pane.getComponents();
 
 		// Selected panels.
-		ArrayList<ElementJPanel> elementPanels = new ArrayList<ElementJPanel>();
+		ArrayList<GElement> elementPanels = new ArrayList<GElement>();
 
 		for (Component panel : panels) {
 			// Selected panels.
-			if (((ElementJPanel) panel).getToolTipText() != null
-					&& ((ElementJPanel) panel).getToolTipText().compareTo(
+			if (((GElement) panel).getToolTipText() != null
+					&& ((GElement) panel).getToolTipText().compareTo(
 							"selected") == 0) {
-				elementPanels.add((ElementJPanel) panel);
+				elementPanels.add((GElement) panel);
 			}
 		}
 

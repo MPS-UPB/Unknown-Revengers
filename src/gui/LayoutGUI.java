@@ -189,7 +189,7 @@ public class LayoutGUI extends JFrame {
 			// Check if element is of selected type.
 			if (e.elementType == type.toType()) {
 
-				ElementJPanel panel = new ElementJPanel(list.get(i));
+				GElement panel = new GElement(list.get(i));
 				panel.addMouseListener(new BlockMouseListener());
 				panel.setBorder(new LineBorder(Color.GREEN));
 				panel.setOpaque(false);
