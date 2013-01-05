@@ -1,6 +1,6 @@
 package element_actions;
 
-import gui.ElementJPanel;
+import gui.GElement;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +14,7 @@ import parser.LayoutParser;
  */
 public class PopupListener implements ActionListener {
 
-	private ElementJPanel panel;
+	private GElement panel;
 
 	private LayoutParser layoutParser;
 
@@ -23,7 +23,7 @@ public class PopupListener implements ActionListener {
 	 * 
 	 * @param panel
 	 */
-	public PopupListener(ElementJPanel panel, LayoutParser lp) {
+	public PopupListener(GElement panel, LayoutParser lp) {
 		this.panel = panel;
 		this.layoutParser = lp;
 	}
