@@ -51,10 +51,6 @@ public class PageNumberBlock {
 		// Create ComposedBlock element.
 		LayoutParserTreeElement composedElement = new LayoutParserTreeElement();
 		composedElement.elementType = LayoutParserTreeElement.ElementType.COMPOSEDBLOCK;
-		composedElement.top = elementData.top;
-		composedElement.bottom = elementData.bottom;
-		composedElement.right = elementData.right;
-		composedElement.left = elementData.left;
 		composedElement.hasPage = true;
 
 		// Creade new GenericTreeNode with composedElement data
