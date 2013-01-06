@@ -111,6 +111,16 @@ public class LayoutParser {
     	Document doc = docBuilder.newDocument();
     	Element rootElement = doc.createElement(XMLTree.getRoot().toString());
     
+		// Sets the direction attribute
+		Attr directionTag = doc.createAttribute("direction");
+		directionTag.setValue(this.direction.toString().toLowerCase());
+		rootElement.setAttributeNode(directionTag);
+    	
+		// Sets the image attribute
+		Attr imageTag = doc.createAttribute("image");
+		imageTag.setValue(getImagePath());
+		rootElement.setAttributeNode(imageTag);
+		
     	// Adauga radacina arborelui
     	doc.appendChild(rootElement);
     
@@ -161,6 +171,16 @@ public class LayoutParser {
 		Document doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement(InputTree.getRoot().toString());
 
+		// Sets the image attribute
+		Attr imageTag = doc.createAttribute("image");
+		imageTag.setValue(getImagePath());
+		rootElement.setAttributeNode(imageTag);
+		
+		// Sets the direction attribute
+		Attr directionTag = doc.createAttribute("direction");
+		directionTag.setValue(this.direction.toString());
+		rootElement.setAttributeNode(directionTag);
+		
 		// Adauga radacina arborelui
 		doc.appendChild(rootElement);
 
