@@ -9,7 +9,7 @@ public class LayoutParserTreeElement {
 	public int bottom;
     public int left;
     public int right;
-    String image;
+    public String image;
     public String text;
 
     /**
