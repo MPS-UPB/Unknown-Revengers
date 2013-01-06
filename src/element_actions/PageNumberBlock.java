@@ -55,7 +55,7 @@ public class PageNumberBlock {
 		composedElement.bottom = elementData.bottom;
 		composedElement.right = elementData.right;
 		composedElement.left = elementData.left;
-		composedElement.page = true;
+		composedElement.hasPage = true;
 
 		// Creade new GenericTreeNode with composedElement data
 		GenericTreeNode<LayoutParserTreeElement> composedBlock = new GenericTreeNode<LayoutParserTreeElement>(

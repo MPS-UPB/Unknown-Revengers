@@ -12,7 +12,7 @@ public class LayoutParserTreeElement {
 	public int right;
 	public String image;
 	public String text;
-	public boolean page = false;
+	public boolean hasPage = false;
 
 	/**
 	 * Enum pentru tipul elementului conform cu specificatiile
