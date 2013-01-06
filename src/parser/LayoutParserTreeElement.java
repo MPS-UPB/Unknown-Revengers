@@ -148,60 +148,60 @@ public class LayoutParserTreeElement {
     
     public LayoutParserTreeElement(String tag, String text, int top,
 	    int bottom, int right, int left, String image) {
-	this(top, bottom, right, left, text);
-	this.image = image;
-
-	// Parseaza tipul elementului din text in ElementType
-	switch (tag) {
-    	case "String":
-    	    this.elementType = ElementType.STRING;
-    	    break;
-    	case "Document":
-    	    this.elementType = ElementType.DOCUMENT;
-    	    break;
-    	case "TextBlock":
-    	    this.elementType = ElementType.TEXTBLOCK;
-    	    break;
-    	case "TextLine":
-    	    this.elementType = ElementType.TEXTLINE;
-    	    break;
-    	case "Dir":
-    	    this.elementType = ElementType.DIR;
-    	    break;
-    	case "Imposed":
-    	    this.elementType = ElementType.IMPOSED;
-    	    break;
-    	case "File":
-    	    this.elementType = ElementType.FILE;
-    	    break;
-    	case "Point":
-    	    this.elementType = ElementType.POINT;
-    	    break;
-    	case "Polygon":
-    	    this.elementType = ElementType.POLYGON;
-    	    break;
-    	case "Block":
-    	    this.elementType = ElementType.BLOCK;
-    	    break;
-    	case "ComposedBlock":
-    	    this.elementType = ElementType.COMPOSEDBLOCK;
-    	    break;
-    	case "ImageBlock":
-    	    this.elementType = ElementType.IMAGEBLOCK;
-    	    break;
-    	}
+    	this(top, bottom, right, left, text);
+    	this.image = image;
+    
+    	// Parseaza tipul elementului din text in ElementType
+    	switch (tag) {
+        	case "String":
+        	    this.elementType = ElementType.STRING;
+        	    break;
+        	case "Document":
+        	    this.elementType = ElementType.DOCUMENT;
+        	    break;
+        	case "TextBlock":
+        	    this.elementType = ElementType.TEXTBLOCK;
+        	    break;
+        	case "TextLine":
+        	    this.elementType = ElementType.TEXTLINE;
+        	    break;
+        	case "Dir":
+        	    this.elementType = ElementType.DIR;
+        	    break;
+        	case "Imposed":
+        	    this.elementType = ElementType.IMPOSED;
+        	    break;
+        	case "File":
+        	    this.elementType = ElementType.FILE;
+        	    break;
+        	case "Point":
+        	    this.elementType = ElementType.POINT;
+        	    break;
+        	case "Polygon":
+        	    this.elementType = ElementType.POLYGON;
+        	    break;
+        	case "Block":
+        	    this.elementType = ElementType.BLOCK;
+        	    break;
+        	case "ComposedBlock":
+        	    this.elementType = ElementType.COMPOSEDBLOCK;
+        	    break;
+        	case "ImageBlock":
+        	    this.elementType = ElementType.IMAGEBLOCK;
+        	    break;
+        }
     }
 
     public LayoutParserTreeElement(ElementType type, String text) {
-	this.elementType = type;
-	this.text = text;
+    	this.elementType = type;
+    	this.text = text;
     }
 
     // Cum va fi tiparit un nod cand vrem sa-l afisam
     @Override
     public String toString() {
-	return (this.elementType.toString());
+    	return (this.elementType.toString());
     }
-
+    
     // TODO metoda pentru a sparge elementul in subelemente.
 }
