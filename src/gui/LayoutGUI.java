@@ -112,7 +112,7 @@ public class LayoutGUI extends JFrame {
 	public DrawPanel getDraw() {
 		return this.draw;
 	}
-	
+
 	/**
 	 * Initializeaza fereastra
 	 * 
@@ -171,8 +171,6 @@ public class LayoutGUI extends JFrame {
 		scrollPane.setBounds(20, 95, this.getMaximizedBounds().width - 40,
 				this.getMaximizedBounds().height - 180);
 
-		
-		
 		// Adauga scroll panel in fereastra.
 		getContentPane().add(scrollPane);
 	}
@@ -216,8 +214,8 @@ public class LayoutGUI extends JFrame {
 				}
 
 				// Sets the text area for the GElement
-				panel.setTextArea(height, width);
-				
+				panel.setTextArea(width, height);
+
 				// Draw panel
 				draw.add(panel);
 
@@ -305,8 +303,9 @@ public class LayoutGUI extends JFrame {
 		JLabel visLabel = new JLabel("Vizibilitate:");
 		visLabel.setBounds(255, 20, 75, 20);
 		getContentPane().add(visLabel);
-		
-		// Combobox pentru selectarea vizibilitatii imaginii de background vs textul
+
+		// Combobox pentru selectarea vizibilitatii imaginii de background vs
+		// textul
 		// textul ce se afla scris in JScrollBar-uri
 		JComboBox visCombo = new JComboBox();
 		visCombo.setModel(new DefaultComboBoxModel(new String[] {
@@ -316,8 +315,8 @@ public class LayoutGUI extends JFrame {
 		visCombo.addActionListener(new VisibilityComboListener(this));
 		visCombo.setBounds(325, 20, 125, 20);
 		visCombo.setVisible(true);
-		getContentPane().add(visCombo);		
-		
+		getContentPane().add(visCombo);
+
 		// Label actiuni posibile pentru selectia curenta.
 		JLabel lblActiuni = new JLabel("Actiuni:");
 		lblActiuni.setBounds(this.getMaximizedBounds().width - 310, 20, 50, 25);
@@ -354,7 +353,7 @@ public class LayoutGUI extends JFrame {
 		JButton btnNumeroteaza = new JButton("Numeroteaza pagina");
 		btnNumeroteaza.setBounds(this.getMaximizedBounds().width - 290,
 				this.getMaximizedBounds().height - 70, 170, 23);
-		
+
 		// Adauga listener pentru buton de numerotare pagina.
 		btnNumeroteaza.addActionListener(new NumeroteazaButtonListener());
 		getContentPane().add(btnNumeroteaza);
@@ -364,7 +363,7 @@ public class LayoutGUI extends JFrame {
 				this.getMaximizedBounds().height - 70, 90, 23);
 		// Adauga listener pentru buton de numerotare pagina.
 		btnSalveaza.addActionListener(new SalveazaButtonListener(layoutParser));
-		
+
 		getContentPane().add(btnSalveaza);
 	}
 }
