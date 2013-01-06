@@ -7,7 +7,9 @@ import gui.LayoutGUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JDialog;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import layout.ErrorMessage;
 import parser.LayoutParserTreeElement;
@@ -80,5 +82,16 @@ public class PopupItemListener implements ActionListener {
 			this.gui.loadElements(this.gui.visibleElements);
 
 		}
+		else if (action.compareTo(ElementActions.S_DELETE.toString()) == 0) {
+			
+			// Fereastra de confirmare a actiunii
+		    int response = JOptionPane.showConfirmDialog(null, "Doriti sa continuati ?", "Confirmati",
+		        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		    
+		    if (response == JOptionPane.YES_OPTION) {
+		      new DeleteElement(panel, gui);
+		    }
+		}
+		
 	}
 }
