@@ -1,15 +1,16 @@
+package parser;
 /**
  * O clasa generica element pentru un element din fisier.
  * 
  * @author Unknown-Revengers
  */
 public class LayoutParserTreeElement {
-    int top;
-    int bottom;
-    int left;
-    int right;
+	public int top;
+	public int bottom;
+    public int left;
+    public int right;
     String image;
-    String text;
+    public String text;
 
     /**
      * Enum pentru tipul elementului conform cu specificatiile
@@ -76,7 +77,7 @@ public class LayoutParserTreeElement {
 	}
     }
 
-    ElementType elementType;
+    public ElementType elementType;
 
     /**
      * Constructor
