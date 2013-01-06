@@ -330,18 +330,20 @@ public class LayoutParser {
 				child = doc.createElement(childElement.toString());
 				
 				// Adauga atributele
-				Attr bottom = doc.createAttribute("bottom");
-				bottom.setValue(Integer.toString(childElement.bottom));
-				child.setAttributeNode(bottom);
-				Attr top = doc.createAttribute("top");
-				top.setValue(Integer.toString(childElement.top));
-				child.setAttributeNode(top);
-				Attr right = doc.createAttribute("right");
-				right.setValue(Integer.toString(childElement.right));
-				child.setAttributeNode(right);
-				Attr left = doc.createAttribute("left");
-				left.setValue(Integer.toString(childElement.left));
-				child.setAttributeNode(left);
+				if(childElement.elementType != LayoutParserTreeElement.ElementType.COMPOSEDBLOCK){
+    				Attr bottom = doc.createAttribute("bottom");
+    				bottom.setValue(Integer.toString(childElement.bottom));
+    				child.setAttributeNode(bottom);
+    				Attr top = doc.createAttribute("top");
+    				top.setValue(Integer.toString(childElement.top));
+    				child.setAttributeNode(top);
+    				Attr right = doc.createAttribute("right");
+    				right.setValue(Integer.toString(childElement.right));
+    				child.setAttributeNode(right);
+    				Attr left = doc.createAttribute("left");
+    				left.setValue(Integer.toString(childElement.left));
+    				child.setAttributeNode(left);
+				}
 				
 				if(childElement.hasPage == true){
 					Attr hasPage = doc.createAttribute("type");
