@@ -58,6 +58,7 @@ public class FileValidator {
 	 * @return boolean
 	 */
 	private static boolean validXML(String XMLPath) {
+				
 		/* Verifica XML in baza unui XSD */
 		String xsdPath = Config.output_schemas + "\\layout_specs.xsd";
 		Source xsdFile = new StreamSource(new File(xsdPath));
