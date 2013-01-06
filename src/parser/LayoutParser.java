@@ -82,7 +82,7 @@ public class LayoutParser {
 		try {
 			xmlExample = this.readFile(xmlPath);
 		} catch (IOException e) {
-			System.out.println("EROARE: XML-ul nu a fost citit cum trebuie");
+			ErrorMessage.show("EROARE: XML-ul nu a fost citit cum trebuie", false);
 			e.printStackTrace();
 		}
 
@@ -232,8 +232,7 @@ public class LayoutParser {
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			System.out
-					.println("EROARE: A fost o eroare cand a fost creat documentul");
+			ErrorMessage.show("EROARE: A fost o eroare cand a fost creat documentul", false);
 			e.printStackTrace();
 		}
 
@@ -382,13 +381,13 @@ public class LayoutParser {
 		try {
 			result = factory.newDocumentBuilder().parse(source);
 		} catch (SAXException e) {
-			System.out.println("Eroare SAX");
+			ErrorMessage.show("Eroare SAX", false);
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("Eroare IOException");
+			ErrorMessage.show("Eroare IOException", false);
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
-			System.out.println("Eroare ParserConfigurationException");
+			ErrorMessage.show("Eroare ParserConfigurationException", false);
 			e.printStackTrace();
 		}
 
