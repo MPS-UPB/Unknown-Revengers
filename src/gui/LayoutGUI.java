@@ -327,12 +327,13 @@ public class LayoutGUI extends JFrame {
 		btnNumeroteaza.addActionListener(new NumeroteazaButtonListener(this));
 		getContentPane().add(btnNumeroteaza);
 
-		// TODO Salveaza schimbarile facute intr-un fisier de output.
 		JButton btnSalveaza = new JButton("Salveaza");
 		btnSalveaza.setBounds(this.getMaximizedBounds().width - 110,
 				this.getMaximizedBounds().height - 70, 90, 23);
 		// Adauga listener pentru buton de numerotare pagina.
-		btnSalveaza.addActionListener(new SalveazaButtonListener());
+		btnSalveaza.addActionListener(new SalveazaButtonListener(layoutParser));
+		
+		
 		getContentPane().add(btnSalveaza);
 	}
 }

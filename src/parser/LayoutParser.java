@@ -19,8 +19,13 @@ package parser;
 
 import static org.joox.JOOX.$;
 
+import java.awt.FileDialog;
+import java.awt.Frame;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -30,6 +35,7 @@ import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -38,6 +44,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import layout.ErrorMessage;
 
 import org.joox.Match;
 import org.w3c.dom.Attr;
@@ -74,7 +82,7 @@ public class LayoutParser {
 		try {
 			xmlExample = this.readFile(xmlPath);
 		} catch (IOException e) {
-			System.out.println("EROARE: XML-ul nu a fost citit cum trebuie");
+			ErrorMessage.show("EROARE: XML-ul nu a fost citit cum trebuie", false);
 			e.printStackTrace();
 		}
 
@@ -84,6 +92,135 @@ public class LayoutParser {
 		// System.out.println(this.XMLTree.getRoot().getChildren());
 	}
 
+    /**
+     * Parseaza arborele dat ca parametru si construieste XML-ul de layout din
+     * acesta
+     * 
+     * @return string Returneaza XML-ul rezultat din parsarea arborelui ce va
+     *         contine informatii despre pagina
+     * 
+     * @throws TransformerException
+     */
+    public String constructXml()
+	    throws TransformerException {
+    	String result_xml = null;
+    	DocumentBuilderFactory docFactory = DocumentBuilderFactory
+    		.newInstance();
+    	DocumentBuilder docBuilder = null;
+    	try {
+    	    docBuilder = docFactory.newDocumentBuilder();
+    	} catch (ParserConfigurationException e) {
+    		ErrorMessage.show("EROARE: A fost o eroare cand a fost creat documentul", false);
+    	    e.printStackTrace();
+    	}
+    
+    	// Creaza noul document
+    	Document doc = docBuilder.newDocument();
+    	Element rootElement = doc.createElement(XMLTree.getRoot().toString());
+    
+		// Sets the direction attribute
+		Attr directionTag = doc.createAttribute("direction");
+		directionTag.setValue(this.direction.toString().toLowerCase());
+		rootElement.setAttributeNode(directionTag);
+    	
+		// Sets the image attribute
+		Attr imageTag = doc.createAttribute("image");
+		imageTag.setValue(getImagePath());
+		rootElement.setAttributeNode(imageTag);
+		
+    	// Adauga radacina arborelui
+    	doc.appendChild(rootElement);
+    
+    	// Parseaza si creaza tot arborele
+    	doc = addElements(doc, rootElement, XMLTree.getRoot());
+    
+    	// Returneaza XML-ul sub forma de String din obiectul de tip DOM
+    	TransformerFactory transformerFactory = TransformerFactory
+    		.newInstance();
+    	Transformer transformer = transformerFactory.newTransformer();
+    	DOMSource source = new DOMSource(doc);
+    	StringWriter sw = new StringWriter();
+    	StreamResult result = new StreamResult(sw);
+    	transformer.transform(source, result);
+    	result_xml = sw.toString();
+    
+    	return result_xml;
+    }
+    
+    /**
+     * 
+     * Salveaza XML-ul intr-un fisier printr-un dialog box
+     * 
+     * @return Calea catre fisier daca fisierul a fost salvat cu succes, sau null contrar
+     */
+	public String saveXML(){  
+		String fileName = getSavedFileName();
+		
+		if(fileName == null){
+			return null;
+		}
+		
+		FileWriter fstream = null;
+		try {
+			fstream = new FileWriter(fileName);
+		} catch (IOException e1) {
+			ErrorMessage.show("Eroare cand a fost deschis stream-ul de scriere");
+			e1.printStackTrace();
+			return null;
+		}
+		
+		BufferedWriter out = new BufferedWriter(fstream);
+		
+		try {
+			out.write(constructXml());
+		} catch (IOException e1) {
+			ErrorMessage.show("Eroare cand a fost scris fisierul de modificari", false);
+			e1.printStackTrace();
+			return null;
+		} catch (TransformerException e1) {
+			ErrorMessage.show("Eroare in momentul construirii XML-ului de output", false);
+			e1.printStackTrace();
+			return null;
+		}
+		
+		// Inchide fisierul de output
+		try {
+			out.close();
+		} catch (IOException e1) {
+			ErrorMessage.show("Eroare cand a fost inchis stream-ul de scriere", false);
+			e1.printStackTrace();
+			return null;
+		}
+
+		JOptionPane.showMessageDialog(null, "Modificarile au fost salvate cu succes!");
+		
+		return fileName;
+	}
+	
+	/**
+	 * 
+	 * Afiseaza un dialog de salvare
+	 * 
+	 * @return Calea absoluta catre fisierul in care se va salva XML-ul
+	 */
+	private String getSavedFileName() {
+		FileDialog fileDialog = new FileDialog(new Frame(), "Save", FileDialog.SAVE);
+        fileDialog.setFilenameFilter(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".xml");
+            }
+        });
+        
+        fileDialog.setFile("untitled.xml");
+        fileDialog.setVisible(true);
+        
+        if(fileDialog.getFile() == null){
+        	return null;
+        } else {
+            return (fileDialog.getDirectory() + fileDialog.getFile());	
+        }
+	}
+	
 	/**
 	 * Parseaza arborele dat ca parametru si construieste XML-ul de layout din
 	 * acesta
@@ -106,8 +243,7 @@ public class LayoutParser {
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			System.out
-					.println("EROARE: A fost o eroare cand a fost creat documentul");
+			ErrorMessage.show("EROARE: A fost o eroare cand a fost creat documentul", false);
 			e.printStackTrace();
 		}
 
@@ -115,6 +251,16 @@ public class LayoutParser {
 		Document doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement(InputTree.getRoot().toString());
 
+		// Sets the image attribute
+		Attr imageTag = doc.createAttribute("image");
+		imageTag.setValue(getImagePath());
+		rootElement.setAttributeNode(imageTag);
+		
+		// Sets the direction attribute
+		Attr directionTag = doc.createAttribute("direction");
+		directionTag.setValue(this.direction.toString());
+		rootElement.setAttributeNode(directionTag);
+		
 		// Adauga radacina arborelui
 		doc.appendChild(rootElement);
 
@@ -174,11 +320,15 @@ public class LayoutParser {
 				child = doc.createElement(childElement.toString());
 				child.appendChild(doc.createTextNode(childElement.text
 						.toString()));
-				currentElement.appendChild(child);
+				
+			} else if(childElement.text.isEmpty() == true && 
+					  childElement.toString().compareTo("String") == 0) {
+				
+				child = doc.createElement(childElement.toString());
 			} else {
 				// Creaza elementul
 				child = doc.createElement(childElement.toString());
-
+				
 				// Adauga atributele
 				Attr bottom = doc.createAttribute("bottom");
 				bottom.setValue(Integer.toString(childElement.bottom));
@@ -197,6 +347,8 @@ public class LayoutParser {
 				currentElement.appendChild(child);
 			}
 
+			currentElement.appendChild(child);
+			
 			// Merge mai jos in arbore
 			addElements(doc, child, childNode);
 		}
@@ -246,13 +398,13 @@ public class LayoutParser {
 		try {
 			result = factory.newDocumentBuilder().parse(source);
 		} catch (SAXException e) {
-			System.out.println("Eroare SAX");
+			ErrorMessage.show("Eroare SAX", false);
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("Eroare IOException");
+			ErrorMessage.show("Eroare IOException", false);
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
-			System.out.println("Eroare ParserConfigurationException");
+			ErrorMessage.show("Eroare ParserConfigurationException", false);
 			e.printStackTrace();
 		}
 
@@ -281,6 +433,7 @@ public class LayoutParser {
 	 */
 	private GenericTreeNode<LayoutParserTreeElement> parseXMLRow(
 			Match currentMatch) {
+		GenericTreeNode<LayoutParserTreeElement> parentTreeNode = null;
 		int i;
 		int top = -1;
 		int bottom;
@@ -288,6 +441,7 @@ public class LayoutParser {
 		int left;
 
 		// Parsam atributele ca sa nu dea eroare
+
 		if (currentMatch.attr("top") != null) {
 			top = Integer.parseInt(currentMatch.attr("top"));
 		} else {
@@ -311,7 +465,7 @@ public class LayoutParser {
 		} else {
 			right = -1;
 		}
-
+		
 		// Suntem in frunza
 		if (currentMatch.children().size() == 0) {
 			LayoutParserTreeElement new_element = new LayoutParserTreeElement(
@@ -324,9 +478,10 @@ public class LayoutParser {
 		LayoutParserTreeElement rootElement = new LayoutParserTreeElement(
 				currentMatch.tag(), currentMatch.content(), top, bottom, right,
 				left, currentMatch.attr("image"));
-		GenericTreeNode<LayoutParserTreeElement> parentTreeNode = new GenericTreeNode<LayoutParserTreeElement>(
+		 parentTreeNode = new GenericTreeNode<LayoutParserTreeElement>(
 				rootElement);
 
+    		 
 		// Parsam copiii
 		for (i = 0; i < currentMatch.children().size(); i++) {
 			Match textLineElement = currentMatch.child(i);
