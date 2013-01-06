@@ -39,4 +39,12 @@ public class DrawPanel extends JPanel {
 		this.setSize(image.getWidth(this), image.getHeight(this));
 		g.drawImage(image, 0, 0, this);
 	}
+	/**
+	 * Remove element from panel
+	 *  
+	 * @param panel
+	 */
+	public void DeleteElement(GElement panel) {
+		this.remove(panel);
+	}
 }

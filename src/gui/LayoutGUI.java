@@ -60,7 +60,7 @@ public class LayoutGUI extends JFrame {
 	/**
 	 * Panelul in care se deseneaza imaginea.
 	 */
-	private DrawPanel draw;
+	public DrawPanel draw;
 
 	/**
 	 * Scroll pane-ul in care se pun elementele din imagine.

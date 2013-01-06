@@ -39,15 +39,12 @@ public class DeleteElement {
 	 */
 	public void DeleteElement() {
 		
+		// Delete element from XMLTree
 		GenericTreeNode<LayoutParserTreeElement> elementNode = panel.element;
 		gui.layoutParser.XMLTree.delete(elementNode.getData());
-		String type = panel.element.getData().elementType.toString();
-		
-		if (type.compareTo("TextBlock") == 0) {
-			this.gui.loadElements(VisibleElements.S_BLOCK);
-		} else if (type.compareTo("TextLine") == 0) {
-			this.gui.loadElements(VisibleElements.S_LINE);
-		}
+
+		// Delete element from panel
+		gui.draw.DeleteElement(panel);
 		
 	}
 }
