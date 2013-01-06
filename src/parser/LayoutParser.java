@@ -342,6 +342,12 @@ public class LayoutParser {
 				Attr left = doc.createAttribute("left");
 				left.setValue(Integer.toString(childElement.left));
 				child.setAttributeNode(left);
+				
+				if(childElement.hasPage == true){
+					Attr hasPage = doc.createAttribute("type");
+					hasPage.setValue("page_number");
+					child.setAttributeNode(hasPage);
+				}
 
 				// Adauga elementul la arbore
 				currentElement.appendChild(child);
@@ -469,18 +475,27 @@ public class LayoutParser {
 		// Suntem in frunza
 		if (currentMatch.children().size() == 0) {
 			LayoutParserTreeElement new_element = new LayoutParserTreeElement(
-					currentMatch.tag(), currentMatch.content(), top, bottom,
-					right, left, currentMatch.attr("image"));
+				currentMatch.tag(), currentMatch.content(), top, bottom,
+				right, left, currentMatch.attr("image"));
 			return new GenericTreeNode<LayoutParserTreeElement>(new_element);
 		}
 
 		// Cream nod parinte
-		LayoutParserTreeElement rootElement = new LayoutParserTreeElement(
-				currentMatch.tag(), currentMatch.content(), top, bottom, right,
-				left, currentMatch.attr("image"));
-		 parentTreeNode = new GenericTreeNode<LayoutParserTreeElement>(
-				rootElement);
-
+		LayoutParserTreeElement rootElement = null;
+		if(currentMatch.tag().compareTo("ComposedBlock") == 0){
+			if(currentMatch.attr("type").compareTo("page_number") == 0){
+				rootElement = new LayoutParserTreeElement(currentMatch.tag(), true);
+				
+			} else {
+				rootElement = new LayoutParserTreeElement(currentMatch.tag(), false);
+			}	
+		} else {
+			rootElement = new LayoutParserTreeElement(
+                				currentMatch.tag(), currentMatch.content(), top, bottom, right,
+                				left, currentMatch.attr("image"));
+    		 
+		}
+		parentTreeNode = new GenericTreeNode<LayoutParserTreeElement>(rootElement);
     		 
 		// Parsam copiii
 		for (i = 0; i < currentMatch.children().size(); i++) {
