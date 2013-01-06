@@ -173,7 +173,7 @@ public class TextActions {
 				i--;
 
 			} else {
-				deleteText(children.get(i), 0);
+				deleteText(children.get(i), 1);
 			}
 		}
 	}
