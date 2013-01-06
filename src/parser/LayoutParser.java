@@ -19,8 +19,13 @@ package parser;
 
 import static org.joox.JOOX.$;
 
+import java.awt.FileDialog;
+import java.awt.Frame;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -30,6 +35,7 @@ import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -38,6 +44,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import layout.ErrorMessage;
 
 import org.joox.Match;
 import org.w3c.dom.Attr;
@@ -102,8 +110,7 @@ public class LayoutParser {
     	try {
     	    docBuilder = docFactory.newDocumentBuilder();
     	} catch (ParserConfigurationException e) {
-    	    System.out
-    		    .println("EROARE: A fost o eroare cand a fost creat documentul");
+    		ErrorMessage.show("EROARE: A fost o eroare cand a fost creat documentul", false);
     	    e.printStackTrace();
     	}
     
@@ -139,6 +146,69 @@ public class LayoutParser {
     
     	return result_xml;
     }
+    
+    
+	public void saveXML(){  
+		String fileName = getSavedFileName();
+		
+		if(fileName == null){
+			return;
+		}
+		
+		FileWriter fstream = null;
+		try {
+			fstream = new FileWriter(fileName);
+		} catch (IOException e1) {
+			ErrorMessage.show("Eroare cand a fost deschis stream-ul de scriere");
+			e1.printStackTrace();
+		}
+		
+		BufferedWriter out = new BufferedWriter(fstream);
+		
+		try {
+			out.write(constructXml());
+		} catch (IOException e1) {
+			ErrorMessage.show("Eroare cand a fost scris fisierul de modificari", false);
+			e1.printStackTrace();
+		} catch (TransformerException e1) {
+			ErrorMessage.show("Eroare in momentul construirii XML-ului de output", false);
+			e1.printStackTrace();
+		}
+		
+		// Inchide fisierul de output
+		try {
+			out.close();
+		} catch (IOException e1) {
+			ErrorMessage.show("Eroare cand a fost inchis stream-ul de scriere");
+			e1.printStackTrace();
+		}
+
+		JOptionPane.showMessageDialog(null, "Modificarile au fost salvate cu succes!");
+	}
+	
+	/**
+	 * 
+	 * Afiseaza un dialog de salvare
+	 * 
+	 * @return Calea absoluta catre fisierul in care se va salva XML-ul
+	 */
+	private String getSavedFileName() {
+		FileDialog fileDialog = new FileDialog(new Frame(), "Save", FileDialog.SAVE);
+        fileDialog.setFilenameFilter(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".xml");
+            }
+        });
+        
+        fileDialog.setFile("untitled.xml");
+        fileDialog.setVisible(true);
+        
+        if(fileDialog.getFile() == null){
+        	return null;
+        } else {
+            return (fileDialog.getDirectory() + fileDialog.getFile());	
+        }
+	}
 	
 	/**
 	 * Parseaza arborele dat ca parametru si construieste XML-ul de layout din
