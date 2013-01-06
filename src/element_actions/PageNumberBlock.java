@@ -1,70 +1,76 @@
 package element_actions;
 
-import java.lang.annotation.ElementType;
-import java.util.List;
-
 import gui.GElement;
 import parser.LayoutParser;
 import parser.LayoutParserTreeElement;
 import tree.GenericTreeNode;
+
 /**
- * Create and add to XML tree new GenericTreeNode containing a ComposedBlock type LayoutParserTreeElement
+ * Create and add to XML tree new GenericTreeNode containing a ComposedBlock
+ * type LayoutParserTreeElement
  * 
  * @author Unknown-Revengers
- *
+ * 
  */
 public class PageNumberBlock {
-	
-	private final GElement panel;
 
-	private final LayoutParser layoutParser;
+	private GElement panel;
+
+	private LayoutParser layoutParser;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param GElement panel
-	 * @param LayoutParser lp
+	 * @param GElement
+	 *            panel
+	 * @param LayoutParser
+	 *            lp
 	 */
 	public PageNumberBlock(GElement panel, LayoutParser lp) {
 		this.panel = panel;
 		this.layoutParser = lp;
-		
+
 		this.addComposedBlock();
-		
+
 	}
+
 	/**
-	 * Create and add to XMLTree a new GenericTreeNode<LayoutParserTreeElement> 
+	 * Create and add to XMLTree a new GenericTreeNode<LayoutParserTreeElement>
 	 * 
 	 * @return void
 	 */
 	public void addComposedBlock() {
-		
-		GenericTreeNode<LayoutParserTreeElement> elementNode = panel.element;
-		LayoutParserTreeElement element = elementNode.getData();
 
-		String elementText = "";
-		
-		switch(element.elementType.toString()) {
-		case "TextBlock" :
-			elementText = element.text;
-			break;
-		case "TextLine" :
-			GenericTreeNode<LayoutParserTreeElement> parent = elementNode.getParent();
-			elementText =  parent.getData().text;
-			
+		GenericTreeNode<LayoutParserTreeElement> element = panel.element;
+		LayoutParserTreeElement elementData = element.getData();
+
+		// Get parent element for elementNode.
+		GenericTreeNode<LayoutParserTreeElement> parent = element
+				.getParent();
+
+		// Create ComposedBlock element.
+		LayoutParserTreeElement composedElement = new LayoutParserTreeElement();
+		composedElement.elementType = LayoutParserTreeElement.ElementType.COMPOSEDBLOCK;
+		composedElement.top = elementData.top;
+		composedElement.bottom = elementData.bottom;
+		composedElement.right = elementData.right;
+		composedElement.left = elementData.left;
+		composedElement.page = true;
+
+		// Creade new GenericTreeNode with composedElement data
+		GenericTreeNode<LayoutParserTreeElement> composedBlock = new GenericTreeNode<LayoutParserTreeElement>(
+				composedElement);
+
+		// Add element to composedBlock's children.
+		composedBlock.addChild(element);
+
+		// Add composedBlock as child for parent and remove element.
+		for (int i = 0; i < parent.getNumberOfChildren(); i++) {
+			if (parent.getChildAt(i) == element) {
+				parent.removeChildAt(i);
+				parent.addChildAt(i, composedBlock);
+				break;
+			}
 		}
-		
-		// Create content string of new LayoutParserTreeElement
-		String composedBlockText = "<ComposedBlock type=\"page_number\">" + "<TextBlock top=\"" + element.top + "\" " + "right=\""+ element.right
-				+ "\" " + "left=\""+ element.left + "\" " + "bottom=\""+ element.bottom + "\"/>" + elementText + "</TextBlock>" + "</ComposedBlock>";
-		LayoutParserTreeElement newElement = new LayoutParserTreeElement("ComposedBlock", composedBlockText, element.top, element.bottom,element.right, element.left,element.image);
-		
-		// Creade new GenericTreeNode with newElement data
-		GenericTreeNode<LayoutParserTreeElement> composedBlock = new GenericTreeNode<LayoutParserTreeElement>(newElement);
-		
-		// Add new composedVBlock GenericTreeNode to root
-		GenericTreeNode<LayoutParserTreeElement> root = layoutParser.XMLTree.getRoot();
-		root.addChild(composedBlock);
-			
 	}
 }
