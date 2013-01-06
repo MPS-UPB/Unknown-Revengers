@@ -332,6 +332,8 @@ public class LayoutGUI extends JFrame {
 				this.getMaximizedBounds().height - 70, 90, 23);
 		// Adauga listener pentru buton de numerotare pagina.
 		btnSalveaza.addActionListener(new SalveazaButtonListener(layoutParser));
+		
+		
 		getContentPane().add(btnSalveaza);
 	}
 }
