@@ -324,7 +324,7 @@ public class LayoutGUI extends JFrame {
 		btnNumeroteaza.setBounds(this.getMaximizedBounds().width - 290,
 				this.getMaximizedBounds().height - 70, 170, 23);
 		// Adauga listener pentru buton de numerotare pagina.
-		btnNumeroteaza.addActionListener(new NumeroteazaButtonListener());
+		btnNumeroteaza.addActionListener(new NumeroteazaButtonListener(this));
 		getContentPane().add(btnNumeroteaza);
 
 		JButton btnSalveaza = new JButton("Salveaza");
