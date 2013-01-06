@@ -309,11 +309,15 @@ public class LayoutParser {
 				child = doc.createElement(childElement.toString());
 				child.appendChild(doc.createTextNode(childElement.text
 						.toString()));
-				currentElement.appendChild(child);
+				
+			} else if(childElement.text.isEmpty() == true && 
+					  childElement.toString().compareTo("String") == 0) {
+				
+				child = doc.createElement(childElement.toString());
 			} else {
 				// Creaza elementul
 				child = doc.createElement(childElement.toString());
-
+				
 				// Adauga atributele
 				Attr bottom = doc.createAttribute("bottom");
 				bottom.setValue(Integer.toString(childElement.bottom));
@@ -332,6 +336,8 @@ public class LayoutParser {
 				currentElement.appendChild(child);
 			}
 
+			currentElement.appendChild(child);
+			
 			// Merge mai jos in arbore
 			addElements(doc, child, childNode);
 		}
@@ -416,6 +422,7 @@ public class LayoutParser {
 	 */
 	private GenericTreeNode<LayoutParserTreeElement> parseXMLRow(
 			Match currentMatch) {
+		GenericTreeNode<LayoutParserTreeElement> parentTreeNode = null;
 		int i;
 		int top = -1;
 		int bottom;
@@ -423,6 +430,7 @@ public class LayoutParser {
 		int left;
 
 		// Parsam atributele ca sa nu dea eroare
+
 		if (currentMatch.attr("top") != null) {
 			top = Integer.parseInt(currentMatch.attr("top"));
 		} else {
@@ -446,7 +454,7 @@ public class LayoutParser {
 		} else {
 			right = -1;
 		}
-
+		
 		// Suntem in frunza
 		if (currentMatch.children().size() == 0) {
 			LayoutParserTreeElement new_element = new LayoutParserTreeElement(
@@ -459,9 +467,10 @@ public class LayoutParser {
 		LayoutParserTreeElement rootElement = new LayoutParserTreeElement(
 				currentMatch.tag(), currentMatch.content(), top, bottom, right,
 				left, currentMatch.attr("image"));
-		GenericTreeNode<LayoutParserTreeElement> parentTreeNode = new GenericTreeNode<LayoutParserTreeElement>(
+		 parentTreeNode = new GenericTreeNode<LayoutParserTreeElement>(
 				rootElement);
 
+    		 
 		// Parsam copiii
 		for (i = 0; i < currentMatch.children().size(); i++) {
 			Match textLineElement = currentMatch.child(i);
