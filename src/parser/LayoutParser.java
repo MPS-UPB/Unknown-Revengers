@@ -147,12 +147,17 @@ public class LayoutParser {
     	return result_xml;
     }
     
-    
-	public void saveXML(){  
+    /**
+     * 
+     * Salveaza XML-ul intr-un fisier printr-un dialog box
+     * 
+     * @return Calea catre fisier daca fisierul a fost salvat cu succes, sau null contrar
+     */
+	public String saveXML(){  
 		String fileName = getSavedFileName();
 		
 		if(fileName == null){
-			return;
+			return null;
 		}
 		
 		FileWriter fstream = null;
@@ -161,6 +166,7 @@ public class LayoutParser {
 		} catch (IOException e1) {
 			ErrorMessage.show("Eroare cand a fost deschis stream-ul de scriere");
 			e1.printStackTrace();
+			return null;
 		}
 		
 		BufferedWriter out = new BufferedWriter(fstream);
@@ -170,20 +176,25 @@ public class LayoutParser {
 		} catch (IOException e1) {
 			ErrorMessage.show("Eroare cand a fost scris fisierul de modificari", false);
 			e1.printStackTrace();
+			return null;
 		} catch (TransformerException e1) {
 			ErrorMessage.show("Eroare in momentul construirii XML-ului de output", false);
 			e1.printStackTrace();
+			return null;
 		}
 		
 		// Inchide fisierul de output
 		try {
 			out.close();
 		} catch (IOException e1) {
-			ErrorMessage.show("Eroare cand a fost inchis stream-ul de scriere");
+			ErrorMessage.show("Eroare cand a fost inchis stream-ul de scriere", false);
 			e1.printStackTrace();
+			return null;
 		}
 
 		JOptionPane.showMessageDialog(null, "Modificarile au fost salvate cu succes!");
+		
+		return fileName;
 	}
 	
 	/**
