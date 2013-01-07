@@ -1,4 +1,5 @@
 package gui;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -20,7 +21,8 @@ public class DrawPanel extends JPanel {
 	/**
 	 * Constructor pentru zona de desenat.
 	 * 
-	 * @param image Image
+	 * @param image
+	 *            Image
 	 * 
 	 * @return void
 	 */
@@ -32,23 +34,26 @@ public class DrawPanel extends JPanel {
 	/**
 	 * Deseneaza imaginea in zona de desenat.
 	 * 
-	 * @param g Graphics
+	 * @param g
+	 *            Graphics
 	 * 
 	 * @return void
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
-		if(drawImageStatus == true) {
-    		this.setSize(image.getWidth(this), image.getHeight(this));
-    		g.drawImage(image, 0, 0, this);
+		this.setSize(image.getWidth(this), image.getHeight(this));
+
+		if (drawImageStatus == true) {
+			g.drawImage(image, 0, 0, this);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * Afiseaza sau ascunde imaginea de background
 	 * 
-	 * @param newStatus Daca e true afiseaza imaginea, daca e false o sterge
+	 * @param newStatus
+	 *            Daca e true afiseaza imaginea, daca e false o sterge
 	 */
 	public void changeImageDrawingStatus(boolean newStatus) {
 		this.drawImageStatus = newStatus;

@@ -1,10 +1,8 @@
 package elements_actions;
 
-import gui.GElement;
 import gui.LayoutGUI;
 import gui.VisibleElements;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -35,22 +33,6 @@ public class ComponentComboListener implements ActionListener {
 		} else if (component.compareTo(VisibleElements.S_LINE.toString()) == 0) {
 			this.gui.loadElements(VisibleElements.S_LINE);
 		}
-		
-		Component[] gList = gui.getDraw().getComponents();	
-		for (int i = 0; i < gList.length; i++) {
-			GElement gElem = (GElement) gList[i];
-			
-			if(gui.visCombo.getSelectedItem().toString() == "Image"){
-				gElem.setTextAreaVisible(false);
-			} else {
-				if(gElem.elementType.toString().compareTo(gui.visibleElements.toString()) != 0){
-					gElem.setTextAreaVisible(false);
-				} else {
-					gElem.setTextAreaVisible(true);
-				}
-			}		
-		}
-		
 	}
 
 }
