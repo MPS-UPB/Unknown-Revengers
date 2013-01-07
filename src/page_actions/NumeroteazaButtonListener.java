@@ -48,7 +48,9 @@ public class NumeroteazaButtonListener implements ActionListener {
 					 * Save changes first and make file as input for the
 					 * analyzer.
 					 */
-					String analyzerInput = gui.layoutParser.saveXML();
+					String analyzerInput = gui.layoutParser.saveXML(false);
+					System.out.println("============================");
+					System.out.println(analyzerInput);
 					selectedAnalyzer.setInput(analyzerInput);
 
 					String noPath = selectedAnalyzer.analyzeXML();

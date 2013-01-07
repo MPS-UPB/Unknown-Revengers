@@ -37,6 +37,6 @@ public class SalveazaButtonListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		layoutParser.saveXML();
+		layoutParser.saveXML(true);
 	}
 }
