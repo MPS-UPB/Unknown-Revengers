@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JScrollPane;
+import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 /**
@@ -24,7 +24,7 @@ public class BlockMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		((JScrollPane) e.getSource()).setBorder(new LineBorder(Color.BLUE));
+		((JPanel) e.getSource()).setBorder(new LineBorder(Color.BLUE));
 	}
 
 	/**
@@ -39,18 +39,18 @@ public class BlockMouseListener implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// Elementul nu este selectat => selecteaza.
-		if (((JScrollPane) e.getSource()).getToolTipText() == null
-				|| ((JScrollPane) e.getSource()).getToolTipText().compareTo(
+		if (((JPanel) e.getSource()).getToolTipText() == null
+				|| ((JPanel) e.getSource()).getToolTipText().compareTo(
 						"selected") != 0) {
-			((JScrollPane) e.getSource())
+			((JPanel) e.getSource())
 					.setBorder(new LineBorder(Color.YELLOW));
-			((JScrollPane) e.getSource()).setToolTipText("selected");
+			((JPanel) e.getSource()).setToolTipText("selected");
 		}
 		// Elementul este selectat => deselecteaza.
 		else {
-			((JScrollPane) e.getSource())
+			((JPanel) e.getSource())
 					.setBorder(new LineBorder(Color.GREEN));
-			((JScrollPane) e.getSource()).setToolTipText("");
+			((JPanel) e.getSource()).setToolTipText("");
 		}
 
 		if (e.isPopupTrigger()) {
@@ -70,15 +70,15 @@ public class BlockMouseListener implements MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// Elementul nu este selectat.
-		if (((JScrollPane) e.getSource()).getToolTipText() == null
-				|| ((JScrollPane) e.getSource()).getToolTipText().compareTo(
+		if (((JPanel) e.getSource()).getToolTipText() == null
+				|| ((JPanel) e.getSource()).getToolTipText().compareTo(
 						"selected") != 0) {
-			((JScrollPane) e.getSource())
+			((JPanel) e.getSource())
 					.setBorder(new LineBorder(Color.GREEN));
 		}
 		// Elementul este selectat.
 		else {
-			((JScrollPane) e.getSource())
+			((JPanel) e.getSource())
 					.setBorder(new LineBorder(Color.YELLOW));
 		}
 	}
