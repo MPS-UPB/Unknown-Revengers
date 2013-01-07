@@ -239,10 +239,13 @@ public class LayoutGUI extends JFrame {
 				popupMenu.add(splitItemV);
 
 				// Marcheaza blocul de text ca fiind numar pagina.
-				JMenuItem paginaItem = new JMenuItem(
-						ElementActions.S_PAGE.toString());
-				paginaItem.addActionListener(actionListener);
-				popupMenu.add(paginaItem);
+				if (panel.element.getData().elementType.toString().compareTo(
+						"TextBlock") == 0) {
+					JMenuItem paginaItem = new JMenuItem(
+							ElementActions.S_PAGE.toString());
+					paginaItem.addActionListener(actionListener);
+					popupMenu.add(paginaItem);
+				}
 
 				// Marcheaza blocul de text ca fiind numar pagina.
 				JMenuItem deleteItem = new JMenuItem(
@@ -324,7 +327,7 @@ public class LayoutGUI extends JFrame {
 		btnNumeroteaza.setBounds(this.getMaximizedBounds().width - 290,
 				this.getMaximizedBounds().height - 70, 170, 23);
 		// Adauga listener pentru buton de numerotare pagina.
-		btnNumeroteaza.addActionListener(new NumeroteazaButtonListener());
+		btnNumeroteaza.addActionListener(new NumeroteazaButtonListener(this));
 		getContentPane().add(btnNumeroteaza);
 
 		JButton btnSalveaza = new JButton("Salveaza");
@@ -332,8 +335,7 @@ public class LayoutGUI extends JFrame {
 				this.getMaximizedBounds().height - 70, 90, 23);
 		// Adauga listener pentru buton de numerotare pagina.
 		btnSalveaza.addActionListener(new SalveazaButtonListener(layoutParser));
-		
-		
+
 		getContentPane().add(btnSalveaza);
 	}
 }
