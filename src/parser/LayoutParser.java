@@ -184,7 +184,7 @@ public class LayoutParser {
 		} else {
 			try {
 				tempFile = File.createTempFile("temp",".xml");
-				fileName = tempFile.getName();
+				fileName = tempFile.getAbsolutePath();
 				
 				fstream = new FileWriter(tempFile);
 			} catch (IOException e) {
