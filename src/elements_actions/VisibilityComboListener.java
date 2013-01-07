@@ -25,15 +25,43 @@ public class VisibilityComboListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		@SuppressWarnings("rawtypes")
-		JComboBox cb = (JComboBox) e.getSource();
+		JComboBox cb 	 = (JComboBox) e.getSource();
 		String component = (String) cb.getSelectedItem();
 		
+		// Afiseaza elementele conform selectiei: litere, randuri, blocuri
+		this.gui.loadElements(this.gui.visibleElements);
+		
+		Component[] gList = gui.getDraw().getComponents();	
+		for (int i = 0; i < gList.length; i++) {
+			GElement gElem = (GElement) gList[i];
+			
+			if(gui.visCombo.getSelectedItem().toString() == "Image"){
+				gElem.setTextAreaVisible(false);
+			} else {
+				if(gElem.elementType.toString().compareTo(gui.visibleElements.toString()) != 0){
+					gElem.setTextAreaVisible(false);
+				} else {
+					gElem.setTextAreaVisible(true);
+				}
+			}
+			
+			gui.getDraw().repaint();
+		}	
+		
+		/*
 		// Afiseaza sau ascunde fiecare TextArea apartinand GElement
 		Component[] gList = gui.getDraw().getComponents();	
 		for (int i = 0; i < gList.length; i++) {
 			GElement gElem = (GElement) gList[i];
-			gElem.toggleTextAreaVisible();		
+			
+			if(component.compareTo("Image") == 0){
+				gElem.setTextAreaVisible(false);
+			} else {
+				gElem.setTextAreaVisible(true);
+			}		
 		}
+		*/
+		
 		
 		// Afiseaza sau ascunde imaginea de background
 		if(component.compareTo("Image") == 0) {

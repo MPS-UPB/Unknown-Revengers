@@ -16,9 +16,11 @@ public class GElement extends JScrollPane {
 
 	public JTextArea textArea;
 	public GenericTreeNode<LayoutParserTreeElement> element;
+	public VisibleElements elementType;
 
-	public GElement(GenericTreeNode<LayoutParserTreeElement> element) {
+	public GElement(GenericTreeNode<LayoutParserTreeElement> element, VisibleElements elementType) {
 		this.element = element;
+		this.elementType = elementType;
 
 		// Make it transparent.
 		this.setOpaque(false);
@@ -31,6 +33,13 @@ public class GElement extends JScrollPane {
 		this.addMouseListener(new BlockMouseListener());
 	}
 	
+	public void removeExistingPanel(){
+		if(this.textArea != null){
+			this.removeAll();
+			this.textArea.setVisible(false);
+		}
+	}
+	
 	/**
 	 * 
 	 * Seteaza un TextArea pentru elementul curent
@@ -38,18 +47,26 @@ public class GElement extends JScrollPane {
 	 * @param height
 	 * @param width
 	 */
-	public void setTextArea(int height, int width) {
-		textArea = new JTextArea();
-		
+	public void setTextArea(int height, int width, boolean visible) {
+		boolean alreadyExisted = true;
+		if(textArea == null){
+			textArea = new JTextArea();
+			alreadyExisted = false;
+		}
+
 		textArea.setBounds(0,0, width, height);
-		textArea.setVisible(false);
 		textArea.setBorder(BorderFactory.createLineBorder(Color.red));  
 		textArea.setLineWrap(true);  
 		
+		textArea.setVisible(visible);
+		
 		textArea.setText(TextActions.getText(element));
 		textArea.setOpaque(false);
+		textArea.setFocusable(false);
+		textArea.setEditable(false);
 		
-		this.add(textArea);
+		if(alreadyExisted == false)
+			this.add(textArea);
 	}
 	
 	/**
@@ -62,5 +79,18 @@ public class GElement extends JScrollPane {
 			textArea.setVisible(false);
 		else
 			textArea.setVisible(true);
+	}
+	
+	/**
+	 * 
+	 * Modifica vizibilitatea si existenta TextArea-ului 
+	 * asociat GElement-ului
+	 * 
+	 * @param visible
+	 */
+	public void setTextAreaVisible(boolean visible) {
+		textArea.removeAll();
+		textArea.setVisible(visible);
+		textArea.repaint();
 	}
 }

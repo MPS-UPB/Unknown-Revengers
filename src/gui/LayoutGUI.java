@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
@@ -69,6 +70,9 @@ public class LayoutGUI extends JFrame {
 	private JScrollPane scrollPane;
 
 	public VisibleElements visibleElements;
+	//public ComponentComboListener componentCombo;
+	public JComboBox comboElements;
+	public JComboBox visCombo;
 
 	/**
 	 * Constructor.
@@ -188,6 +192,7 @@ public class LayoutGUI extends JFrame {
 		this.visibleElements = type;
 
 		// Remove all drawed elements.
+		removeAllTextAreas();
 		draw.removeAll();
 
 		List<GenericTreeNode<LayoutParserTreeElement>> list = this.layoutParser.XMLTree
@@ -201,7 +206,7 @@ public class LayoutGUI extends JFrame {
 			// Check if element is of selected type.
 			if (e.elementType == type.toType()) {
 
-				GElement panel = new GElement(list.get(i));
+				GElement panel = new GElement(list.get(i), this.visibleElements);
 
 				// Set height and width so that the element is visible..
 				int width = e.right - e.left > 1 ? e.right - e.left : 3;
@@ -216,7 +221,12 @@ public class LayoutGUI extends JFrame {
 				}
 
 				// Sets the text area for the GElement
-				panel.setTextArea(height, width);
+				panel.removeAll();
+				
+				if(visCombo.getSelectedItem().toString() == "Image")
+					panel.setTextArea(height, width, false);
+				else
+					panel.setTextArea(height, width, true);
 				
 				// Draw panel
 				draw.add(panel);
@@ -276,7 +286,7 @@ public class LayoutGUI extends JFrame {
 			}
 		}
 	}
-
+	
 	/**
 	 * TODO Adauga filtre pentru selectia elementelor din imagine.
 	 */
@@ -292,7 +302,7 @@ public class LayoutGUI extends JFrame {
 		 * schimbe si ceea ce este afisat peste imagine (litere, randuri sau
 		 * blocuri).
 		 */
-		JComboBox comboElements = new JComboBox();
+		comboElements = new JComboBox();
 		comboElements.setModel(new DefaultComboBoxModel(new String[] {
 				VisibleElements.S_BLOCK.toString(),
 				VisibleElements.S_LINE.toString() }));
@@ -308,7 +318,7 @@ public class LayoutGUI extends JFrame {
 		
 		// Combobox pentru selectarea vizibilitatii imaginii de background vs textul
 		// textul ce se afla scris in JScrollBar-uri
-		JComboBox visCombo = new JComboBox();
+		visCombo = new JComboBox();
 		visCombo.setModel(new DefaultComboBoxModel(new String[] {
 				"Image",
 				"Text" }));
@@ -366,5 +376,19 @@ public class LayoutGUI extends JFrame {
 		btnSalveaza.addActionListener(new SalveazaButtonListener(layoutParser));
 		
 		getContentPane().add(btnSalveaza);
+	}
+	
+	/**
+	 * 
+	 * Sterge separat elementele de tip TextArea
+	 * 
+	 */
+	private void removeAllTextAreas(){
+		Component[] gList = this.draw.getComponents();
+		
+		for (int i = 0; i < gList.length; i++) {
+			GElement gElem = (GElement) gList[i];
+			gElem.setTextAreaVisible(false);
+		}
 	}
 }
