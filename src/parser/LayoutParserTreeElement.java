@@ -102,11 +102,13 @@ public class LayoutParserTreeElement {
 
 	public LayoutParserTreeElement(String tag, boolean hasPage){
 		this.hasPage = hasPage;
+		this.text    = "";
 		setTagType(tag);
 	}
 	
 	public LayoutParserTreeElement(ElementType type) {
 		this.elementType = type;
+		this.text        = "";
 	};
 
 	public LayoutParserTreeElement(String tag, String text) {
