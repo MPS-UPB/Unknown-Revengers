@@ -212,9 +212,10 @@ public class LayoutParserTreeElement {
 		}
 	}
     
-    public LayoutParserTreeElement(ElementType type, String x, String y){
-    	this.elementType = type;
-    	this.text = text;
+    public LayoutParserTreeElement(String tag, String x, String y){
+
+    	setTagType(tag);
+    	this.text = "";
     	this.x = x;
     	this.y = y;
     }
@@ -230,5 +231,20 @@ public class LayoutParserTreeElement {
 		return (this.elementType.toString());
 	}
 
+	/**
+	 * 
+	 * Verifica daca tag-ul curent ar trebui sa aiba atribute de tipul 
+	 * left, right, top, below
+	 * 
+	 * @return Intoarce daca ar trebui sa contina sau nu
+	 */
+	public boolean shouldOutputCoords(){
+		if(this.elementType == ElementType.BLOCK || this.elementType == ElementType.IMAGEBLOCK ||
+		   this.elementType == ElementType.TEXTBLOCK || this.elementType == ElementType.TEXTLINE)
+			return true;
+		else
+			return false;
+	}
+	
 	// TODO metoda pentru a sparge elementul in subelemente.
 }

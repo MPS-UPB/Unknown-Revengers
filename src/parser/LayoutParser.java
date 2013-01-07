@@ -330,7 +330,7 @@ public class LayoutParser {
 				child = doc.createElement(childElement.toString());
 				
 				// Adauga atributele
-				if(childElement.elementType != LayoutParserTreeElement.ElementType.COMPOSEDBLOCK){
+				if(childElement.shouldOutputCoords()) {
     				Attr bottom = doc.createAttribute("bottom");
     				bottom.setValue(Integer.toString(childElement.bottom));
     				child.setAttributeNode(bottom);
@@ -343,8 +343,19 @@ public class LayoutParser {
     				Attr left = doc.createAttribute("left");
     				left.setValue(Integer.toString(childElement.left));
     				child.setAttributeNode(left);
+				} 
+				
+				// Is type point
+				if(childElement.x != null){
+	   				Attr x = doc.createAttribute("x");
+    				x.setValue(childElement.x);
+    				child.setAttributeNode(x);
+    				Attr y = doc.createAttribute("y");
+    				y.setValue(childElement.y);
+    				child.setAttributeNode(y);
 				}
 				
+				// Are atribut hasPage
 				if(childElement.hasPage == true){
 					Attr hasPage = doc.createAttribute("type");
 					hasPage.setValue("page_number");
@@ -474,8 +485,12 @@ public class LayoutParser {
 			right = -1;
 		}
 		
-		// Suntem in frunza
-		if (currentMatch.children().size() == 0) {
+		if (currentMatch.tag() == "Point"){
+			LayoutParserTreeElement new_element = new LayoutParserTreeElement(
+					currentMatch.tag(), currentMatch.attr("x"), currentMatch.attr("y"));
+				return new GenericTreeNode<LayoutParserTreeElement>(new_element);
+		} else if (currentMatch.children().size() == 0) {
+			// Suntem in frunza
 			LayoutParserTreeElement new_element = new LayoutParserTreeElement(
 				currentMatch.tag(), currentMatch.content(), top, bottom,
 				right, left, currentMatch.attr("image"));
@@ -486,8 +501,7 @@ public class LayoutParser {
 		LayoutParserTreeElement rootElement = null;
 		if(currentMatch.tag().compareTo("ComposedBlock") == 0){
 			if(currentMatch.attr("type").compareTo("page_number") == 0){
-				rootElement = new LayoutParserTreeElement(currentMatch.tag(), true);
-				
+				rootElement = new LayoutParserTreeElement(currentMatch.tag(), true);			
 			} else {
 				rootElement = new LayoutParserTreeElement(currentMatch.tag(), false);
 			}	
