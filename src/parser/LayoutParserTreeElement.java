@@ -11,6 +11,8 @@ public class LayoutParserTreeElement {
     public int right;
     String image;
     public String text;
+    public String x;
+    public String y;
 
     /**
      * Enum pentru tipul elementului conform cu specificatiile
@@ -193,8 +195,15 @@ public class LayoutParserTreeElement {
     }
 
     public LayoutParserTreeElement(ElementType type, String text) {
-	this.elementType = type;
-	this.text = text;
+    	this.elementType = type;
+    	this.text = text;
+    }
+    
+    public LayoutParserTreeElement(ElementType type, String x, String y){
+    	this.elementType = type;
+    	this.text = text;
+    	this.x = x;
+    	this.y = y;
     }
 
     // Cum va fi tiparit un nod cand vrem sa-l afisam
