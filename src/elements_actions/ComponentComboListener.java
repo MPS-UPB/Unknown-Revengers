@@ -48,8 +48,7 @@ public class ComponentComboListener implements ActionListener {
 				} else {
 					gElem.setTextAreaVisible(true);
 				}
-			}
-		
+			}		
 		}
 		
 	}

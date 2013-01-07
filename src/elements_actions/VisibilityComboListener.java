@@ -48,21 +48,6 @@ public class VisibilityComboListener implements ActionListener {
 			gui.getDraw().repaint();
 		}	
 		
-		/*
-		// Afiseaza sau ascunde fiecare TextArea apartinand GElement
-		Component[] gList = gui.getDraw().getComponents();	
-		for (int i = 0; i < gList.length; i++) {
-			GElement gElem = (GElement) gList[i];
-			
-			if(component.compareTo("Image") == 0){
-				gElem.setTextAreaVisible(false);
-			} else {
-				gElem.setTextAreaVisible(true);
-			}		
-		}
-		*/
-		
-		
 		// Afiseaza sau ascunde imaginea de background
 		if(component.compareTo("Image") == 0) {
 			gui.getDraw().changeImageDrawingStatus(true);
