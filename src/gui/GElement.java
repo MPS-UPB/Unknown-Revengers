@@ -1,8 +1,11 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
@@ -12,8 +15,9 @@ import parser.TextActions;
 import tree.GenericTreeNode;
 import element_actions.BlockMouseListener;
 
-public class GElement extends JScrollPane {
+public class GElement extends JPanel {
 
+	private JScrollPane scrollPanel;
 	public JTextArea textArea;
 	public GenericTreeNode<LayoutParserTreeElement> element;
 	public VisibleElements elementType;
@@ -24,22 +28,17 @@ public class GElement extends JScrollPane {
 
 		// Make it transparent.
 		this.setOpaque(false);
-		this.getViewport().setOpaque(false);
+
+		// No layout.
+		this.setLayout(null);
 
 		// Set initial border.
 		this.setBorder(new LineBorder(Color.GREEN));
 
-		//
+		// Set mouse listener for block change.
 		this.addMouseListener(new BlockMouseListener());
 	}
-	
-	public void removeExistingPanel(){
-		if(this.textArea != null){
-			this.removeAll();
-			this.textArea.setVisible(false);
-		}
-	}
-	
+
 	/**
 	 * 
 	 * Seteaza un TextArea pentru elementul curent
@@ -47,6 +46,7 @@ public class GElement extends JScrollPane {
 	 * @param height
 	 * @param width
 	 */
+
 	public void setTextArea(int height, int width, boolean visible) {
 		boolean alreadyExisted = true;
 		if(textArea == null){
@@ -68,17 +68,21 @@ public class GElement extends JScrollPane {
 		if(alreadyExisted == false)
 			this.add(textArea);
 	}
-	
+
 	/**
 	 * 
 	 * Seteaza TextArea-ul visibil sau nu
 	 * 
 	 */
 	public void toggleTextAreaVisible() {
-		if(textArea.isVisible())
+		if (textArea.isVisible()) {
 			textArea.setVisible(false);
-		else
+			this.scrollPanel.setVisible(false);
+		} else {
+			textArea.setText(TextActions.getText(element));
+			this.scrollPanel.setVisible(true);
 			textArea.setVisible(true);
+		}
 	}
 	
 	/**
@@ -92,5 +96,17 @@ public class GElement extends JScrollPane {
 		textArea.removeAll();
 		textArea.setVisible(visible);
 		textArea.repaint();
+	}
+	
+	/**
+	 * 
+	 * Sterge textArea-ul din panel
+	 * 
+	 */
+	public void removeExistingPanel(){
+		if(this.textArea != null){
+			this.removeAll();
+			this.textArea.setVisible(false);
+		}
 	}
 }
