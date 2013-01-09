@@ -58,4 +58,12 @@ public class DrawPanel extends JPanel {
 	public void changeImageDrawingStatus(boolean newStatus) {
 		this.drawImageStatus = newStatus;
 	}
+	/**
+	 * Remove element from panel
+	 *  
+	 * @param panel
+	 */
+	public void DeleteElement(GElement panel) {
+		this.remove(panel);
+	}
 }
