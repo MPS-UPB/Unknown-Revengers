@@ -92,6 +92,11 @@ public class PopupItemListener implements ActionListener {
 			if (response == JOptionPane.YES_OPTION) {
 				new DeleteElement(panel, gui);
 			}
+		}else if (action.compareTo(ElementActions.S_FRONT.toString()) == 0) {
+			new FrontBack(panel, gui, "FRONT");
+		}else if (action.compareTo(ElementActions.S_BACK.toString()) == 0) {
+			new FrontBack(panel, gui, "BACK");
 		}
+		
 	}
 }
