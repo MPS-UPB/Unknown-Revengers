@@ -21,6 +21,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import layout.ErrorMessage;
 import page_actions.NumeroteazaButtonListener;
 import page_actions.SalveazaButtonListener;
 import parser.Direction;
@@ -81,8 +82,12 @@ public class LayoutGUI extends JFrame {
 
 		// Incarca imaginea in fereastra. Trebuie luata din layoutParser
 		// imaginea.
-		File f = new File(this.layoutParser.imagePath);
-		this.image = ImageIO.read(f);
+		try {
+			File f = new File(this.layoutParser.imagePath);
+			this.image = ImageIO.read(f);
+		} catch (Exception e) {
+			ErrorMessage.show("Invalid input image.");
+		}
 
 		// Initializeaza fereastra.
 		this.initFrame();
@@ -334,7 +339,8 @@ public class LayoutGUI extends JFrame {
 		btnSalveaza.setBounds(this.getMaximizedBounds().width - 110,
 				this.getMaximizedBounds().height - 70, 90, 23);
 		// Adauga listener pentru buton de numerotare pagina.
-		btnSalveaza.addActionListener(new SalveazaButtonListener(this.layoutParser));
+		btnSalveaza.addActionListener(new SalveazaButtonListener(
+				this.layoutParser));
 
 		getContentPane().add(btnSalveaza);
 	}
