@@ -4,8 +4,10 @@ import gui.GElement;
 import gui.LayoutGUI;
 
 /**
- * Bring to Front or Send to back selected element given as parameter in
- * constructor.
+ * <<<<<<< HEAD Bring to Front or Send to back selected element given as
+ * parameter in constructor. ======= Bring to Front or Send to Back selected
+ * element given as parameter in constructor. >>>>>>> branch 'front_back' of
+ * https://github.com/MPS-UPB/Unknown-Revengers.git
  * 
  * @author Unknown-Revengers
  * 
