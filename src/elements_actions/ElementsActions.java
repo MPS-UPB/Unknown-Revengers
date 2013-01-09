@@ -6,11 +6,11 @@ public enum ElementsActions {
 	/**
 	 * @param text
 	 */
-	private ElementsActions(final String text) {
+	private ElementsActions(String text) {
 		this.text = text;
 	}
 
-	private final String text;
+	private String text;
 
 	@Override
 	public String toString() {

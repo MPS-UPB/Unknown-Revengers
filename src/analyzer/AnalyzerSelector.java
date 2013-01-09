@@ -1,4 +1,5 @@
 package analyzer;
+
 /**
  * @author Unknown-Revengers
  */
@@ -33,14 +34,14 @@ import org.w3c.dom.Document;
 
 /**
  * Selecteaza analizatorul de layout dorit.
- *
+ * 
  * @author Unknown-Revengers
  */
 @SuppressWarnings("serial")
 public class AnalyzerSelector extends JFrame {
 
 	/**
-	 *  Lista cu analizatoare disponibile.
+	 * Lista cu analizatoare disponibile.
 	 */
 	private List<Analyzer> aList;
 
@@ -69,19 +70,20 @@ public class AnalyzerSelector extends JFrame {
 	 * Fereastra curenta.
 	 */
 	private JFrame frame = this;
-	
+
 	/**
 	 * Tipul de analizor
 	 */
 	private String type;
+
 	/**
 	 * Constructor.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public AnalyzerSelector( String type) {
-		
-		this.type=type;
-		
+	public AnalyzerSelector(String type) {
+
+		this.type = type;
+
 		// Incarca analizatoare.
 		this.loadAnalyzers();
 
@@ -136,7 +138,14 @@ public class AnalyzerSelector extends JFrame {
 	 * Initializeaza frame-ul curent.
 	 */
 	private void initFrame() {
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// Exit application if "Select layout analyzer" frame is closed.
+		if (this.type.compareTo("layout") == 0) {
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		} else {
+			// Dispose frame for page and OCR analyzers.
+			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		}
+
 		this.setSize(300, 220);
 		this.setVisible(true);
 
@@ -145,9 +154,10 @@ public class AnalyzerSelector extends JFrame {
 
 	/**
 	 * Ia descrierea analizatorului specificat ca parametru.
-	 *
-	 * @param  name   Numele analizatorului.
-	 *
+	 * 
+	 * @param name
+	 *            Numele analizatorului.
+	 * 
 	 * @return String Returneaza descrierea analizatorului.
 	 */
 	private String getDescription(final String name) {
@@ -162,7 +172,7 @@ public class AnalyzerSelector extends JFrame {
 
 	/**
 	 * Listener pentru dropdown.
-	 *
+	 * 
 	 * @author Unknown-Revengers
 	 */
 	class ComboListener implements ActionListener {
@@ -180,7 +190,7 @@ public class AnalyzerSelector extends JFrame {
 
 	/**
 	 * Listener pentru butonul de next.
-	 *
+	 * 
 	 * @author Unknown-Revengers
 	 */
 	class NextListenter implements ActionListener {
@@ -191,7 +201,8 @@ public class AnalyzerSelector extends JFrame {
 					getDescription(execName);
 
 			// Incarca analizator selectat din dropdown.
-			selectedAnalyzer = new Analyzer(execName, description,AnalyzerSelector.this.type);
+			selectedAnalyzer = new Analyzer(execName, description,
+					AnalyzerSelector.this.type);
 
 			synchronized (frame) {
 				frame.notifyAll();
@@ -202,8 +213,8 @@ public class AnalyzerSelector extends JFrame {
 	}
 
 	/**
-	 * Cauta in toate fisierele din folderul cu XSD (Config.exec_schemas)
-	 * si incarca analizatoarele de layout disponibile.
+	 * Cauta in toate fisierele din folderul cu XSD (Config.exec_schemas) si
+	 * incarca analizatoarele de layout disponibile.
 	 */
 	private void loadAnalyzers() {
 		// Lista cu analizatoarele disponibile
@@ -216,10 +227,10 @@ public class AnalyzerSelector extends JFrame {
 		File[] files = directory.listFiles();
 
 		// Parseaza fiecare fisier.
-		for (int i = 0; i < files.length; i++) {
-			if (files[i].isFile()) {
+		for (File file2 : files) {
+			if (file2.isFile()) {
 				String file;
-				file = files[i].getAbsolutePath();
+				file = file2.getAbsolutePath();
 
 				Analyzer a = this.getAnalyzer(file);
 				if (a != null) {
@@ -236,11 +247,12 @@ public class AnalyzerSelector extends JFrame {
 
 	/**
 	 * Parseaza fisierul primit ca parametru.
-	 *
-	 * @param  file   Calea absoluta a fisierului de parsat.
-	 *
-	 * @return mixed  Daca in fisier a fost gasit un analizator atunci
-	 * 				  returneaza Analyzer, altfel returneaza null.
+	 * 
+	 * @param file
+	 *            Calea absoluta a fisierului de parsat.
+	 * 
+	 * @return mixed Daca in fisier a fost gasit un analizator atunci returneaza
+	 *         Analyzer, altfel returneaza null.
 	 */
 	private Analyzer getAnalyzer(final String file) {
 		Document dom = null;
@@ -269,7 +281,8 @@ public class AnalyzerSelector extends JFrame {
 			// Ia nume si valoare daca acestea exista.
 			String name = simpleType.get(i).getAttribute("name");
 			String value = $(simpleType.content(i)).namespace("xs"
-					, "http://www.w3.org/2001/XMLSchema").xpath("//xs:pattern").attr("value");
+					, "http://www.w3.org/2001/XMLSchema").xpath("//xs:pattern")
+					.attr("value");
 
 			// Verifica daca exista name si value.
 			if (name != null && value != null) {
@@ -281,7 +294,7 @@ public class AnalyzerSelector extends JFrame {
 		if (dt.get("execType") != null
 				&& dt.get("execType").compareTo(this.type) == 0) {
 			return new Analyzer(dt.get("execName"),
-					dt.get("execDescription"),this.type);
+					dt.get("execDescription"), this.type);
 		}
 
 		return null;
@@ -289,10 +302,10 @@ public class AnalyzerSelector extends JFrame {
 
 	/**
 	 * Afiseaza o fereastra cu un dropdown, un textbox cu descrierea
-	 * analizatorului si un buton OK pentru a selecta analizatorul
-	 * de layout ce va fi folosit. In momentul in care se seleteaza
-	 * alt analizator se schimba si descrierea.
-	 *
+	 * analizatorului si un buton OK pentru a selecta analizatorul de layout ce
+	 * va fi folosit. In momentul in care se seleteaza alt analizator se schimba
+	 * si descrierea.
+	 * 
 	 * @return Analyzer Analizatorul ce va fi folosit.
 	 * @throws InterruptedException
 	 */
