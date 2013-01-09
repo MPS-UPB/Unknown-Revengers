@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 /**
@@ -38,23 +39,21 @@ public class BlockMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// Elementul nu este selectat => selecteaza.
-		if (((JPanel) e.getSource()).getToolTipText() == null
-				|| ((JPanel) e.getSource()).getToolTipText().compareTo(
-						"selected") != 0) {
-			((JPanel) e.getSource())
-					.setBorder(new LineBorder(Color.YELLOW));
-			((JPanel) e.getSource()).setToolTipText("selected");
-		}
-		// Elementul este selectat => deselecteaza.
-		else {
-			((JPanel) e.getSource())
-					.setBorder(new LineBorder(Color.GREEN));
-			((JPanel) e.getSource()).setToolTipText("");
-		}
-
-		if (e.isPopupTrigger()) {
-			System.out.println("aaa");
+		if (SwingUtilities.isLeftMouseButton(e)) {
+			// Elementul nu este selectat => selecteaza.
+			if (((JPanel) e.getSource()).getToolTipText() == null
+					|| ((JPanel) e.getSource()).getToolTipText().compareTo(
+							"selected") != 0) {
+				((JPanel) e.getSource())
+						.setBorder(new LineBorder(Color.YELLOW));
+				((JPanel) e.getSource()).setToolTipText("selected");
+			}
+			// Elementul este selectat => deselecteaza.
+			else {
+				((JPanel) e.getSource())
+						.setBorder(new LineBorder(Color.GREEN));
+				((JPanel) e.getSource()).setToolTipText("");
+			}
 		}
 	}
 
