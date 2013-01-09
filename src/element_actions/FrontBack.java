@@ -9,7 +9,7 @@ import gui.GElement;
 import gui.LayoutGUI;
 
 /**
- * Bring to Front or Send to back selected element given as parameter in constructor.
+ * Bring to Front or Send to Back selected element given as parameter in constructor.
  * 
  * @author Unknown-Revengers
  *
@@ -53,7 +53,7 @@ public class FrontBack {
 		
 		// List with all ZOrder values in container
 		ArrayList<Integer> listVal = new ArrayList<Integer>();
-		for(int i = 0; i < gui.draw.getComponentCount(); i ++) {
+		for(int i = 0; i < gui.draw.getComponentCount(); i++) {
 			listVal.add(gui.draw.getComponentZOrder(gui.draw.getComponent(i)));
 		}
 		
@@ -62,9 +62,9 @@ public class FrontBack {
 		
 		switch(command) {
 		case "FRONT":
-			this.gui.draw.setComponentZOrder(this.panel, max-1);
+			this.gui.draw.setComponentZOrder(this.panel, max - 1);
 		case "BACK":
-			this.gui.draw.setComponentZOrder(this.panel, min+1);
+			this.gui.draw.setComponentZOrder(this.panel, min + 1);
 		}
 	}
 }

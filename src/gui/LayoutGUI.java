@@ -193,7 +193,9 @@ public class LayoutGUI extends JFrame {
 
 		this.visibleElements = type;
 		
+		// ZOrder index
 		int index = 0;
+		
 		// Remove all drawed elements.
 		draw.removeAll();
 		
