@@ -192,10 +192,13 @@ public class LayoutGUI extends JFrame {
 	public void loadElements(VisibleElements type) {
 
 		this.visibleElements = type;
-
+		
+		// ZOrder index
+		int index = 0;
+		
 		// Remove all drawed elements.
 		draw.removeAll();
-
+		
 		List<GenericTreeNode<LayoutParserTreeElement>> list = this.layoutParser.XMLTree
 				.build(GenericTreeTraversalOrderEnum.PRE_ORDER);
 
@@ -206,7 +209,7 @@ public class LayoutGUI extends JFrame {
 
 			// Check if element is of selected type.
 			if (e.elementType == type.toType()) {
-
+				
 				GElement panel = new GElement(list.get(i));
 
 				// Set height and width so that the element is visible..
@@ -284,13 +287,28 @@ public class LayoutGUI extends JFrame {
 						ElementActions.S_TEXT.toString());
 				textItem.addActionListener(actionListener);
 				popupMenu.add(textItem);
+				
+				// Bring to front.
+				JMenuItem frontItem = new JMenuItem(
+						ElementActions.S_FRONT.toString());
+				frontItem.addActionListener(actionListener);
+				popupMenu.add(frontItem);
+				
+				// Sent to Back.
+				JMenuItem backItem = new JMenuItem(
+						ElementActions.S_BACK.toString());
+				backItem.addActionListener(actionListener);
+				popupMenu.add(backItem);
 
 				// Set popup menu.
 				panel.setComponentPopupMenu(popupMenu);
 				popupMenu.addPopupMenuListener(new PopupListener());
-
+				
 				// Draw panel.
 				draw.add(panel);
+				
+				// Set zOrder for a component
+				draw.setComponentZOrder(panel, index++);
 			}
 		}
 	}
