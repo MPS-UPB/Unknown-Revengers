@@ -21,7 +21,7 @@ public class ComponentComboListener implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 
 		@SuppressWarnings("rawtypes")
 		JComboBox cb = (JComboBox) e.getSource();

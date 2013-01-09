@@ -15,7 +15,7 @@ public class DrawPanel extends JPanel {
 	/**
 	 * Imaginea de analizat.
 	 */
-	private final BufferedImage image;
+	private BufferedImage image;
 	private boolean drawImageStatus;
 
 	/**
@@ -58,9 +58,10 @@ public class DrawPanel extends JPanel {
 	public void changeImageDrawingStatus(boolean newStatus) {
 		this.drawImageStatus = newStatus;
 	}
+
 	/**
 	 * Remove element from panel
-	 *  
+	 * 
 	 * @param panel
 	 */
 	public void DeleteElement(GElement panel) {

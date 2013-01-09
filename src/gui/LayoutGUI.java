@@ -21,6 +21,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import layout.ErrorMessage;
 import page_actions.NumeroteazaButtonListener;
 import page_actions.SalveazaButtonListener;
 import parser.Direction;
@@ -85,8 +86,12 @@ public class LayoutGUI extends JFrame {
 
 		// Incarca imaginea in fereastra. Trebuie luata din layoutParser
 		// imaginea.
-		File f = new File(this.layoutParser.imagePath);
-		this.image = ImageIO.read(f);
+		try {
+			File f = new File(this.layoutParser.imagePath);
+			this.image = ImageIO.read(f);
+		} catch (Exception e) {
+			ErrorMessage.show("Invalid input image.");
+		}
 
 		// Initializeaza fereastra.
 		this.initFrame();
@@ -260,10 +265,13 @@ public class LayoutGUI extends JFrame {
 				popupMenu.add(splitItemV);
 
 				// Marcheaza blocul de text ca fiind numar pagina.
-				JMenuItem paginaItem = new JMenuItem(
-						ElementActions.S_PAGE.toString());
-				paginaItem.addActionListener(actionListener);
-				popupMenu.add(paginaItem);
+				if (panel.element.getData().elementType.toString().compareTo(
+						"TextBlock") == 0) {
+					JMenuItem paginaItem = new JMenuItem(
+							ElementActions.S_PAGE.toString());
+					paginaItem.addActionListener(actionListener);
+					popupMenu.add(paginaItem);
+				}
 
 				// Marcheaza blocul de text ca fiind numar pagina.
 				JMenuItem deleteItem = new JMenuItem(
@@ -320,8 +328,7 @@ public class LayoutGUI extends JFrame {
 		// textul
 		// textul ce se afla scris in JScrollBar-uri
 		visCombo = new JComboBox();
-		visCombo.setModel(new DefaultComboBoxModel(new String[] {
-				"Image",
+		visCombo.setModel(new DefaultComboBoxModel(new String[] { "Image",
 				"Text" }));
 		// Adauga listener pentru combo cu componente.
 		visCombo.addActionListener(new VisibilityComboListener(this));
@@ -367,14 +374,15 @@ public class LayoutGUI extends JFrame {
 				this.getMaximizedBounds().height - 70, 170, 23);
 
 		// Adauga listener pentru buton de numerotare pagina.
-		btnNumeroteaza.addActionListener(new NumeroteazaButtonListener());
+		btnNumeroteaza.addActionListener(new NumeroteazaButtonListener(this));
 		getContentPane().add(btnNumeroteaza);
 
 		JButton btnSalveaza = new JButton("Salveaza");
 		btnSalveaza.setBounds(this.getMaximizedBounds().width - 110,
 				this.getMaximizedBounds().height - 70, 90, 23);
 		// Adauga listener pentru buton de numerotare pagina.
-		btnSalveaza.addActionListener(new SalveazaButtonListener(layoutParser));
+		btnSalveaza.addActionListener(new SalveazaButtonListener(
+				this.layoutParser));
 
 		getContentPane().add(btnSalveaza);
 	}
