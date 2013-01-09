@@ -75,169 +75,195 @@ public class LayoutParser {
 	 *            absoluta.
 	 */
 	public LayoutParser(String xmlPath) {
-		String xmlExample = "";
+
 		this.xmlPath = xmlPath;
+
+		// Parse the input file.
+		this.parse();
+	}
+
+	/**
+	 * Parse the input file and rebuild tree.
+	 * 
+	 * return void
+	 */
+	public void parse() {
+		String xmlExample = "";
 
 		// Citeste continutul XML-ului
 		try {
 			xmlExample = this.readFile(xmlPath);
 		} catch (IOException e) {
-			ErrorMessage.show("EROARE: XML-ul nu a fost citit cum trebuie", false);
+			ErrorMessage.show("EROARE: XML-ul nu a fost citit cum trebuie",
+					false);
 			e.printStackTrace();
 		}
 
 		// Creaza arborele care va tine minte structura paginii
 		this.XMLTree = this.parseXML(xmlExample);
-
-		// System.out.println(this.XMLTree.getRoot().getChildren());
 	}
 
-    /**
-     * Parseaza arborele dat ca parametru si construieste XML-ul de layout din
-     * acesta
-     * 
-     * @return string Returneaza XML-ul rezultat din parsarea arborelui ce va
-     *         contine informatii despre pagina
-     * 
-     * @throws TransformerException
-     */
-    public String constructXml()
-	    throws TransformerException {
-    	String result_xml = null;
-    	DocumentBuilderFactory docFactory = DocumentBuilderFactory
-    		.newInstance();
-    	DocumentBuilder docBuilder = null;
-    	try {
-    	    docBuilder = docFactory.newDocumentBuilder();
-    	} catch (ParserConfigurationException e) {
-    		ErrorMessage.show("EROARE: A fost o eroare cand a fost creat documentul", false);
-    	    e.printStackTrace();
-    	}
-    
-    	// Creaza noul document
-    	Document doc = docBuilder.newDocument();
-    	Element rootElement = doc.createElement(XMLTree.getRoot().toString());
-    
+	/**
+	 * Parseaza arborele dat ca parametru si construieste XML-ul de layout din
+	 * acesta
+	 * 
+	 * @return string Returneaza XML-ul rezultat din parsarea arborelui ce va
+	 *         contine informatii despre pagina
+	 * 
+	 * @throws TransformerException
+	 */
+	public String constructXml() throws TransformerException {
+		String result_xml = null;
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory
+				.newInstance();
+		DocumentBuilder docBuilder = null;
+		try {
+			docBuilder = docFactory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			ErrorMessage.show(
+					"EROARE: A fost o eroare cand a fost creat documentul",
+					false);
+			e.printStackTrace();
+		}
+
+		// Creaza noul document
+		Document doc = docBuilder.newDocument();
+		Element rootElement = doc.createElement(XMLTree.getRoot().toString());
+
 		// Sets the direction attribute
 		Attr directionTag = doc.createAttribute("direction");
 		directionTag.setValue(this.direction.toString().toLowerCase());
 		rootElement.setAttributeNode(directionTag);
-    	
+
 		// Sets the image attribute
 		Attr imageTag = doc.createAttribute("image");
 		imageTag.setValue(getImagePath());
 		rootElement.setAttributeNode(imageTag);
-		
-    	// Adauga radacina arborelui
-    	doc.appendChild(rootElement);
-    
-    	// Parseaza si creaza tot arborele
-    	doc = addElements(doc, rootElement, XMLTree.getRoot());
-    
-    	// Returneaza XML-ul sub forma de String din obiectul de tip DOM
-    	TransformerFactory transformerFactory = TransformerFactory
-    		.newInstance();
-    	Transformer transformer = transformerFactory.newTransformer();
-    	DOMSource source = new DOMSource(doc);
-    	StringWriter sw = new StringWriter();
-    	StreamResult result = new StreamResult(sw);
-    	transformer.transform(source, result);
-    	result_xml = sw.toString();
-    
-    	return result_xml;
-    }
-    
-    /**
-     * 
-     * Salveaza XML-ul intr-un fisier
-     * 
-     * @param withDialog
-     *   Daca e true, XML-ul va fi salvat intr-un fisier ales din dialog
-     *   Daca e false, XML-ul va fi salvat intr-un fisier temporar 
-     * 
-     * @return Calea catre fisier daca fisierul a fost salvat cu succes, sau null contrar
-     * 
-     * @param boolean withDialog
-     *   Daca withDialog este true, fisierul va fi salvat intr-un fisier selectat din dialog
-     *   Daca e false, fisierul va fi salvat intr-un fisier temporar
-     * 
-     */
-	public String saveXML(boolean withDialog){
+
+		// Adauga radacina arborelui
+		doc.appendChild(rootElement);
+
+		// Parseaza si creaza tot arborele
+		doc = addElements(doc, rootElement, XMLTree.getRoot());
+
+		// Returneaza XML-ul sub forma de String din obiectul de tip DOM
+		TransformerFactory transformerFactory = TransformerFactory
+				.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DOMSource source = new DOMSource(doc);
+		StringWriter sw = new StringWriter();
+		StreamResult result = new StreamResult(sw);
+		transformer.transform(source, result);
+		result_xml = sw.toString();
+
+		return result_xml;
+	}
+
+	/**
+	 * 
+	 * Salveaza XML-ul intr-un fisier
+	 * 
+	 * @param withDialog
+	 *            Daca e true, XML-ul va fi salvat intr-un fisier ales din
+	 *            dialog Daca e false, XML-ul va fi salvat intr-un fisier
+	 *            temporar
+	 * 
+	 * @return Calea catre fisier daca fisierul a fost salvat cu succes, sau
+	 *         null contrar
+	 * 
+	 * @param boolean withDialog Daca withDialog este true, fisierul va fi
+	 *        salvat intr-un fisier selectat din dialog Daca e false, fisierul
+	 *        va fi salvat intr-un fisier temporar
+	 * 
+	 */
+	public String saveXML(boolean withDialog) {
 		String fileName = "";
 		FileWriter fstream = null;
 		File tempFile = null;
-		
-		if(withDialog == true){
-    		fileName = getSavedFileName();
-    		
-    		if(fileName == null){
-    			return null;
-    		}
-    		
-    		try {
-    			fstream = new FileWriter(fileName);
-    		} catch (IOException e1) {
-    			ErrorMessage.show("Eroare cand a fost deschis stream-ul de scriere");
-    			e1.printStackTrace();
-    			return null;
-    		}
+
+		if (withDialog == true) {
+			fileName = getSavedFileName();
+
+			if (fileName == null) {
+				return null;
+			}
+
+			try {
+				fstream = new FileWriter(fileName);
+			} catch (IOException e1) {
+				ErrorMessage
+						.show("Eroare cand a fost deschis stream-ul de scriere");
+				e1.printStackTrace();
+				return null;
+			}
 		} else {
 			try {
-				tempFile = File.createTempFile("temp",".xml");
+				tempFile = File.createTempFile("temp", ".xml");
 				fileName = tempFile.getAbsolutePath();
-				
+
 				fstream = new FileWriter(tempFile);
 			} catch (IOException e) {
-				ErrorMessage.show("Eroare cand a fost deschis stream-ul de scriere");
+				ErrorMessage
+						.show("Eroare cand a fost deschis stream-ul de scriere");
 				e.printStackTrace();
 			}
 		}
-		
+
 		boolean result = writeToFile(fstream);
-		
-		if(result == true)
-			JOptionPane.showMessageDialog(null, "Modificarile au fost salvate cu succes!");
-		else
-			JOptionPane.showMessageDialog(null, "A fost o eroare in timpul salvarii. Va rog sa incercati din nou!");
-		
+
+		if (withDialog) {
+			if (result == true) {
+				JOptionPane.showMessageDialog(null,
+						"Modificarile au fost salvate cu succes!");
+			} else {
+				JOptionPane
+						.showMessageDialog(null,
+								"A fost o eroare in timpul salvarii. Va rog sa incercati din nou!");
+			}
+		}
+
 		return fileName;
 	}
-	
+
 	public boolean writeToFile(FileWriter fstream) {
 		BufferedWriter out = new BufferedWriter(fstream);
-		
+
 		try {
 			out.write(constructXml());
 		} catch (IOException e1) {
-			ErrorMessage.show("Eroare cand a fost scris fisierul de modificari", false);
+			ErrorMessage.show(
+					"Eroare cand a fost scris fisierul de modificari", false);
 			e1.printStackTrace();
 			return false;
 		} catch (TransformerException e1) {
-			ErrorMessage.show("Eroare in momentul construirii XML-ului de output", false);
+			ErrorMessage.show(
+					"Eroare in momentul construirii XML-ului de output", false);
 			e1.printStackTrace();
 			return false;
 		}
-		
+
 		// Inchide fisierul de output
 		try {
 			out.close();
 		} catch (IOException e1) {
-			ErrorMessage.show("Eroare cand a fost inchis stream-ul de scriere", false);
+			ErrorMessage.show("Eroare cand a fost inchis stream-ul de scriere",
+					false);
 			e1.printStackTrace();
 			return false;
 		}
-		
+
 		try {
 			out.close();
 		} catch (IOException e) {
-			ErrorMessage.show("Eroare cand a fost inchis stream-ul de scriere", false);
+			ErrorMessage.show("Eroare cand a fost inchis stream-ul de scriere",
+					false);
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * 
 	 * Afiseaza un dialog de salvare
@@ -245,23 +271,25 @@ public class LayoutParser {
 	 * @return Calea absoluta catre fisierul in care se va salva XML-ul
 	 */
 	private String getSavedFileName() {
-		FileDialog fileDialog = new FileDialog(new Frame(), "Save", FileDialog.SAVE);
-        fileDialog.setFilenameFilter(new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".xml");
-            }
-        });
-        
-        fileDialog.setFile("untitled.xml");
-        fileDialog.setVisible(true);
-        
-        if(fileDialog.getFile() == null){
-        	return null;
-        } else {
-            return (fileDialog.getDirectory() + fileDialog.getFile());	
-        }
+		FileDialog fileDialog = new FileDialog(new Frame(), "Save",
+				FileDialog.SAVE);
+		fileDialog.setFilenameFilter(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.endsWith(".xml");
+			}
+		});
+
+		fileDialog.setFile("untitled.xml");
+		fileDialog.setVisible(true);
+
+		if (fileDialog.getFile() == null) {
+			return null;
+		} else {
+			return (fileDialog.getDirectory() + fileDialog.getFile());
+		}
 	}
-	
+
 	/**
 	 * Parseaza arborele dat ca parametru si construieste XML-ul de layout din
 	 * acesta
@@ -284,7 +312,9 @@ public class LayoutParser {
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			ErrorMessage.show("EROARE: A fost o eroare cand a fost creat documentul", false);
+			ErrorMessage.show(
+					"EROARE: A fost o eroare cand a fost creat documentul",
+					false);
 			e.printStackTrace();
 		}
 
@@ -296,12 +326,12 @@ public class LayoutParser {
 		Attr imageTag = doc.createAttribute("image");
 		imageTag.setValue(getImagePath());
 		rootElement.setAttributeNode(imageTag);
-		
+
 		// Sets the direction attribute
 		Attr directionTag = doc.createAttribute("direction");
 		directionTag.setValue(this.direction.toString());
 		rootElement.setAttributeNode(directionTag);
-		
+
 		// Adauga radacina arborelui
 		doc.appendChild(rootElement);
 
@@ -354,50 +384,50 @@ public class LayoutParser {
 		while (it.hasNext()) {
 			GenericTreeNode<LayoutParserTreeElement> childNode = it.next();
 			LayoutParserTreeElement childElement = childNode.getData();
-			
-			if (childElement.text.isEmpty() == false &&
-					 childElement.toString().compareTo("String") == 0) {
+
+			if (childElement.text.isEmpty() == false
+					&& childElement.toString().compareTo("String") == 0) {
 				// Este frunza
 				child = doc.createElement(childElement.toString());
 				child.appendChild(doc.createTextNode(childElement.text
 						.toString()));
-				
-			} else if(childElement.text.isEmpty() == true && 
-					  childElement.toString().compareTo("String") == 0) {
-				
+
+			} else if (childElement.text.isEmpty() == true
+					&& childElement.toString().compareTo("String") == 0) {
+
 				child = doc.createElement(childElement.toString());
 			} else {
 				// Creaza elementul
 				child = doc.createElement(childElement.toString());
-				
+
 				// Adauga atributele
-				if(childElement.shouldOutputCoords()) {
-    				Attr bottom = doc.createAttribute("bottom");
-    				bottom.setValue(Integer.toString(childElement.bottom));
-    				child.setAttributeNode(bottom);
-    				Attr top = doc.createAttribute("top");
-    				top.setValue(Integer.toString(childElement.top));
-    				child.setAttributeNode(top);
-    				Attr right = doc.createAttribute("right");
-    				right.setValue(Integer.toString(childElement.right));
-    				child.setAttributeNode(right);
-    				Attr left = doc.createAttribute("left");
-    				left.setValue(Integer.toString(childElement.left));
-    				child.setAttributeNode(left);
-				} 
-				
-				// Is type point
-				if(childElement.x != null){
-	   				Attr x = doc.createAttribute("x");
-    				x.setValue(childElement.x);
-    				child.setAttributeNode(x);
-    				Attr y = doc.createAttribute("y");
-    				y.setValue(childElement.y);
-    				child.setAttributeNode(y);
+				if (childElement.shouldOutputCoords()) {
+					Attr bottom = doc.createAttribute("bottom");
+					bottom.setValue(Integer.toString(childElement.bottom));
+					child.setAttributeNode(bottom);
+					Attr top = doc.createAttribute("top");
+					top.setValue(Integer.toString(childElement.top));
+					child.setAttributeNode(top);
+					Attr right = doc.createAttribute("right");
+					right.setValue(Integer.toString(childElement.right));
+					child.setAttributeNode(right);
+					Attr left = doc.createAttribute("left");
+					left.setValue(Integer.toString(childElement.left));
+					child.setAttributeNode(left);
 				}
-				
+
+				// Is type point
+				if (childElement.x != null) {
+					Attr x = doc.createAttribute("x");
+					x.setValue(childElement.x);
+					child.setAttributeNode(x);
+					Attr y = doc.createAttribute("y");
+					y.setValue(childElement.y);
+					child.setAttributeNode(y);
+				}
+
 				// Are atribut hasPage
-				if(childElement.hasPage == true){
+				if (childElement.hasPage == true) {
 					Attr hasPage = doc.createAttribute("type");
 					hasPage.setValue("page_number");
 					child.setAttributeNode(hasPage);
@@ -408,7 +438,7 @@ public class LayoutParser {
 			}
 
 			currentElement.appendChild(child);
-			
+
 			// Merge mai jos in arbore
 			addElements(doc, child, childNode);
 		}
@@ -525,35 +555,39 @@ public class LayoutParser {
 		} else {
 			right = -1;
 		}
-		
-		if (currentMatch.tag() == "Point"){
+
+		if (currentMatch.tag() == "Point") {
 			LayoutParserTreeElement new_element = new LayoutParserTreeElement(
-					currentMatch.tag(), currentMatch.attr("x"), currentMatch.attr("y"));
-				return new GenericTreeNode<LayoutParserTreeElement>(new_element);
+					currentMatch.tag(), currentMatch.attr("x"),
+					currentMatch.attr("y"));
+			return new GenericTreeNode<LayoutParserTreeElement>(new_element);
 		} else if (currentMatch.children().size() == 0) {
 			// Suntem in frunza
 			LayoutParserTreeElement new_element = new LayoutParserTreeElement(
-				currentMatch.tag(), currentMatch.content(), top, bottom,
-				right, left, currentMatch.attr("image"));
+					currentMatch.tag(), currentMatch.content(), top, bottom,
+					right, left, currentMatch.attr("image"));
 			return new GenericTreeNode<LayoutParserTreeElement>(new_element);
 		}
 
 		// Cream nod parinte
 		LayoutParserTreeElement rootElement = null;
-		if(currentMatch.tag().compareTo("ComposedBlock") == 0){
-			if(currentMatch.attr("type").compareTo("page_number") == 0){
-				rootElement = new LayoutParserTreeElement(currentMatch.tag(), true);			
+		if (currentMatch.tag().compareTo("ComposedBlock") == 0) {
+			if (currentMatch.attr("type").compareTo("page_number") == 0) {
+				rootElement = new LayoutParserTreeElement(currentMatch.tag(),
+						true);
 			} else {
-				rootElement = new LayoutParserTreeElement(currentMatch.tag(), false);
-			}	
+				rootElement = new LayoutParserTreeElement(currentMatch.tag(),
+						false);
+			}
 		} else {
-			rootElement = new LayoutParserTreeElement(
-                				currentMatch.tag(), currentMatch.content(), top, bottom, right,
-                				left, currentMatch.attr("image"));
-    		 
+			rootElement = new LayoutParserTreeElement(currentMatch.tag(),
+					currentMatch.content(), top, bottom, right, left,
+					currentMatch.attr("image"));
+
 		}
-		parentTreeNode = new GenericTreeNode<LayoutParserTreeElement>(rootElement);
-    		 
+		parentTreeNode = new GenericTreeNode<LayoutParserTreeElement>(
+				rootElement);
+
 		// Parsam copiii
 		for (i = 0; i < currentMatch.children().size(); i++) {
 			Match textLineElement = currentMatch.child(i);

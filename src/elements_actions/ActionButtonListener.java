@@ -23,14 +23,14 @@ public class ActionButtonListener implements ActionListener {
 	 * ComboBox cu actiuni posibile pentru blocurile selectate.
 	 */
 	@SuppressWarnings("rawtypes")
-	private final JComboBox comboBox;
+	private JComboBox comboBox;
 
 	/**
 	 * The DrawPanel
 	 */
-	private final JPanel pane;
+	private JPanel pane;
 
-	private final LayoutGUI layoutGUI;
+	private LayoutGUI layoutGUI;
 
 	/**
 	 * Contructor
@@ -50,7 +50,7 @@ public class ActionButtonListener implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		// Get selected action.
 		final String action = (String) comboBox.getSelectedItem();
 

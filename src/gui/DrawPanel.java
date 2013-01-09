@@ -1,4 +1,5 @@
 package gui;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -14,12 +15,13 @@ public class DrawPanel extends JPanel {
 	/**
 	 * Imaginea de analizat.
 	 */
-	private final BufferedImage image;
+	private BufferedImage image;
 
 	/**
 	 * Constructor pentru zona de desenat.
 	 * 
-	 * @param image Image
+	 * @param image
+	 *            Image
 	 * 
 	 * @return void
 	 */
@@ -30,7 +32,8 @@ public class DrawPanel extends JPanel {
 	/**
 	 * Deseneaza imaginea in zona de desenat.
 	 * 
-	 * @param g Graphics
+	 * @param g
+	 *            Graphics
 	 * 
 	 * @return void
 	 */

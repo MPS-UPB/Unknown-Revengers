@@ -5,10 +5,7 @@ import gui.LayoutGUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JOptionPane;
-
 import layout.ErrorMessage;
-import parser.LayoutParser;
 import analyzer.Analyzer;
 import analyzer.AnalyzerSelector;
 
@@ -33,10 +30,10 @@ public class NumeroteazaButtonListener implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 
-		JOptionPane.showMessageDialog(null, "Numeroteaza pagina.");
 		Thread actionThread = new Thread() {
+
 			@Override
 			public void run() {
 				AnalyzerSelector as = new AnalyzerSelector("paging");
@@ -53,14 +50,16 @@ public class NumeroteazaButtonListener implements ActionListener {
 
 					String noPath = selectedAnalyzer.analyzeXML();
 
-					gui.layoutParser = new LayoutParser(noPath);
+					gui.layoutParser.xmlPath = noPath;
+					gui.layoutParser.parse();
 
 					gui.loadElements(gui.visibleElements);
+
+					ErrorMessage.show("S-a numerotat.", false);
 
 				} catch (InterruptedException e) {
 					ErrorMessage.show("Probleme la numerotare.", false);
 				}
-
 			}
 		};
 
