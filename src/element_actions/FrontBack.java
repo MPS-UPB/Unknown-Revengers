@@ -4,34 +4,39 @@ import gui.GElement;
 import gui.LayoutGUI;
 
 /**
- * <<<<<<< HEAD Bring to Front or Send to back selected element given as
- * parameter in constructor. ======= Bring to Front or Send to Back selected
- * element given as parameter in constructor. >>>>>>> branch 'front_back' of
- * https://github.com/MPS-UPB/Unknown-Revengers.git
+ * Bring to Front or Send to Back selected element given as parameter in
+ * constructor.
  * 
  * @author Unknown-Revengers
  * 
  */
 public class FrontBack {
 
-	// Selected panel
+	/**
+	 * Selected panel
+	 */
 	private GElement panel;
 
-	// Choosed command
+	/**
+	 * Choosed command
+	 */
 	private String command;
 
-	// LayoutGUI
+	/**
+	 * LayoutGUI
+	 */
 	private LayoutGUI gui;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param GElement
-	 *            panel
-	 * @param String
-	 *            command
-	 * @param LayoutGUI
-	 *            gui
+	 * @param panel
+	 *            Selected Panel.
+	 * @param gui
+	 *            LayoutGUI.
+	 * @param command
+	 *            Choosed command.
+	 * 
 	 */
 	public FrontBack(GElement panel, LayoutGUI gui, String command) {
 
@@ -43,9 +48,7 @@ public class FrontBack {
 	}
 
 	/**
-	 * Schitch given command an do required action
-	 * 
-	 * @return void
+	 * Switch given command and do required action.
 	 */
 	public void switchCommand() {
 		switch (command) {
