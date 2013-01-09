@@ -37,6 +37,7 @@ import element_actions.PopupListener;
 import elements_actions.ActionButtonListener;
 import elements_actions.ComponentComboListener;
 import elements_actions.ElementsActions;
+import elements_actions.VisibilityComboListener;
 
 /**
  * Interfata grafica (ar fi recomandat ca pentru fiecare TODO sa existe o metoda
@@ -61,7 +62,7 @@ public class LayoutGUI extends JFrame {
 	/**
 	 * Panelul in care se deseneaza imaginea.
 	 */
-	private DrawPanel draw;
+	public DrawPanel draw;
 
 	/**
 	 * Scroll pane-ul in care se pun elementele din imagine.
@@ -69,6 +70,9 @@ public class LayoutGUI extends JFrame {
 	private JScrollPane scrollPane;
 
 	public VisibleElements visibleElements;
+	// public ComponentComboListener componentCombo;
+	public JComboBox comboElements;
+	public JComboBox visCombo;
 
 	/**
 	 * Constructor.
@@ -106,6 +110,15 @@ public class LayoutGUI extends JFrame {
 
 		// Afiseaza fereastra.
 		this.setVisible(true);
+	}
+
+	/**
+	 * 
+	 * @return Returneaza panel-ul curent
+	 * 
+	 */
+	public DrawPanel getDraw() {
+		return this.draw;
 	}
 
 	/**
@@ -208,8 +221,16 @@ public class LayoutGUI extends JFrame {
 					panel.setBounds(e.left, m_height - e.bottom, width, height);
 				}
 
-				// Draw panel
-				draw.add(panel);
+				if (this.visCombo.getSelectedItem().toString()
+						.compareTo("Image") == 0) {
+					panel.setTextArea(width, height, false);
+				} else {
+					if (panel.element.getData().elementType == type.toType()) {
+						panel.setTextArea(width, height, true);
+					} else {
+						panel.setTextArea(width, height, false);
+					}
+				}
 
 				// Create the popup menu for the current panel
 				JPopupMenu popupMenu = new GPopup();
@@ -264,11 +285,14 @@ public class LayoutGUI extends JFrame {
 				textItem.addActionListener(actionListener);
 				popupMenu.add(textItem);
 
+				// Set popup menu.
 				panel.setComponentPopupMenu(popupMenu);
 				popupMenu.addPopupMenuListener(new PopupListener());
+
+				// Draw panel.
+				draw.add(panel);
 			}
 		}
-
 	}
 
 	/**
@@ -286,7 +310,7 @@ public class LayoutGUI extends JFrame {
 		 * schimbe si ceea ce este afisat peste imagine (litere, randuri sau
 		 * blocuri).
 		 */
-		JComboBox comboElements = new JComboBox();
+		comboElements = new JComboBox();
 		comboElements.setModel(new DefaultComboBoxModel(new String[] {
 				VisibleElements.S_BLOCK.toString(),
 				VisibleElements.S_LINE.toString() }));
@@ -294,6 +318,23 @@ public class LayoutGUI extends JFrame {
 		comboElements.addActionListener(new ComponentComboListener(this));
 		comboElements.setBounds(105, 20, 125, 20);
 		getContentPane().add(comboElements);
+
+		// Label pentru ComboBox-ul de visibilitate de mai jos
+		JLabel visLabel = new JLabel("Vizibilitate:");
+		visLabel.setBounds(255, 20, 75, 20);
+		getContentPane().add(visLabel);
+
+		// Combobox pentru selectarea vizibilitatii imaginii de background vs
+		// textul
+		// textul ce se afla scris in JScrollBar-uri
+		visCombo = new JComboBox();
+		visCombo.setModel(new DefaultComboBoxModel(new String[] { "Image",
+				"Text" }));
+		// Adauga listener pentru combo cu componente.
+		visCombo.addActionListener(new VisibilityComboListener(this));
+		visCombo.setBounds(325, 20, 125, 20);
+		visCombo.setVisible(true);
+		getContentPane().add(visCombo);
 
 		// Label actiuni posibile pentru selectia curenta.
 		JLabel lblActiuni = new JLabel("Actiuni:");
@@ -331,6 +372,7 @@ public class LayoutGUI extends JFrame {
 		JButton btnNumeroteaza = new JButton("Numeroteaza pagina");
 		btnNumeroteaza.setBounds(this.getMaximizedBounds().width - 290,
 				this.getMaximizedBounds().height - 70, 170, 23);
+
 		// Adauga listener pentru buton de numerotare pagina.
 		btnNumeroteaza.addActionListener(new NumeroteazaButtonListener(this));
 		getContentPane().add(btnNumeroteaza);
