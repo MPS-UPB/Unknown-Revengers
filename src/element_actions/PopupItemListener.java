@@ -20,14 +20,23 @@ import parser.LayoutParserTreeElement;
  */
 public class PopupItemListener implements ActionListener {
 
+	/**
+	 * Selected panel.
+	 */
 	private GElement panel;
 
+	/**
+	 * LayoutGUI
+	 */
 	private LayoutGUI gui;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param panel
+	 *            Selected panel
+	 * @param gui
+	 *            Gui
 	 */
 	public PopupItemListener(GElement panel, LayoutGUI gui) {
 		this.panel = panel;
@@ -82,6 +91,7 @@ public class PopupItemListener implements ActionListener {
 
 		} else if (action.compareTo(ElementActions.S_PAGE.toString()) == 0) {
 			new PageNumberBlock(panel, gui.layoutParser);
+
 		} else if (action.compareTo(ElementActions.S_DELETE.toString()) == 0) {
 
 			// Fereastra de confirmare a actiunii
@@ -92,6 +102,11 @@ public class PopupItemListener implements ActionListener {
 			if (response == JOptionPane.YES_OPTION) {
 				new DeleteElement(panel, gui);
 			}
+		} else if (action.compareTo(ElementActions.S_FRONT.toString()) == 0) {
+			new FrontBack(panel, gui, "FRONT");
+
+		} else if (action.compareTo(ElementActions.S_BACK.toString()) == 0) {
+			new FrontBack(panel, gui, "BACK");
 		}
 	}
 }
