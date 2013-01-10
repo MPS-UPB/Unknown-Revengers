@@ -19,6 +19,7 @@ public class GElement extends JPanel {
 	private JScrollPane scrollPanel;
 	private JTextArea textArea;
 	public GenericTreeNode<LayoutParserTreeElement> element;
+	private GPopup popup;
 
 	public GElement(GenericTreeNode<LayoutParserTreeElement> element) {
 		this.element = element;
@@ -31,9 +32,31 @@ public class GElement extends JPanel {
 
 		// Set initial border.
 		this.setBorder(new LineBorder(Color.GREEN));
+	}
+
+	/**
+	 * Setter for popup.
+	 * 
+	 * @param popup
+	 *            GPopup
+	 * 
+	 * @return void
+	 */
+	public void setPopup(GPopup popup) {
+		// Set local popup.
+		this.popup = popup;
 
 		// Set mouse listener for block change.
-		this.addMouseListener(new BlockMouseListener());
+		this.addMouseListener(new BlockMouseListener(popup));
+	}
+
+	/**
+	 * Getter for popup.
+	 * 
+	 * @return GPopup
+	 */
+	public GPopup getPopup() {
+		return this.popup;
 	}
 
 	/**

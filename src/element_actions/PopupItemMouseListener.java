@@ -2,7 +2,6 @@ package element_actions;
 
 import gui.DrawPanel;
 import gui.GElement;
-import gui.GPopup;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -37,15 +36,13 @@ public class PopupItemMouseListener implements MouseListener {
 		int height = 0;
 		if (((JMenuItem) arg0.getSource()).getText() == ElementActions.S_BREAK_V
 				.toString()) {
-			x = ((GPopup) ((JMenuItem) arg0.getSource()).getParent())
-					.getParent().getX() - 20;
+			x = this.panel.getPopup().getGX();
 			width = 1;
 			y = this.panel.getBounds().y;
 			height = this.panel.getBounds().height;
 		} else if (((JMenuItem) arg0.getSource()).getText() == ElementActions.S_BREAK_H
 				.toString()) {
-			y = ((GPopup) ((JMenuItem) arg0.getSource()).getParent())
-					.getParent().getY() - 95;
+			y = this.panel.getPopup().getGY();
 			width = this.panel.getBounds().width;
 			x = this.panel.getBounds().x;
 			height = 1;
