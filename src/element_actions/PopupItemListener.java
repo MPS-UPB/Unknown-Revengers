@@ -1,13 +1,11 @@
 package element_actions;
 
 import gui.GElement;
-import gui.GPopup;
 import gui.LayoutGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import layout.ErrorMessage;
@@ -68,9 +66,7 @@ public class PopupItemListener implements ActionListener {
 			if (panel.element.getData().elementType == LayoutParserTreeElement.ElementType.TEXTBLOCK
 					|| panel.element.getData().elementType == LayoutParserTreeElement.ElementType.BLOCK) {
 				new BreakV(panel.element, this.gui.layoutParser.direction,
-						((GPopup) ((JMenuItem) e.getSource()).getParent())
-								.getGX(),
-						((GPopup) ((JMenuItem) e.getSource()).getParent())
+						this.panel.getPopup().getGX(), this.panel.getPopup()
 								.getGY(), this.gui.image.getHeight(),
 						this.gui.image.getWidth());
 				this.gui.loadElements(this.gui.visibleElements);
@@ -84,9 +80,9 @@ public class PopupItemListener implements ActionListener {
 		} else if (action.compareTo(ElementActions.S_BREAK_H.toString()) == 0) {
 
 			new BreakH(panel.element, this.gui.layoutParser.direction,
-					((GPopup) ((JMenuItem) e.getSource()).getParent()).getGX(),
-					((GPopup) ((JMenuItem) e.getSource()).getParent()).getGY(),
-					this.gui.image.getHeight(), this.gui.image.getWidth());
+					this.panel.getPopup().getGX(), this.panel.getPopup()
+							.getGY(), this.gui.image.getHeight(),
+					this.gui.image.getWidth());
 			this.gui.loadElements(this.gui.visibleElements);
 
 		} else if (action.compareTo(ElementActions.S_PAGE.toString()) == 0) {
