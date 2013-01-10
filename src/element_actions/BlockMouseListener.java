@@ -17,8 +17,14 @@ import javax.swing.border.LineBorder;
  */
 public class BlockMouseListener extends MouseAdapter {
 
+	// The local popup.
 	GPopup popup;
 
+	/**
+	 * Constructor with the popup that should be displayed.
+	 * 
+	 * @param popup
+	 */
 	public BlockMouseListener(GPopup popup) {
 		this.popup = popup;
 	}
@@ -56,6 +62,7 @@ public class BlockMouseListener extends MouseAdapter {
 						.setBorder(new LineBorder(Color.YELLOW));
 				((JPanel) e.getSource()).setToolTipText("selected");
 			}
+
 			// Elementul este selectat => deselecteaza.
 			else {
 				((JPanel) e.getSource()).setBorder(new LineBorder(Color.GREEN));
@@ -81,6 +88,7 @@ public class BlockMouseListener extends MouseAdapter {
 						"selected") != 0) {
 			((JPanel) e.getSource()).setBorder(new LineBorder(Color.GREEN));
 		}
+
 		// Elementul este selectat.
 		else {
 			((JPanel) e.getSource()).setBorder(new LineBorder(Color.YELLOW));
