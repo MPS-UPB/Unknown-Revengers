@@ -1,7 +1,19 @@
 package elements_actions;
 
+/**
+ * @author Unknown-Revengers
+ * 
+ */
 public enum ElementsActions {
-	S_OCR("Analiza OCR"), S_GLUE("Uneste componente");
+	/**
+	 * Analiza OCR
+	 */
+	S_OCR("Analiza OCR"),
+
+	/**
+	 * Uneste componente
+	 */
+	S_GLUE("Uneste componente");
 
 	/**
 	 * @param text

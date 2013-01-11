@@ -3,8 +3,8 @@ package gui;
 import parser.LayoutParserTreeElement.ElementType;
 
 public enum VisibleElements {
-	S_BLOCK("Blocuri", ElementType.TEXTBLOCK), S_LINE("Linii",
-			ElementType.TEXTLINE);
+	S_BLOCK("Blocuri", ElementType.TEXTBLOCK),
+	S_LINE("Linii", ElementType.TEXTLINE);
 
 	/**
 	 * @param text

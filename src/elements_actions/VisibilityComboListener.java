@@ -23,7 +23,7 @@ public class VisibilityComboListener implements ActionListener {
 		String component = (String) cb.getSelectedItem();
 
 		// Afiseaza sau ascunde imaginea de background
-		if (component.compareTo("Image") == 0) {
+		if (component.compareTo(ElementsVisibility.S_IMAGE.toString()) == 0) {
 			gui.getDraw().changeImageDrawingStatus(true);
 		} else {
 			gui.getDraw().changeImageDrawingStatus(false);
@@ -35,7 +35,8 @@ public class VisibilityComboListener implements ActionListener {
 		for (Component element : gList) {
 			GElement gElem = (GElement) element;
 
-			if (gui.visCombo.getSelectedItem().toString() == "Image") {
+			if (gui.visCombo.getSelectedItem().toString()
+					.compareTo(ElementsVisibility.S_IMAGE.toString()) == 0) {
 				gElem.setTextAreaVisible(false);
 			} else {
 				if (gElem.element.getData().elementType == gui.visibleElements

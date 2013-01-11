@@ -37,6 +37,7 @@ import element_actions.PopupListener;
 import elements_actions.ActionButtonListener;
 import elements_actions.ComponentComboListener;
 import elements_actions.ElementsActions;
+import elements_actions.ElementsVisibility;
 import elements_actions.VisibilityComboListener;
 
 /**
@@ -222,7 +223,7 @@ public class LayoutGUI extends JFrame {
 				}
 
 				if (this.visCombo.getSelectedItem().toString()
-						.compareTo("Image") == 0) {
+						.compareTo(ElementsVisibility.S_IMAGE.toString()) == 0) {
 					panel.setTextArea(width, height, false);
 				} else {
 					if (panel.element.getData().elementType == type.toType()) {
@@ -328,8 +329,10 @@ public class LayoutGUI extends JFrame {
 		// textul
 		// textul ce se afla scris in JScrollBar-uri
 		visCombo = new JComboBox();
-		visCombo.setModel(new DefaultComboBoxModel(new String[] { "Image",
-				"Text" }));
+		visCombo.setModel(new DefaultComboBoxModel(new String[] {
+				ElementsVisibility.S_IMAGE.toString(),
+				ElementsVisibility.S_TEXT.toString() }));
+
 		// Adauga listener pentru combo cu componente.
 		visCombo.addActionListener(new VisibilityComboListener(this));
 		visCombo.setBounds(325, 20, 125, 20);
