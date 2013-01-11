@@ -53,9 +53,10 @@ public class Resize extends JFrame {
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param pan JPanel pe care s-a facut actiunea.
+	 * @param gui GUI
 	 */
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Resize(GElement pan, LayoutGUI gui) {
 
 		frame = this;
@@ -125,13 +126,27 @@ public class Resize extends JFrame {
 		this.initFrame();
 	}
 
+	/**
+	 * Validate new data.
+	 * 
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param iWidth
+	 * @param iHeight
+	 * 
+	 * @return boolean
+	 */
 	public boolean validateNewData(int x, int y, int width, int height,
 			int iWidth, int iHeight) {
 
+		// Check positive values.
 		if (x < 0 || y < 0 || width < 0 || height < 0) {
 			return false;
 		}
 
+		// Check sizes.
 		if (x + width > iWidth || y + height > iHeight) {
 			return false;
 		}
@@ -141,12 +156,14 @@ public class Resize extends JFrame {
 
 	private void initFrame() {
 
-		// Dispose frame for page and OCR analyzers.
+		// Dispose frame.
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+		// Set size.
 		this.setSize(300, 220);
 		this.setVisible(true);
 
+		// Set location.
 		setLocationRelativeTo(null);
 	}
 
@@ -162,10 +179,8 @@ public class Resize extends JFrame {
 		/**
 		 * Constructor.
 		 * 
-		 * @param panel
-		 *            JPanel pe care s-a facut actiunea.
-		 * @param gui
-		 *            GUI
+		 * @param panel JPanel pe care s-a facut actiunea.
+		 * @param gui GUI
 		 */
 		PreviewListenter(GElement panel, LayoutGUI gui) {
 			this.panel = panel;
@@ -207,10 +222,8 @@ public class Resize extends JFrame {
 		/**
 		 * Constructor.
 		 * 
-		 * @param panel
-		 *            JPanel pe care s-a facut actiunea.
-		 * @param gui
-		 *            GUI
+		 * @param panel JPanel pe care s-a facut actiunea.
+		 * @param gui GUI
 		 */
 		SaveListenter(GElement panel, LayoutGUI gui) {
 			this.panel = panel;
@@ -247,10 +260,10 @@ public class Resize extends JFrame {
 				this.panel.setTextArea(width, height, false);
 
 				// Remove the preview panel.
-				this.gui.draw.remove(previewPanel);
+				this.gui.getDraw().remove(previewPanel);
 
 				// Redraw the old panel.
-				this.gui.draw.add(panel);
+				this.gui.getDraw().add(panel);
 			} else {
 				ErrorMessage.show("Invalid new data.", false);
 			}
