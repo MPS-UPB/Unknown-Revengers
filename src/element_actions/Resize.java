@@ -244,6 +244,7 @@ public class Resize extends JFrame {
 
 				// Set panel bounds.
 				this.panel.setBounds(x, y, width, height);
+				this.panel.setTextArea(width, height, false);
 
 				// Remove the preview panel.
 				this.gui.draw.remove(previewPanel);
