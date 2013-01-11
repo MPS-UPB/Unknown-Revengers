@@ -101,7 +101,6 @@ public class Resize extends JFrame {
 		textHeight = new JTextField();
 		labelHeight.setText("Height");
 		textHeight.setText(Integer.toString(pan.getHeight()));
-
 		panel.add(labelHeight);
 		panel.add(textHeight);
 
@@ -189,9 +188,9 @@ public class Resize extends JFrame {
 
 			if (this.gui.layoutParser.direction == Direction.ASCENDING) {
 				this.panel.element.getData().top = this.gui.image.getHeight()
-						- y;
+						- (y + height);
 				this.panel.element.getData().bottom = this.gui.image
-						.getHeight() - y + height;
+						.getHeight() - y;
 			}
 
 			this.panel.setBounds(x, y, width, height);
