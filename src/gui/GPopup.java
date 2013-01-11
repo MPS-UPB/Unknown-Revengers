@@ -3,10 +3,12 @@ package gui;
 import javax.swing.JPopupMenu;
 
 /**
+ * Extend the basic JPopupMenu in order to add 2 new fields that store the
+ * location where the popup is initial shown.
+ * 
  * @author Unknown-Revengers
  * 
  */
-@SuppressWarnings("serial")
 public class GPopup extends JPopupMenu {
 	private int gX;
 	private int gY;
@@ -26,7 +28,7 @@ public class GPopup extends JPopupMenu {
 	 * @param y Coordinate.
 	 */
 	public void setGY(int y) {
-		this.gX = y;
+		this.gY = y;
 	}
 
 	/**
@@ -45,13 +47,5 @@ public class GPopup extends JPopupMenu {
 	 */
 	public int getGY() {
 		return this.gY;
-	}
-
-	/**
-	 * Store location.
-	 */
-	public void storeLocation() {
-		this.gX = this.getParent().getX() - 20;
-		this.gY = this.getParent().getY() - 95;
 	}
 }

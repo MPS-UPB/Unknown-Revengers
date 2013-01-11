@@ -34,7 +34,9 @@ public enum ElementActions {
 	/**
 	 * Sterge elementul.
 	 */
-	S_DELETE("Sterge element");
+	S_DELETE("Sterge element"),
+	S_FRONT("Bring to Front"),
+	S_BACK("Send to Back");
 
 	/**
 	 * @param text

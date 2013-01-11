@@ -1,13 +1,11 @@
 package element_actions;
 
 import gui.GElement;
-import gui.GPopup;
 import gui.LayoutGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import layout.ErrorMessage;
@@ -20,8 +18,14 @@ import parser.LayoutParserTreeElement;
  */
 public class PopupItemListener implements ActionListener {
 
+	/**
+	 * Selected panel.
+	 */
 	private GElement panel;
 
+	/**
+	 * LayoutGUI
+	 */
 	private LayoutGUI gui;
 
 	/**
@@ -63,9 +67,7 @@ public class PopupItemListener implements ActionListener {
 
 				// Break block.
 				new BreakV(panel.element, this.gui.layoutParser.direction,
-						((GPopup) ((JMenuItem) e.getSource()).getParent())
-								.getGX(),
-						((GPopup) ((JMenuItem) e.getSource()).getParent())
+						this.panel.getPopup().getGX(), this.panel.getPopup()
 								.getGY(), this.gui.image.getHeight(),
 						this.gui.image.getWidth());
 
@@ -83,11 +85,10 @@ public class PopupItemListener implements ActionListener {
 
 			// Break block.
 			new BreakH(panel.element, this.gui.layoutParser.direction,
-					((GPopup) ((JMenuItem) e.getSource()).getParent()).getGX(),
-					((GPopup) ((JMenuItem) e.getSource()).getParent()).getGY(),
-					this.gui.image.getHeight(), this.gui.image.getWidth());
+					this.panel.getPopup().getGX(), this.panel.getPopup()
+							.getGY(), this.gui.image.getHeight(),
+					this.gui.image.getWidth());
 
-			// Load elements.
 			this.gui.loadElements(this.gui.visibleElements);
 
 		} else if (action.compareTo(ElementActions.S_PAGE.toString()) == 0) {
@@ -103,6 +104,11 @@ public class PopupItemListener implements ActionListener {
 			if (response == JOptionPane.YES_OPTION) {
 				new DeleteElement(panel, gui);
 			}
+		} else if (action.compareTo(ElementActions.S_FRONT.toString()) == 0) {
+			new FrontBack(panel, gui, "FRONT");
+
+		} else if (action.compareTo(ElementActions.S_BACK.toString()) == 0) {
+			new FrontBack(panel, gui, "BACK");
 		}
 	}
 }
