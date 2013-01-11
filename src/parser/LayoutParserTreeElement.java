@@ -20,64 +20,31 @@ public class LayoutParserTreeElement {
 	 * Enum pentru tipul elementului conform cu specificatiile
 	 */
 	public enum ElementType {
-		DOCUMENT(1),
-		DIR(2),
-		IMPOSED(3),
-		FILE(4),
-		POINT(5),
-		POLYGON(6),
-		BLOCK(7),
-		COMPOSEDBLOCK(8),
-		IMAGEBLOCK(9),
-		TEXTBLOCK(10),
-		STRING(11),
-		TEXTLINE(12);
+		DOCUMENT("Document"),
+		DIR("Dir"),
+		IMPOSED("Imposed"),
+		FILE("File"),
+		POINT("Point"),
+		POLYGON("Polygon"),
+		BLOCK("Block"),
+		COMPOSEDBLOCK("ComposedBlock"),
+		IMAGEBLOCK("ImageBlock"),
+		TEXTBLOCK("TextBlock"),
+		STRING("String"),
+		TEXTLINE("TextLine");
 
-		private int typeNumber;
+		private String name;
 
 		/**
 		 * Type for element
 		 */
-		private ElementType(int type) {
-			this.typeNumber = type;
-		}
-
-		/**
-		 * @return int Numarul care corespunde tipului de element.
-		 */
-		public int getNumber() {
-			return this.typeNumber;
+		private ElementType(String name) {
+			this.name = name;
 		}
 
 		@Override
 		public String toString() {
-			switch (this) {
-			case DOCUMENT:
-				return "Document";
-			case DIR:
-				return "Dir";
-			case IMPOSED:
-				return "Imposed";
-			case FILE:
-				return "File";
-			case POINT:
-				return "Point";
-			case POLYGON:
-				return "Polygon";
-			case BLOCK:
-				return "Block";
-			case COMPOSEDBLOCK:
-				return "ComposedBlock";
-			case IMAGEBLOCK:
-				return "ImageBlock";
-			case TEXTBLOCK:
-				return "TextBlock";
-			case STRING:
-				return "String";
-			case TEXTLINE:
-				return "TextLine";
-			}
-			return super.toString();
+			return this.name;
 		}
 	}
 

@@ -47,7 +47,7 @@ public class FrontBack {
 	/**
 	 * Switch given command and do required action.
 	 */
-	public void switchCommand() {
+	private void switchCommand() {
 		switch (command) {
 		case "FRONT":
 			this.gui.getDraw().setComponentZOrder(this.panel, 0);
