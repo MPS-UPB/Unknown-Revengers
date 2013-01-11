@@ -88,7 +88,7 @@ public class LayoutGUI extends JFrame {
 		 * imaginea.
 		 */
 		try {
-			File f = new File(this.layoutParser.imagePath);
+			File f = new File(this.layoutParser.getImagePath());
 			this.image = ImageIO.read(f);
 		} catch (Exception e) {
 			ErrorMessage.show("Invalid input image.");

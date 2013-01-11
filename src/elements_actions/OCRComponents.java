@@ -48,7 +48,7 @@ public class OCRComponents {
 		// Select an analyzer.
 		AnalyzerSelector as = new AnalyzerSelector("ocr");
 		Analyzer selectedAnalyzer = as.chooseAnalyzer();
-		selectedAnalyzer.setInput(gui.layoutParser.imagePath);
+		selectedAnalyzer.setInput(gui.layoutParser.getImagePath());
 		selectedAnalyzer.setLayoutParser(gui.layoutParser);
 
 		// For each selected component return output file path

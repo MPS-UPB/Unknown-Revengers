@@ -16,13 +16,15 @@ import analyzer.AnalyzerSelector;
  */
 public class NumeroteazaButtonListener implements ActionListener {
 
+	/**
+	 * GUI
+	 */
 	private LayoutGUI gui;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param gui
-	 *            gui.
+	 * @param gui GUI.
 	 * 
 	 */
 	public NumeroteazaButtonListener(LayoutGUI gui) {

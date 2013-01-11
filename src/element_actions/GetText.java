@@ -31,7 +31,7 @@ public class GetText {
 		Analyzer selectedAnalyzer = as.chooseAnalyzer();
 
 		// Set optional properties for analyzer.
-		selectedAnalyzer.setInput(lp.imagePath);
+		selectedAnalyzer.setInput(lp.getImagePath());
 		selectedAnalyzer.setPanel(panel);
 		selectedAnalyzer.setLayoutParser(lp);
 
