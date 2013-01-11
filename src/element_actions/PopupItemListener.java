@@ -27,7 +27,8 @@ public class PopupItemListener implements ActionListener {
 	/**
 	 * Constructor.
 	 * 
-	 * @param panel
+	 * @param panel Element panel.
+	 * @param gui GUI.
 	 */
 	public PopupItemListener(GElement panel, LayoutGUI gui) {
 		this.panel = panel;
@@ -45,7 +46,8 @@ public class PopupItemListener implements ActionListener {
 					try {
 						new GetText(panel, gui.layoutParser);
 					} catch (Exception e) {
-						e.printStackTrace();
+						ErrorMessage.show(
+								"Problema la rularea analizatorului.", false);
 					}
 				}
 			};
@@ -58,13 +60,18 @@ public class PopupItemListener implements ActionListener {
 		} else if (action.compareTo(ElementActions.S_BREAK_V.toString()) == 0) {
 			if (panel.element.getData().elementType == LayoutParserTreeElement.ElementType.TEXTBLOCK
 					|| panel.element.getData().elementType == LayoutParserTreeElement.ElementType.BLOCK) {
+
+				// Break block.
 				new BreakV(panel.element, this.gui.layoutParser.direction,
 						((GPopup) ((JMenuItem) e.getSource()).getParent())
 								.getGX(),
 						((GPopup) ((JMenuItem) e.getSource()).getParent())
 								.getGY(), this.gui.image.getHeight(),
 						this.gui.image.getWidth());
+
+				// Load elements.
 				this.gui.loadElements(this.gui.visibleElements);
+
 			} else {
 				ErrorMessage.show(
 						"You can't split vertical "
@@ -74,14 +81,18 @@ public class PopupItemListener implements ActionListener {
 
 		} else if (action.compareTo(ElementActions.S_BREAK_H.toString()) == 0) {
 
+			// Break block.
 			new BreakH(panel.element, this.gui.layoutParser.direction,
 					((GPopup) ((JMenuItem) e.getSource()).getParent()).getGX(),
 					((GPopup) ((JMenuItem) e.getSource()).getParent()).getGY(),
 					this.gui.image.getHeight(), this.gui.image.getWidth());
+
+			// Load elements.
 			this.gui.loadElements(this.gui.visibleElements);
 
 		} else if (action.compareTo(ElementActions.S_PAGE.toString()) == 0) {
-			new PageNumberBlock(panel, gui.layoutParser);
+			new PageNumberBlock(panel);
+
 		} else if (action.compareTo(ElementActions.S_DELETE.toString()) == 0) {
 
 			// Fereastra de confirmare a actiunii

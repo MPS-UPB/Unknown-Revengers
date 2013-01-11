@@ -1,7 +1,6 @@
 package element_actions;
 
 import gui.GElement;
-import parser.LayoutParser;
 import parser.LayoutParserTreeElement;
 import tree.GenericTreeNode;
 
@@ -16,33 +15,23 @@ public class PageNumberBlock {
 
 	private GElement panel;
 
-	private LayoutParser layoutParser;
-
 	/**
 	 * Constructor.
 	 * 
-	 * @param GElement
-	 *            panel
-	 * @param LayoutParser
-	 *            lp
+	 * @param panel Element panel.
 	 */
-	public PageNumberBlock(GElement panel, LayoutParser lp) {
+	public PageNumberBlock(GElement panel) {
 		this.panel = panel;
-		this.layoutParser = lp;
 
 		this.addComposedBlock();
-
 	}
 
 	/**
 	 * Create and add to XMLTree a new GenericTreeNode<LayoutParserTreeElement>
-	 * 
-	 * @return void
 	 */
-	public void addComposedBlock() {
+	private void addComposedBlock() {
 
 		GenericTreeNode<LayoutParserTreeElement> element = panel.element;
-		LayoutParserTreeElement elementData = element.getData();
 
 		// Get parent element for elementNode.
 		GenericTreeNode<LayoutParserTreeElement> parent = element

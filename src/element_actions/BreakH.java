@@ -6,7 +6,21 @@ import parser.Direction;
 import parser.LayoutParserTreeElement;
 import tree.GenericTreeNode;
 
+/**
+ * @author Unknown-Revengers
+ * 
+ */
 public class BreakH {
+	/**
+	 * Constructor.
+	 * 
+	 * @param element Tree element.
+	 * @param dir Direction: ascending or descending.
+	 * @param x Coordinate.
+	 * @param y Coordinate.
+	 * @param height Element hight.
+	 * @param width Element width.
+	 */
 	public <child> BreakH(GenericTreeNode<LayoutParserTreeElement> element,
 			Direction dir, int x, int y, int height, int width) {
 		GenericTreeNode<LayoutParserTreeElement> parent = element.getParent();
@@ -16,19 +30,21 @@ public class BreakH {
 
 		int newLeft = element.getData().left;
 		int newRight = element.getData().right;
-
 		int newTop = y;
 		int newBottom = element.getData().bottom;
+
 		if (dir == Direction.ASCENDING) {
 			newTop = height - y;
 		}
 
+		// Set new element's data.
 		newElementData.left = newLeft;
 		newElementData.right = newRight;
 		newElementData.top = newTop;
 		newElementData.bottom = newBottom;
 		newElementData.elementType = element.getData().elementType;
 
+		// Create new tree element.
 		GenericTreeNode<LayoutParserTreeElement> newElement = new GenericTreeNode<LayoutParserTreeElement>();
 		newElement.setData(newElementData);
 
@@ -39,6 +55,8 @@ public class BreakH {
 
 		List<GenericTreeNode<LayoutParserTreeElement>> children = element
 				.getChildren();
+
+		// Copy old element's children.
 		for (int i = children.size() - 1; i >= 0; i--) {
 			if (dir == Direction.DESCENDING) {
 				if (children.get(i).getData().top < newElementData.bottom

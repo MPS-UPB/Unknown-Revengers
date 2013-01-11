@@ -17,9 +17,9 @@ import javax.swing.JTextArea;
 import parser.TextActions;
 
 /**
- * @author Unknown-Revengers
+ * Frame pentru afisarea textului unui element.
  * 
- *         Frame pentru afisarea textului unui element.
+ * @author Unknown-Revengers
  */
 @SuppressWarnings("serial")
 public class ViewText extends JFrame {
@@ -51,8 +51,7 @@ public class ViewText extends JFrame {
 	/**
 	 * Constructor
 	 * 
-	 * @param panel
-	 *            Elementul selectat.
+	 * @param panel Elementul selectat.
 	 */
 	public ViewText(GElement panel) {
 		this.elementPanel = panel;

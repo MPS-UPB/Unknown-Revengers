@@ -39,7 +39,6 @@ import org.w3c.dom.Document;
  */
 @SuppressWarnings("serial")
 public class AnalyzerSelector extends JFrame {
-
 	/**
 	 * Lista cu analizatoare disponibile.
 	 */
@@ -78,10 +77,11 @@ public class AnalyzerSelector extends JFrame {
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param type The analyzer's type.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public AnalyzerSelector(String type) {
-
 		this.type = type;
 
 		// Incarca analizatoare.
@@ -155,12 +155,11 @@ public class AnalyzerSelector extends JFrame {
 	/**
 	 * Ia descrierea analizatorului specificat ca parametru.
 	 * 
-	 * @param name
-	 *            Numele analizatorului.
+	 * @param name Numele analizatorului.
 	 * 
 	 * @return String Returneaza descrierea analizatorului.
 	 */
-	private String getDescription(final String name) {
+	private String getDescription(String name) {
 		String description = "";
 		for (int i = 0; i < aList.size(); i++) {
 			if (aList.get(i).getName().compareTo(name) == 0) {
@@ -214,7 +213,7 @@ public class AnalyzerSelector extends JFrame {
 
 	/**
 	 * Cauta in toate fisierele din folderul cu XSD (Config.exec_schemas) si
-	 * incarca analizatoarele de layout disponibile.
+	 * incarca analizatoarele disponibile.
 	 */
 	private void loadAnalyzers() {
 		// Lista cu analizatoarele disponibile
@@ -248,8 +247,7 @@ public class AnalyzerSelector extends JFrame {
 	/**
 	 * Parseaza fisierul primit ca parametru.
 	 * 
-	 * @param file
-	 *            Calea absoluta a fisierului de parsat.
+	 * @param file Calea absoluta a fisierului de parsat.
 	 * 
 	 * @return mixed Daca in fisier a fost gasit un analizator atunci returneaza
 	 *         Analyzer, altfel returneaza null.
@@ -290,7 +288,7 @@ public class AnalyzerSelector extends JFrame {
 			}
 		}
 
-		// Avem nevoie de analizator de layout.
+		// Avem nevoie de un analizator de un anumit tip.
 		if (dt.get("execType") != null
 				&& dt.get("execType").compareTo(this.type) == 0) {
 			return new Analyzer(dt.get("execName"),

@@ -18,8 +18,9 @@ public class GetText {
 	/**
 	 * Constructor
 	 * 
-	 * @param panel
-	 * @param lp
+	 * @param panel Element panel.
+	 * @param lp Layout Parser.
+	 * 
 	 * @throws InterruptedException
 	 */
 	public GetText(GElement panel, LayoutParser lp)

@@ -5,11 +5,14 @@ import gui.GPopup;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+/**
+ * @author Unknoun-Revenger
+ * 
+ */
 public class PopupListener implements PopupMenuListener {
 
 	@Override
 	public void popupMenuCanceled(PopupMenuEvent arg0) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -20,7 +23,6 @@ public class PopupListener implements PopupMenuListener {
 
 	@Override
 	public void popupMenuWillBecomeVisible(PopupMenuEvent arg0) {
-		// TODO Auto-generated method stub
 	}
 
 }

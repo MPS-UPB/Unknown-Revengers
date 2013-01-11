@@ -17,10 +17,7 @@ public class BlockMouseListener implements MouseListener {
 	/**
 	 * Mouse over. Schimba culoare border in albastru.
 	 * 
-	 * @param e
-	 *            MouseEvent
-	 * 
-	 * @return void
+	 * @param e MouseEvent
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -31,10 +28,7 @@ public class BlockMouseListener implements MouseListener {
 	 * Mouse click. Selecteaza / deselecteaza element. Selectia este tinuta in
 	 * tooltip.
 	 * 
-	 * @param e
-	 *            MouseEvent
-	 * 
-	 * @return void
+	 * @param e MouseEvent
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -46,6 +40,7 @@ public class BlockMouseListener implements MouseListener {
 					.setBorder(new LineBorder(Color.YELLOW));
 			((JPanel) e.getSource()).setToolTipText("selected");
 		}
+
 		// Elementul este selectat => deselecteaza.
 		else {
 			((JPanel) e.getSource())
@@ -62,10 +57,7 @@ public class BlockMouseListener implements MouseListener {
 	 * Mouse exit. Schimba culoare border in verde daca nu e selectat si in
 	 * galben daca este selectat.
 	 * 
-	 * @param e
-	 *            MouseEvent
-	 * 
-	 * @return void
+	 * @param e MouseEvent
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
@@ -83,26 +75,10 @@ public class BlockMouseListener implements MouseListener {
 		}
 	}
 
-	/**
-	 * Mouse pressed.
-	 * 
-	 * @param e
-	 *            MouseEvent
-	 * 
-	 * @return void
-	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 	}
 
-	/**
-	 * Mouse released.
-	 * 
-	 * @param e
-	 *            MouseEvent
-	 * 
-	 * @return void
-	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 	}
