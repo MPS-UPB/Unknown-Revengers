@@ -20,6 +20,12 @@ import javax.swing.border.LineBorder;
 import layout.ErrorMessage;
 import parser.Direction;
 
+/**
+ * Resize an element.
+ * 
+ * @author Unknown-Revengers
+ */
+@SuppressWarnings("serial")
 public class Resize extends JFrame {
 
 	/**
@@ -58,7 +64,6 @@ public class Resize extends JFrame {
 	 * @param gui GUI
 	 */
 	public Resize(GElement pan, LayoutGUI gui) {
-
 		frame = this;
 
 		// New Panel.
@@ -129,12 +134,12 @@ public class Resize extends JFrame {
 	/**
 	 * Validate new data.
 	 * 
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
-	 * @param iWidth
-	 * @param iHeight
+	 * @param x Coordinate.
+	 * @param y Coordinate.
+	 * @param width New width for element.
+	 * @param height New height for element.
+	 * @param iWidth Image width.
+	 * @param iHeight Image height.
 	 * 
 	 * @return boolean
 	 */
@@ -154,6 +159,9 @@ public class Resize extends JFrame {
 		return true;
 	}
 
+	/**
+	 * Initialize frame.
+	 */
 	private void initFrame() {
 
 		// Dispose frame.
@@ -198,7 +206,8 @@ public class Resize extends JFrame {
 			int width = Integer.parseInt(textWidth.getText());
 
 			if (frame.validateNewData(x, y, width, height,
-					this.gui.image.getWidth(), this.gui.image.getHeight())) {
+					this.gui.getImage().getWidth(), this.gui.getImage()
+							.getHeight())) {
 				// Set bounds for preview panel.
 				previewPanel.setBounds(x, y, width, height);
 
@@ -239,7 +248,8 @@ public class Resize extends JFrame {
 			int width = Integer.parseInt(textWidth.getText());
 
 			if (frame.validateNewData(x, y, width, height,
-					this.gui.image.getWidth(), this.gui.image.getHeight())) {
+					this.gui.getImage().getWidth(), this.gui.getImage()
+							.getHeight())) {
 
 				// Set data in element.
 				this.panel.element.getData().left = x;
@@ -248,10 +258,10 @@ public class Resize extends JFrame {
 				this.panel.element.getData().bottom = y + height;
 
 				// Update element data if direction is ASCENDING.
-				if (this.gui.layoutParser.direction == Direction.ASCENDING) {
-					this.panel.element.getData().top = this.gui.image
+				if (this.gui.getLayoutParser().direction == Direction.ASCENDING) {
+					this.panel.element.getData().top = this.gui.getImage()
 							.getHeight() - (y + height);
-					this.panel.element.getData().bottom = this.gui.image
+					this.panel.element.getData().bottom = this.gui.getImage()
 							.getHeight() - y;
 				}
 
@@ -272,5 +282,4 @@ public class Resize extends JFrame {
 			frame.dispose();
 		}
 	}
-
 }

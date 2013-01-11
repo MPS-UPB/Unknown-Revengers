@@ -37,7 +37,7 @@ public class DeleteElement {
 	private void Delete() {
 		// Delete element from XMLTree
 		GenericTreeNode<LayoutParserTreeElement> elementNode = panel.element;
-		gui.layoutParser.XMLTree.delete(elementNode.getData());
+		gui.getLayoutParser().XMLTree.delete(elementNode.getData());
 
 		// Delete element from panel
 		gui.getDraw().DeleteElement(panel);

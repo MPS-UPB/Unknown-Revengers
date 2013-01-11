@@ -35,8 +35,20 @@ public enum ElementActions {
 	 * Sterge elementul.
 	 */
 	S_DELETE("Sterge element"),
+
+	/**
+	 * Bring element in front.
+	 */
 	S_FRONT("Bring to Front"),
+
+	/**
+	 * Send element to back.
+	 */
 	S_BACK("Send to Back"),
+
+	/**
+	 * Resize element.
+	 */
 	S_RESIZE("Redimensioneaza");
 
 	/**
@@ -46,7 +58,7 @@ public enum ElementActions {
 		this.text = text;
 	}
 
-	private final String text;
+	private String text;
 
 	@Override
 	public String toString() {

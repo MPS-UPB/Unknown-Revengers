@@ -16,11 +16,11 @@ import javax.swing.JMenuItem;
  */
 public class PopupItemMouseListener implements MouseListener {
 
-	JLabel label;
+	private JLabel label;
 
-	GElement panel;
+	private GElement panel;
 
-	DrawPanel draw;
+	private DrawPanel draw;
 
 	/**
 	 * Constructor.

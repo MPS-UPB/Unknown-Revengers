@@ -14,7 +14,7 @@ import javax.swing.filechooser.FileFilter;
 @SuppressWarnings("serial")
 public class FileChooser extends Frame {
 
-	JFileChooser fileDialog;
+	private JFileChooser fileDialog;
 
 	/**
 	 * Constructor.

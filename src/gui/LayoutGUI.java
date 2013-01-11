@@ -48,12 +48,12 @@ public class LayoutGUI extends JFrame {
 	/**
 	 * Layout parser.
 	 */
-	public LayoutParser layoutParser;
+	private LayoutParser layoutParser;
 
 	/**
 	 * Imaginea ce este incarcata.
 	 */
-	public BufferedImage image;
+	private BufferedImage image;
 
 	/**
 	 * Panelul in care se deseneaza imaginea.
@@ -67,7 +67,7 @@ public class LayoutGUI extends JFrame {
 
 	public VisibleElements visibleElements;
 
-	public JComboBox comboElements;
+	private JComboBox comboElements;
 	public JComboBox visCombo;
 
 	/**
@@ -118,6 +118,24 @@ public class LayoutGUI extends JFrame {
 	 */
 	public DrawPanel getDraw() {
 		return this.draw;
+	}
+
+	/**
+	 * Getter pentru layoutParser.
+	 * 
+	 * @return Returneaza layoutParser
+	 */
+	public LayoutParser getLayoutParser() {
+		return this.layoutParser;
+	}
+
+	/**
+	 * Getter pentru image.
+	 * 
+	 * @return Returneaza imaginea
+	 */
+	public BufferedImage getImage() {
+		return this.image;
 	}
 
 	/**

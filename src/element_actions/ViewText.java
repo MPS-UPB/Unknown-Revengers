@@ -26,12 +26,12 @@ public class ViewText extends JFrame {
 	/**
 	 * Fereastra curenta.
 	 */
-	JFrame frame = this;
+	private JFrame frame = this;
 
 	/**
 	 * Content panel.
 	 */
-	private final Container contentPanel;
+	private Container contentPanel;
 
 	/**
 	 * Save button.
@@ -46,7 +46,7 @@ public class ViewText extends JFrame {
 	/**
 	 * TextArea pentru textul elementului.
 	 */
-	JTextArea descriptionArea;
+	private JTextArea descriptionArea;
 
 	/**
 	 * Constructor

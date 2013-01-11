@@ -18,12 +18,12 @@ import javax.swing.border.LineBorder;
 public class BlockMouseListener extends MouseAdapter {
 
 	// The local popup.
-	GPopup popup;
+	private GPopup popup;
 
 	/**
 	 * Constructor with the popup that should be displayed.
 	 * 
-	 * @param popup
+	 * @param popup Popup
 	 */
 	public BlockMouseListener(GPopup popup) {
 		this.popup = popup;

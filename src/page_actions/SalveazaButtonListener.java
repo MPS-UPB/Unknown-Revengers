@@ -11,7 +11,7 @@ import parser.LayoutParser;
  * @author Unknown-Revengers
  */
 public class SalveazaButtonListener implements ActionListener {
-	LayoutParser layoutParser;
+	private LayoutParser layoutParser;
 
 	/**
 	 * 

@@ -17,9 +17,9 @@ import analyzer.AnalyzerSelector;
 public class OCRComponents {
 
 	// List of selected components
-	ArrayList<GElement> panels;
+	private ArrayList<GElement> panels;
 
-	LayoutGUI gui;
+	private LayoutGUI gui;
 
 	/**
 	 * Constructor.
@@ -48,8 +48,8 @@ public class OCRComponents {
 		// Select an analyzer.
 		AnalyzerSelector as = new AnalyzerSelector("ocr");
 		Analyzer selectedAnalyzer = as.chooseAnalyzer();
-		selectedAnalyzer.setInput(gui.layoutParser.getImagePath());
-		selectedAnalyzer.setLayoutParser(gui.layoutParser);
+		selectedAnalyzer.setInput(gui.getLayoutParser().getImagePath());
+		selectedAnalyzer.setLayoutParser(gui.getLayoutParser());
 
 		// For each selected component return output file path
 		String filePath = "";

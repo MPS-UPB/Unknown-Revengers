@@ -18,9 +18,9 @@ import tree.GenericTreeNode;
  */
 public class GlueElements {
 
-	ArrayList<GElement> panels;
+	private ArrayList<GElement> panels;
 
-	LayoutGUI gui;
+	private LayoutGUI gui;
 
 	/**
 	 * Contructor.
@@ -56,7 +56,8 @@ public class GlueElements {
 
 		// Glue elements.
 		for (int j = panels.size() - 1; j >= 1; j--) {
-			this.gui.layoutParser.mergeNodeIntoOtherNode(panels.get(j).element,
+			this.gui.getLayoutParser().mergeNodeIntoOtherNode(
+					panels.get(j).element,
 					panels.get(0).element);
 		}
 

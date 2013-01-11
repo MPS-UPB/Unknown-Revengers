@@ -48,7 +48,7 @@ public class PopupItemListener implements ActionListener {
 				@Override
 				public void run() {
 					try {
-						new GetText(panel, gui.layoutParser);
+						new GetText(panel, gui.getLayoutParser());
 					} catch (Exception e) {
 						ErrorMessage.show(
 								"Problema la rularea analizatorului.", false);
@@ -66,10 +66,10 @@ public class PopupItemListener implements ActionListener {
 					|| panel.element.getData().elementType == LayoutParserTreeElement.ElementType.BLOCK) {
 
 				// Break block.
-				new BreakV(panel.element, this.gui.layoutParser.direction,
+				new BreakV(panel.element, this.gui.getLayoutParser().direction,
 						this.panel.getPopup().getGX(), this.panel.getPopup()
-								.getGY(), this.gui.image.getHeight(),
-						this.gui.image.getWidth());
+								.getGY(), this.gui.getImage().getHeight(),
+						this.gui.getImage().getWidth());
 
 				// Load elements.
 				this.gui.loadElements(this.gui.visibleElements);
@@ -84,10 +84,10 @@ public class PopupItemListener implements ActionListener {
 		} else if (action.compareTo(ElementActions.S_BREAK_H.toString()) == 0) {
 
 			// Break block.
-			new BreakH(panel.element, this.gui.layoutParser.direction,
+			new BreakH(panel.element, this.gui.getLayoutParser().direction,
 					this.panel.getPopup().getGX(), this.panel.getPopup()
-							.getGY(), this.gui.image.getHeight(),
-					this.gui.image.getWidth());
+							.getGY(), this.gui.getImage().getHeight(),
+					this.gui.getImage().getWidth());
 
 			this.gui.loadElements(this.gui.visibleElements);
 

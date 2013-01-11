@@ -13,7 +13,7 @@ import analyzer.AnalyzerSelector;
  */
 public class GetText {
 
-	private final String analyzedText;
+	private String analyzedText;
 
 	/**
 	 * Constructor
