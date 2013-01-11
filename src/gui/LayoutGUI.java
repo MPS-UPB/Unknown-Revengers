@@ -298,6 +298,12 @@ public class LayoutGUI extends JFrame {
 				backItem.addActionListener(actionListener);
 				popupMenu.add(backItem);
 
+				// Redimensioneaza
+				JMenuItem redimItem = new JMenuItem(
+						ElementActions.S_RESIZE.toString());
+				redimItem.addActionListener(actionListener);
+				popupMenu.add(redimItem);
+
 				// Set popup menu.
 				panel.setPopup(popupMenu);
 

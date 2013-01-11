@@ -103,6 +103,8 @@ public class PopupItemListener implements ActionListener {
 
 		} else if (action.compareTo(ElementActions.S_BACK.toString()) == 0) {
 			new FrontBack(panel, gui, "BACK");
+		} else if (action.compareTo(ElementActions.S_RESIZE.toString()) == 0) {
+			new Resize(panel, gui);
 		}
 	}
 }
