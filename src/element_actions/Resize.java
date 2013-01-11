@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import layout.ErrorMessage;
 import parser.Direction;
 
 public class Resize extends JFrame {
@@ -46,7 +47,7 @@ public class Resize extends JFrame {
 	/**
 	 * Fereastra curenta.
 	 */
-	private JFrame frame = this;
+	private Resize frame;
 
 	private JPanel previewPanel;
 
@@ -57,20 +58,22 @@ public class Resize extends JFrame {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Resize(GElement pan, LayoutGUI gui) {
 
+		frame = this;
+
 		// New Panel.
 		JPanel panel = new JPanel(new GridLayout(4, 2));
 
 		// Creaza content panel.
 		Container contentPanel = getContentPane();
 
+		// Init the preview panel.
 		previewPanel = new JPanel();
 		previewPanel.setBorder(new LineBorder(Color.MAGENTA));
-		// Make it transparent.
 		previewPanel.setOpaque(false);
 
+		// Button listeners.
 		ActionListener saveListener = new SaveListenter(pan, gui);
 		ActionListener previewListener = new PreviewListenter(pan, gui);
-		// dimensiuni
 
 		// X
 		labelX = new JLabel();
@@ -104,6 +107,7 @@ public class Resize extends JFrame {
 		panel.add(labelHeight);
 		panel.add(textHeight);
 
+		// Draw panel.
 		contentPanel.add(panel, BorderLayout.CENTER);
 
 		// Adauga buton de preview.
@@ -119,6 +123,20 @@ public class Resize extends JFrame {
 		contentPanel.add(panel, BorderLayout.SOUTH);
 
 		this.initFrame();
+	}
+
+	public boolean validateNewData(int x, int y, int width, int height,
+			int iWidth, int iHeight) {
+
+		if (x < 0 || y < 0 || width < 0 || height < 0) {
+			return false;
+		}
+
+		if (x + width > iWidth || y + height > iHeight) {
+			return false;
+		}
+
+		return true;
 	}
 
 	private void initFrame() {
@@ -141,6 +159,14 @@ public class Resize extends JFrame {
 		GElement panel;
 		LayoutGUI gui;
 
+		/**
+		 * Constructor.
+		 * 
+		 * @param panel
+		 *            JPanel pe care s-a facut actiunea.
+		 * @param gui
+		 *            GUI
+		 */
 		PreviewListenter(GElement panel, LayoutGUI gui) {
 			this.panel = panel;
 			this.gui = gui;
@@ -149,14 +175,23 @@ public class Resize extends JFrame {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
+
+			// Get params.
 			int height = Integer.parseInt(textHeight.getText());
 			int y = Integer.parseInt(textY.getText());
 			int x = Integer.parseInt(textX.getText());
 			int width = Integer.parseInt(textWidth.getText());
 
-			previewPanel.setBounds(x, y, width, height);
+			if (frame.validateNewData(x, y, width, height,
+					this.gui.image.getWidth(), this.gui.image.getHeight())) {
+				// Set bounds for preview panel.
+				previewPanel.setBounds(x, y, width, height);
 
-			this.gui.getDraw().add(previewPanel);
+				// Draw preview panel in GUI.
+				this.gui.getDraw().add(previewPanel);
+			} else {
+				ErrorMessage.show("Invalid new data.", false);
+			}
 		}
 	}
 
@@ -169,6 +204,14 @@ public class Resize extends JFrame {
 		GElement panel;
 		LayoutGUI gui;
 
+		/**
+		 * Constructor.
+		 * 
+		 * @param panel
+		 *            JPanel pe care s-a facut actiunea.
+		 * @param gui
+		 *            GUI
+		 */
 		SaveListenter(GElement panel, LayoutGUI gui) {
 			this.panel = panel;
 			this.gui = gui;
@@ -176,27 +219,42 @@ public class Resize extends JFrame {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
+			// Get params.
 			int height = Integer.parseInt(textHeight.getText());
 			int y = Integer.parseInt(textY.getText());
 			int x = Integer.parseInt(textX.getText());
 			int width = Integer.parseInt(textWidth.getText());
 
-			this.panel.element.getData().left = x;
-			this.panel.element.getData().right = x + width;
-			this.panel.element.getData().top = y;
-			this.panel.element.getData().bottom = y + height;
+			if (frame.validateNewData(x, y, width, height,
+					this.gui.image.getWidth(), this.gui.image.getHeight())) {
 
-			if (this.gui.layoutParser.direction == Direction.ASCENDING) {
-				this.panel.element.getData().top = this.gui.image.getHeight()
-						- (y + height);
-				this.panel.element.getData().bottom = this.gui.image
-						.getHeight() - y;
+				// Set data in element.
+				this.panel.element.getData().left = x;
+				this.panel.element.getData().right = x + width;
+				this.panel.element.getData().top = y;
+				this.panel.element.getData().bottom = y + height;
+
+				// Update element data if direction is ASCENDING.
+				if (this.gui.layoutParser.direction == Direction.ASCENDING) {
+					this.panel.element.getData().top = this.gui.image
+							.getHeight() - (y + height);
+					this.panel.element.getData().bottom = this.gui.image
+							.getHeight() - y;
+				}
+
+				// Set panel bounds.
+				this.panel.setBounds(x, y, width, height);
+
+				// Remove the preview panel.
+				this.gui.draw.remove(previewPanel);
+
+				// Redraw the old panel.
+				this.gui.draw.add(panel);
+			} else {
+				ErrorMessage.show("Invalid new data.", false);
 			}
 
-			this.panel.setBounds(x, y, width, height);
-			this.gui.draw.remove(previewPanel);
-			this.gui.draw.add(panel);
-
+			// Close Resize windows.
 			frame.dispose();
 		}
 	}
