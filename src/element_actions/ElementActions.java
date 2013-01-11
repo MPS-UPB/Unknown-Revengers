@@ -36,7 +36,8 @@ public enum ElementActions {
 	 */
 	S_DELETE("Sterge element"),
 	S_FRONT("Bring to Front"),
-	S_BACK("Send to Back");
+	S_BACK("Send to Back"),
+	S_RESIZE("Redimensioneaza");
 
 	/**
 	 * @param text
