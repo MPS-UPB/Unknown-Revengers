@@ -489,15 +489,18 @@ public class LayoutParser {
 			right = -1;
 		}
 
-		if (currentMatch.tag() == "Point") {
+		if (currentMatch.tag().compareTo("Point") == 0) {
 			LayoutParserTreeElement new_element = new LayoutParserTreeElement(
-					currentMatch.tag(), currentMatch.attr("x"),
+					LayoutParserTreeElement.ElementType.valueOf(currentMatch
+							.tag().toUpperCase()), currentMatch.attr("x"),
 					currentMatch.attr("y"));
 			return new GenericTreeNode<LayoutParserTreeElement>(new_element);
 		} else if (currentMatch.children().size() == 0) {
 			// Suntem in frunza
 			LayoutParserTreeElement new_element = new LayoutParserTreeElement(
-					currentMatch.tag(), currentMatch.content(), top, bottom,
+					LayoutParserTreeElement.ElementType.valueOf(currentMatch
+							.tag().toUpperCase()), currentMatch.content(), top,
+					bottom,
 					right, left, currentMatch.attr("image"));
 			return new GenericTreeNode<LayoutParserTreeElement>(new_element);
 		}
@@ -506,14 +509,20 @@ public class LayoutParser {
 		LayoutParserTreeElement rootElement = null;
 		if (currentMatch.tag().compareTo("ComposedBlock") == 0) {
 			if (currentMatch.attr("type").compareTo("page_number") == 0) {
-				rootElement = new LayoutParserTreeElement(currentMatch.tag(),
+				rootElement = new LayoutParserTreeElement(
+						LayoutParserTreeElement.ElementType.valueOf(currentMatch
+								.tag().toUpperCase()),
 						true);
 			} else {
-				rootElement = new LayoutParserTreeElement(currentMatch.tag(),
+				rootElement = new LayoutParserTreeElement(
+						LayoutParserTreeElement.ElementType.valueOf(currentMatch
+								.tag().toUpperCase()),
 						false);
 			}
 		} else {
-			rootElement = new LayoutParserTreeElement(currentMatch.tag(),
+			rootElement = new LayoutParserTreeElement(
+					LayoutParserTreeElement.ElementType.valueOf(currentMatch
+							.tag().toUpperCase()),
 					currentMatch.content(), top, bottom, right, left,
 					currentMatch.attr("image"));
 

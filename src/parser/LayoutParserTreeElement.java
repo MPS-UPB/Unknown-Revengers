@@ -111,13 +111,13 @@ public class LayoutParserTreeElement {
 	/**
 	 * Constructor.
 	 * 
-	 * @param tag Type.
+	 * @param type Type.
 	 * @param hasPage Block is page number.
 	 */
-	public LayoutParserTreeElement(String tag, boolean hasPage) {
+	public LayoutParserTreeElement(ElementType type, boolean hasPage) {
 		this.hasPage = hasPage;
 		this.text = "";
-		setTagType(tag);
+		this.elementType = type;
 	}
 
 	/**
@@ -133,93 +133,12 @@ public class LayoutParserTreeElement {
 	/**
 	 * Constructor.
 	 * 
-	 * @param tag Type.
+	 * @param type Type.
 	 * @param text Element text.
 	 */
-	public LayoutParserTreeElement(String tag, String text) {
+	public LayoutParserTreeElement(ElementType type, String text) {
 		this.text = text;
-		setTagType(tag);
-	}
-
-	/**
-	 * 
-	 * Sets the tag type
-	 * 
-	 * @param tag
-	 */
-	private void setTagType(String tag) {
-		// Parseaza tipul elementului din text in ElementType
-		switch (tag) {
-		case "String":
-			this.elementType = ElementType.STRING;
-			break;
-		case "Document":
-			this.elementType = ElementType.DOCUMENT;
-			break;
-		case "TextBlock":
-			this.elementType = ElementType.TEXTBLOCK;
-			break;
-		case "TextLine":
-			this.elementType = ElementType.TEXTLINE;
-			break;
-		case "Dir":
-			this.elementType = ElementType.DIR;
-			break;
-		case "Imposed":
-			this.elementType = ElementType.IMPOSED;
-			break;
-		case "File":
-			this.elementType = ElementType.FILE;
-			break;
-		case "Point":
-			this.elementType = ElementType.POINT;
-			break;
-		case "Polygon":
-			this.elementType = ElementType.POLYGON;
-			break;
-		case "Block":
-			this.elementType = ElementType.BLOCK;
-			break;
-		case "ComposedBlock":
-			this.elementType = ElementType.COMPOSEDBLOCK;
-			break;
-		case "ImageBlock":
-			this.elementType = ElementType.IMAGEBLOCK;
-			break;
-		}
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param tag Element type.
-	 * @param text Element text.
-	 * @param top Element top coordinate.
-	 * @param bottom Element bottom coordinate.
-	 * @param right Element right coordinate.
-	 * @param left Element left coordinate.
-	 * @param image Element image.
-	 */
-	public LayoutParserTreeElement(String tag, String text, int top,
-			int bottom, int right, int left, String image) {
-		this(top, bottom, right, left, text);
-		this.image = image;
-
-		setTagType(tag);
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param tag Element type.
-	 * @param x Coordinate.
-	 * @param y Coordinate.
-	 */
-	public LayoutParserTreeElement(String tag, String x, String y) {
-		setTagType(tag);
-		this.text = "";
-		this.x = x;
-		this.y = y;
+		this.elementType = type;
 	}
 
 	/**
@@ -227,10 +146,31 @@ public class LayoutParserTreeElement {
 	 * 
 	 * @param type Element type.
 	 * @param text Element text.
+	 * @param top Element top coordinate.
+	 * @param bottom Element bottom coordinate.
+	 * @param right Element right coordinate.
+	 * @param left Element left coordinate.
+	 * @param image Element image.
 	 */
-	public LayoutParserTreeElement(ElementType type, String text) {
+	public LayoutParserTreeElement(ElementType type, String text, int top,
+			int bottom, int right, int left, String image) {
+		this(top, bottom, right, left, text);
+		this.image = image;
 		this.elementType = type;
-		this.text = text;
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param type Element type.
+	 * @param x Coordinate.
+	 * @param y Coordinate.
+	 */
+	public LayoutParserTreeElement(ElementType type, String x, String y) {
+		this.elementType = type;
+		this.text = "";
+		this.x = x;
+		this.y = y;
 	}
 
 	// Cum va fi tiparit un nod cand vrem sa-l afisam
