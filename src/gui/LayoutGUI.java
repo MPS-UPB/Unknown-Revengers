@@ -17,7 +17,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
@@ -33,7 +32,6 @@ import tree.GenericTreeTraversalOrderEnum;
 import element_actions.ElementActions;
 import element_actions.PopupItemListener;
 import element_actions.PopupItemMouseListener;
-import element_actions.PopupListener;
 import elements_actions.ActionButtonListener;
 import elements_actions.ComponentComboListener;
 import elements_actions.ElementsActions;
@@ -236,7 +234,7 @@ public class LayoutGUI extends JFrame {
 				}
 
 				// Create the popup menu for the current panel
-				JPopupMenu popupMenu = new GPopup();
+				GPopup popupMenu = new GPopup();
 
 				/*
 				 * Action listener pentru popupMenu Primeste ca parametru
@@ -307,8 +305,7 @@ public class LayoutGUI extends JFrame {
 				popupMenu.add(redimItem);
 
 				// Set popup menu.
-				panel.setComponentPopupMenu(popupMenu);
-				popupMenu.addPopupMenuListener(new PopupListener());
+				panel.setPopup(popupMenu);
 
 				// Draw panel.
 				draw.add(panel);
