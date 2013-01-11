@@ -1,10 +1,12 @@
 package element_actions;
 
+import elements_actions.OCRComponents;
 import gui.GElement;
 import gui.LayoutGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -48,7 +50,9 @@ public class PopupItemListener implements ActionListener {
 				@Override
 				public void run() {
 					try {
-						new GetText(panel, gui.getLayoutParser());
+						ArrayList<GElement> onePanel = new ArrayList<GElement>();
+						onePanel.add(panel);
+						new OCRComponents(onePanel, gui);
 					} catch (Exception e) {
 						ErrorMessage.show(
 								"Problema la rularea analizatorului.", false);

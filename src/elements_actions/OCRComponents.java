@@ -5,6 +5,7 @@ import gui.LayoutGUI;
 
 import java.util.ArrayList;
 
+import parser.TextActions;
 import analyzer.Analyzer;
 import analyzer.AnalyzerSelector;
 
@@ -21,6 +22,8 @@ public class OCRComponents {
 
 	private LayoutGUI gui;
 
+	private Analyzer analyzer;
+
 	/**
 	 * Constructor.
 	 * 
@@ -34,6 +37,14 @@ public class OCRComponents {
 		this.panels = panels;
 		this.gui = gui;
 
+		// Select an analyzer.
+		AnalyzerSelector as = new AnalyzerSelector("ocr");
+		this.analyzer = as.chooseAnalyzer();
+
+		// Set optional properties for analyzer.
+		this.analyzer.setInput(this.gui.getLayoutParser().getImagePath());
+		this.analyzer.setLayoutParser(this.gui.getLayoutParser());
+
 		// Call OCR analyzer method
 		this.AnalyzeOCRComponents();
 	}
@@ -44,22 +55,15 @@ public class OCRComponents {
 	 * @throws InterruptedException
 	 */
 	private void AnalyzeOCRComponents() throws InterruptedException {
-
-		// Select an analyzer.
-		AnalyzerSelector as = new AnalyzerSelector("ocr");
-		Analyzer selectedAnalyzer = as.chooseAnalyzer();
-		selectedAnalyzer.setInput(gui.getLayoutParser().getImagePath());
-		selectedAnalyzer.setLayoutParser(gui.getLayoutParser());
-
-		// For each selected component return output file path
-		String filePath = "";
-
 		// For each selected component run OCR analyzer
 		for (int i = 0; i < this.panels.size(); i++) {
+			this.analyzer.setPanel(panels.get(i));
 
-			selectedAnalyzer.setPanel(this.panels.get(i));
-			filePath = selectedAnalyzer.analyzeXML();
+			// TODO run the selected analyzer
+			// String text = selectedAnalyzer.analyzeXML();
+			String text = "ceva frumos";
 
+			TextActions.saveText(panels.get(i).element, text);
 		}
 
 		// TODO
