@@ -22,8 +22,11 @@ public class GlueElements {
 
 	LayoutGUI gui;
 
-	/*
-	 * Glue elements contructor
+	/**
+	 * Contructor.
+	 * 
+	 * @param panels Element panels.
+	 * @param gui GUI.
 	 */
 	public GlueElements(ArrayList<GElement> panels, LayoutGUI gui) {
 		this.panels = panels;
@@ -35,8 +38,6 @@ public class GlueElements {
 
 	/**
 	 * Glue more elements together
-	 * 
-	 * return void
 	 */
 	private void glueElements() {
 

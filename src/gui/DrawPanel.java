@@ -16,15 +16,13 @@ public class DrawPanel extends JPanel {
 	 * Imaginea de analizat.
 	 */
 	private BufferedImage image;
+
 	private boolean drawImageStatus;
 
 	/**
 	 * Constructor pentru zona de desenat.
 	 * 
-	 * @param image
-	 *            Image
-	 * 
-	 * @return void
+	 * @param image Image
 	 */
 	public DrawPanel(BufferedImage image) {
 		this.image = image;
@@ -34,10 +32,7 @@ public class DrawPanel extends JPanel {
 	/**
 	 * Deseneaza imaginea in zona de desenat.
 	 * 
-	 * @param g
-	 *            Graphics
-	 * 
-	 * @return void
+	 * @param g Graphics
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
@@ -49,11 +44,9 @@ public class DrawPanel extends JPanel {
 	}
 
 	/**
-	 * 
 	 * Afiseaza sau ascunde imaginea de background
 	 * 
-	 * @param newStatus
-	 *            Daca e true afiseaza imaginea, daca e false o sterge
+	 * @param newStatus Daca e true afiseaza imaginea, daca e false o sterge
 	 */
 	public void changeImageDrawingStatus(boolean newStatus) {
 		this.drawImageStatus = newStatus;
@@ -62,7 +55,7 @@ public class DrawPanel extends JPanel {
 	/**
 	 * Remove element from panel
 	 * 
-	 * @param panel
+	 * @param panel Element panel.
 	 */
 	public void DeleteElement(GElement panel) {
 		this.remove(panel);

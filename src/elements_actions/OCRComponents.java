@@ -21,8 +21,13 @@ public class OCRComponents {
 
 	LayoutGUI gui;
 
-	/*
-	 * Constructor
+	/**
+	 * Constructor.
+	 * 
+	 * @param panels Element panels.
+	 * @param gui GUI.
+	 * 
+	 * @throws InterruptedException
 	 */
 	public OCRComponents(ArrayList<GElement> panels, LayoutGUI gui)
 			throws InterruptedException {
@@ -36,7 +41,6 @@ public class OCRComponents {
 	/**
 	 * Run OCR analyzer on each selected components
 	 * 
-	 * @return void
 	 * @throws InterruptedException
 	 */
 	private void AnalyzeOCRComponents() throws InterruptedException {
@@ -57,5 +61,7 @@ public class OCRComponents {
 			filePath = selectedAnalyzer.analyzeXML();
 
 		}
+
+		// TODO
 	}
 }

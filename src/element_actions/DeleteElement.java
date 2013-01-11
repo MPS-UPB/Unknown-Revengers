@@ -40,6 +40,6 @@ public class DeleteElement {
 		gui.layoutParser.XMLTree.delete(elementNode.getData());
 
 		// Delete element from panel
-		gui.draw.DeleteElement(panel);
+		gui.getDraw().DeleteElement(panel);
 	}
 }

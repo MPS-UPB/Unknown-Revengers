@@ -9,9 +9,18 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
+/**
+ * @author Unknown-Revengers
+ * 
+ */
 public class VisibilityComboListener implements ActionListener {
 	private LayoutGUI gui;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param gui GUI.
+	 */
 	public VisibilityComboListener(LayoutGUI gui) {
 		this.gui = gui;
 	}
@@ -29,9 +38,9 @@ public class VisibilityComboListener implements ActionListener {
 			gui.getDraw().changeImageDrawingStatus(false);
 		}
 
-		// Afiseaza elementele conform selectiei: litere, randuri, blocuri
-		// this.gui.loadElements(this.gui.visibleElements);
+		// Afiseaza elementele conform selectiei: randuri, blocuri
 		Component[] gList = gui.getDraw().getComponents();
+
 		for (Component element : gList) {
 			GElement gElem = (GElement) element;
 

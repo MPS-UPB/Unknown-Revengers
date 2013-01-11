@@ -21,7 +21,7 @@ public class BreakH {
 	 * @param height Element hight.
 	 * @param width Element width.
 	 */
-	public <child> BreakH(GenericTreeNode<LayoutParserTreeElement> element,
+	public BreakH(GenericTreeNode<LayoutParserTreeElement> element,
 			Direction dir, int x, int y, int height, int width) {
 		GenericTreeNode<LayoutParserTreeElement> parent = element.getParent();
 
