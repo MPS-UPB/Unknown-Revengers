@@ -11,9 +11,14 @@ import parser.LayoutParser;
 import analyzer.Analyzer;
 import analyzer.AnalyzerSelector;
 
+/**
+ * @author Unknown-Revengers
+ * 
+ */
 public class Main {
 	/**
 	 * @param args
+	 * 
 	 * @throws InterruptedException
 	 * @throws TransformerException
 	 * @throws IOException
@@ -71,11 +76,7 @@ public class Main {
 		}
 
 		/**
-		 * TODO In acest moment vom avea un fisier XML cu analiza de layout: -
-		 * fie a fost dat la inceput ca input - fie a rezutat in urma analizei
-		 * de layout
-		 * 
-		 * Urmatorul pas este sa reprezentam acest fisier in GUI
+		 * Reprezentare fisierului de input in GUI.
 		 */
 		LayoutParser lp = new LayoutParser(selectedFile);
 		LayoutGUI lg = new LayoutGUI(lp);

@@ -20,33 +20,26 @@ public class DeleteElement {
 	/**
 	 * Constructor.
 	 * 
-	 * @param GElement
-	 *            panel
-	 * @param LayoutGUI
-	 *            gui
+	 * @param panel Element panel.
+	 * @param gui GUI.
 	 */
 	public DeleteElement(GElement panel, LayoutGUI gui) {
-
 		this.panel = panel;
 		this.gui = gui;
-		this.DeleteElement();
+		this.Delete();
 
 	}
 
 	/**
 	 * Function delete selected element given as constructor parameter and
 	 * reload elements.
-	 * 
-	 * @return void
 	 */
-	public void DeleteElement() {
-
+	private void Delete() {
 		// Delete element from XMLTree
 		GenericTreeNode<LayoutParserTreeElement> elementNode = panel.element;
-		gui.layoutParser.XMLTree.delete(elementNode.getData());
+		gui.getLayoutParser().XMLTree.delete(elementNode.getData());
 
 		// Delete element from panel
-		gui.draw.DeleteElement(panel);
-
+		gui.getDraw().DeleteElement(panel);
 	}
 }

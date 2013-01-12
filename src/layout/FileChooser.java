@@ -1,4 +1,5 @@
 package layout;
+
 import java.awt.Frame;
 import java.io.File;
 
@@ -10,10 +11,14 @@ import javax.swing.filechooser.FileFilter;
  * 
  * @author Unknown-Revengers
  */
+@SuppressWarnings("serial")
 public class FileChooser extends Frame {
 
-	JFileChooser fileDialog;
+	private JFileChooser fileDialog;
 
+	/**
+	 * Constructor.
+	 */
 	public FileChooser() {
 		// Creaza un file dialog.
 		fileDialog = new JFileChooser(System.getProperty("user.dir"));

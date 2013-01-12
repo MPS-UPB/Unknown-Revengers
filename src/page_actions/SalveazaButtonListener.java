@@ -11,13 +11,12 @@ import parser.LayoutParser;
  * @author Unknown-Revengers
  */
 public class SalveazaButtonListener implements ActionListener {
-	LayoutParser layoutParser;
+	private LayoutParser layoutParser;
 
 	/**
 	 * 
-	 * @param layoutParser
-	 *            Instanta a LayoutParser-ului care contine metoda de salvare a
-	 *            arborelui ce abstractizeaza pagina
+	 * @param layoutParser Instanta a LayoutParser-ului care contine metoda de
+	 *            salvare a arborelui ce abstractizeaza pagina
 	 * 
 	 */
 	public SalveazaButtonListener(LayoutParser layoutParser) {

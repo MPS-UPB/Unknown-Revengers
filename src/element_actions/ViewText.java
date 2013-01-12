@@ -17,21 +17,21 @@ import javax.swing.JTextArea;
 import parser.TextActions;
 
 /**
- * @author Unknown-Revengers
+ * Frame pentru afisarea textului unui element.
  * 
- *         Frame pentru afisarea textului unui element.
+ * @author Unknown-Revengers
  */
 @SuppressWarnings("serial")
 public class ViewText extends JFrame {
 	/**
 	 * Fereastra curenta.
 	 */
-	JFrame frame = this;
+	private JFrame frame = this;
 
 	/**
 	 * Content panel.
 	 */
-	private final Container contentPanel;
+	private Container contentPanel;
 
 	/**
 	 * Save button.
@@ -46,13 +46,12 @@ public class ViewText extends JFrame {
 	/**
 	 * TextArea pentru textul elementului.
 	 */
-	JTextArea descriptionArea;
+	private JTextArea descriptionArea;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param panel
-	 *            Elementul selectat.
+	 * @param panel Elementul selectat.
 	 */
 	public ViewText(GElement panel) {
 		this.elementPanel = panel;

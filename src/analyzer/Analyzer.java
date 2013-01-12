@@ -42,7 +42,7 @@ public class Analyzer {
 	 */
 	private String output;
 
-	private final String type;
+	private String type;
 
 	private GElement panel;
 
@@ -51,10 +51,9 @@ public class Analyzer {
 	/**
 	 * Constructor.
 	 * 
-	 * @param name
-	 *            Analyzer's name.
-	 * @param description
-	 *            Analyzer's description.
+	 * @param name Analyzer's name.
+	 * @param description Analyzer's description.
+	 * @param type Analyzer's type.
 	 */
 	public Analyzer(String name, String description, String type) {
 		this.name = name;
@@ -65,34 +64,43 @@ public class Analyzer {
 	/**
 	 * Seteaza imaginea de input pentru analizator.
 	 * 
-	 * @param input
-	 *            Calea absoluta a imaginii de input.
+	 * @param input Calea absoluta a imaginii de input.
 	 */
 	public void setInput(String input) {
 		this.input = input;
 	}
 
+	/**
+	 * Panel setter.
+	 * 
+	 * @param panel GElement
+	 */
 	public void setPanel(GElement panel) {
 		this.panel = panel;
 	}
 
+	/**
+	 * Layout Parser setter.
+	 * 
+	 * @param lp Layout Parser
+	 */
 	public void setLayoutParser(LayoutParser lp) {
 		this.lp = lp;
 	}
 
 	/**
-	 * Returneaza numele analizatorului.
+	 * Name getter.
 	 * 
-	 * @return String
+	 * @return String Returneaza numele analizatorului.
 	 */
 	public String getName() {
 		return this.name;
 	}
 
 	/**
-	 * Returneaza descrierea analizatorului.
+	 * Description getter.
 	 * 
-	 * @return String
+	 * @return String Returneaza descrierea analizatorului.
 	 */
 	public String getDescription() {
 		return this.description;

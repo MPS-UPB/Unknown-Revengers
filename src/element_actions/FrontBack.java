@@ -30,12 +30,9 @@ public class FrontBack {
 	/**
 	 * Constructor.
 	 * 
-	 * @param panel
-	 *            Selected Panel.
-	 * @param gui
-	 *            LayoutGUI.
-	 * @param command
-	 *            Choosed command.
+	 * @param panel Selected Panel.
+	 * @param gui LayoutGUI.
+	 * @param command Choosed command.
 	 * 
 	 */
 	public FrontBack(GElement panel, LayoutGUI gui, String command) {
@@ -50,14 +47,14 @@ public class FrontBack {
 	/**
 	 * Switch given command and do required action.
 	 */
-	public void switchCommand() {
+	private void switchCommand() {
 		switch (command) {
 		case "FRONT":
-			this.gui.draw.setComponentZOrder(this.panel, 0);
+			this.gui.getDraw().setComponentZOrder(this.panel, 0);
 			break;
 		case "BACK":
-			this.gui.draw.setComponentZOrder(this.panel,
-					this.gui.draw.getComponentCount() - 1);
+			this.gui.getDraw().setComponentZOrder(this.panel,
+					this.gui.getDraw().getComponentCount() - 1);
 			break;
 		}
 	}
