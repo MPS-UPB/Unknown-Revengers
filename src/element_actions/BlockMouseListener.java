@@ -18,12 +18,12 @@ import javax.swing.border.LineBorder;
 public class BlockMouseListener extends MouseAdapter {
 
 	// The local popup.
-	GPopup popup;
+	private GPopup popup;
 
 	/**
 	 * Constructor with the popup that should be displayed.
 	 * 
-	 * @param popup
+	 * @param popup Popup
 	 */
 	public BlockMouseListener(GPopup popup) {
 		this.popup = popup;
@@ -32,10 +32,7 @@ public class BlockMouseListener extends MouseAdapter {
 	/**
 	 * Mouse over. Schimba culoare border in albastru.
 	 * 
-	 * @param e
-	 *            MouseEvent
-	 * 
-	 * @return void
+	 * @param e MouseEvent
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -46,10 +43,7 @@ public class BlockMouseListener extends MouseAdapter {
 	 * Mouse click. Selecteaza / deselecteaza element. Selectia este tinuta in
 	 * tooltip.
 	 * 
-	 * @param e
-	 *            MouseEvent
-	 * 
-	 * @return void
+	 * @param e MouseEvent
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -75,10 +69,7 @@ public class BlockMouseListener extends MouseAdapter {
 	 * Mouse exit. Schimba culoare border in verde daca nu e selectat si in
 	 * galben daca este selectat.
 	 * 
-	 * @param e
-	 *            MouseEvent
-	 * 
-	 * @return void
+	 * @param e MouseEvent
 	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
@@ -95,14 +86,6 @@ public class BlockMouseListener extends MouseAdapter {
 		}
 	}
 
-	/**
-	 * Mouse pressed.
-	 * 
-	 * @param e
-	 *            MouseEvent
-	 * 
-	 * @return void
-	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.isPopupTrigger()) {
@@ -110,14 +93,6 @@ public class BlockMouseListener extends MouseAdapter {
 		}
 	}
 
-	/**
-	 * Mouse released.
-	 * 
-	 * @param e
-	 *            MouseEvent
-	 * 
-	 * @return void
-	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (e.isPopupTrigger()) {
@@ -128,8 +103,7 @@ public class BlockMouseListener extends MouseAdapter {
 	/**
 	 * Show popup where mouse is clicked.
 	 * 
-	 * @param e
-	 *            MouseEvent
+	 * @param e MouseEvent
 	 * 
 	 * @return void
 	 */

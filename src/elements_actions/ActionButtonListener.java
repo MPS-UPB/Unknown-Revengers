@@ -30,18 +30,19 @@ public class ActionButtonListener implements ActionListener {
 	 */
 	private JPanel pane;
 
+	/**
+	 * GUI
+	 */
 	private LayoutGUI layoutGUI;
 
 	/**
 	 * Contructor
 	 * 
-	 * @param comboBox
-	 *            ComboBox cu actiuni posibile pentru blocurile selectate.
-	 * @param draw
-	 *            The DrawPanel that contains the elements.
-	 * @param layoutGUI
-	 *            The GUI
+	 * @param comboBox ComboBox cu actiuni posibile pentru blocurile selectate.
+	 * @param draw The DrawPanel that contains the elements.
+	 * @param layoutGUI The GUI
 	 */
+	@SuppressWarnings("rawtypes")
 	public ActionButtonListener(JComboBox comboBox, JPanel draw,
 			LayoutGUI layoutGUI) {
 		this.comboBox = comboBox;
@@ -65,9 +66,11 @@ public class ActionButtonListener implements ActionListener {
 			if (((GElement) panel).getToolTipText() != null
 					&& ((GElement) panel).getToolTipText()
 							.compareTo("selected") == 0) {
+
 				elementPanels.add((GElement) panel);
 			}
 		}
+
 		Thread actionThread = new Thread() {
 			@Override
 			public void run() {
@@ -84,7 +87,7 @@ public class ActionButtonListener implements ActionListener {
 						new GlueElements(elementPanels, layoutGUI);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					ErrorMessage.show("Eroare la rularea analizei OCR", false);
 				}
 			}
 		};

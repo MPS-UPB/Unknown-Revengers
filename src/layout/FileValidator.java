@@ -1,4 +1,5 @@
 package layout;
+
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +45,6 @@ public class FileValidator {
 			return validXML(fileName);
 		}
 
-		// TODO validate tiff file
 		else {
 			return true;
 		}
@@ -58,7 +58,6 @@ public class FileValidator {
 	 * @return boolean
 	 */
 	private static boolean validXML(String XMLPath) {
-				
 		/* Verifica XML in baza unui XSD */
 		String xsdPath = Config.output_schemas + "\\layout_specs.xsd";
 		Source xsdFile = new StreamSource(new File(xsdPath));

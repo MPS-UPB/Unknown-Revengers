@@ -1,5 +1,18 @@
 package parser;
 
+/**
+ * 
+ * @author Unknown-Revengers
+ * 
+ */
 public enum Direction {
-	ASCENDING, DESCENDING;
+	/**
+	 * Bottom top.
+	 */
+	ASCENDING,
+
+	/**
+	 * Top bottom.
+	 */
+	DESCENDING;
 }

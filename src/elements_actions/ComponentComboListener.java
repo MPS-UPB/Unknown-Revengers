@@ -16,6 +16,11 @@ import javax.swing.JComboBox;
 public class ComponentComboListener implements ActionListener {
 	private LayoutGUI gui;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param gui GUI.
+	 */
 	public ComponentComboListener(LayoutGUI gui) {
 		this.gui = gui;
 	}
@@ -30,6 +35,7 @@ public class ComponentComboListener implements ActionListener {
 		// Afiseaza elementele conform selectiei: litere, randuri, blocuri
 		if (component.compareTo(VisibleElements.S_BLOCK.toString()) == 0) {
 			this.gui.loadElements(VisibleElements.S_BLOCK);
+
 		} else if (component.compareTo(VisibleElements.S_LINE.toString()) == 0) {
 			this.gui.loadElements(VisibleElements.S_LINE);
 		}

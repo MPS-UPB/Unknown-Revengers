@@ -1,22 +1,5 @@
 package parser;
 
-/**
- * TODO
- * Parseaza fisierul de layout XML si reprezinta datele in memorie.
- * 
- * 1) Metode pentru a naviga prin fisierul de layout XML.
- *      - nextElement()
- *      - prevElement()
- * 
- * 2) Metode pentru a uni 2 elemente.
- *      - mergeElement()
- * 
- * 3) Medoda pentru a salva datele intr-un XML:
- * 	    - saveLayout()
- * 
- * @author Unknown-Revengers
- */
-
 import static org.joox.JOOX.$;
 
 import java.awt.FileDialog;
@@ -57,12 +40,31 @@ import org.xml.sax.SAXException;
 import tree.GenericTree;
 import tree.GenericTreeNode;
 
+/**
+ * Parseaza fisierul de layout XML si reprezinta datele in memorie.
+ * 
+ * @author Unknown-Revengers
+ */
 public class LayoutParser {
 
-	// Pagina va fi tinuta intr-un arbore
+	/**
+	 * Pagina va fi tinuta intr-un arbore
+	 */
 	public GenericTree<LayoutParserTreeElement> XMLTree;
+
+	/**
+	 * Calea catre xml.
+	 */
 	public String xmlPath;
-	public String imagePath;
+
+	/**
+	 * Calea catre imagine.
+	 */
+	private String imagePath;
+
+	/**
+	 * Ascending sau descending.
+	 */
 	public Direction direction;
 
 	/**
@@ -70,9 +72,7 @@ public class LayoutParser {
 	 * 
 	 * Reprezinta datele din fisierul de layout in memorie
 	 * 
-	 * @param String
-	 *            xmlPath Aici va fi retinuta calea catre XML. Calea este
-	 *            absoluta.
+	 * @param xmlPath Aici va fi retinuta calea catre XML. Calea este absoluta.
 	 */
 	public LayoutParser(String xmlPath) {
 
@@ -84,8 +84,6 @@ public class LayoutParser {
 
 	/**
 	 * Parse the input file and rebuild tree.
-	 * 
-	 * return void
 	 */
 	public void parse() {
 		String xmlExample = "";
@@ -99,16 +97,16 @@ public class LayoutParser {
 			e.printStackTrace();
 		}
 
-		// Creaza arborele care va tine minte structura paginii
+		// Creaza arborele care va tine minte structura paginii.
 		this.XMLTree = this.parseXML(xmlExample);
 	}
 
 	/**
 	 * Parseaza arborele dat ca parametru si construieste XML-ul de layout din
-	 * acesta
+	 * acesta.
 	 * 
 	 * @return string Returneaza XML-ul rezultat din parsarea arborelui ce va
-	 *         contine informatii despre pagina
+	 *         contine informatii despre pagina.
 	 * 
 	 * @throws TransformerException
 	 */
@@ -117,13 +115,13 @@ public class LayoutParser {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory
 				.newInstance();
 		DocumentBuilder docBuilder = null;
+
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
 			ErrorMessage.show(
 					"EROARE: A fost o eroare cand a fost creat documentul",
 					false);
-			e.printStackTrace();
 		}
 
 		// Creaza noul document
@@ -160,20 +158,14 @@ public class LayoutParser {
 	}
 
 	/**
-	 * 
 	 * Salveaza XML-ul intr-un fisier
 	 * 
-	 * @param withDialog
-	 *            Daca e true, XML-ul va fi salvat intr-un fisier ales din
-	 *            dialog Daca e false, XML-ul va fi salvat intr-un fisier
+	 * @param withDialog Daca e true, XML-ul va fi salvat intr-un fisier ales
+	 *            din dialog Daca e false, XML-ul va fi salvat intr-un fisier
 	 *            temporar
 	 * 
 	 * @return Calea catre fisier daca fisierul a fost salvat cu succes, sau
 	 *         null contrar
-	 * 
-	 * @param boolean withDialog Daca withDialog este true, fisierul va fi
-	 *        salvat intr-un fisier selectat din dialog Daca e false, fisierul
-	 *        va fi salvat intr-un fisier temporar
 	 * 
 	 */
 	public String saveXML(boolean withDialog) {
@@ -196,6 +188,7 @@ public class LayoutParser {
 				e1.printStackTrace();
 				return null;
 			}
+
 		} else {
 			try {
 				tempFile = File.createTempFile("temp", ".xml");
@@ -225,7 +218,14 @@ public class LayoutParser {
 		return fileName;
 	}
 
-	public boolean writeToFile(FileWriter fstream) {
+	/**
+	 * Scrie in fisier pentru salvare.
+	 * 
+	 * @param fstream Fisierul in care se va scrie.
+	 * 
+	 * @return boolean True daca totul merge bine.
+	 */
+	private boolean writeToFile(FileWriter fstream) {
 		BufferedWriter out = new BufferedWriter(fstream);
 
 		try {
@@ -238,7 +238,6 @@ public class LayoutParser {
 		} catch (TransformerException e1) {
 			ErrorMessage.show(
 					"Eroare in momentul construirii XML-ului de output", false);
-			e1.printStackTrace();
 			return false;
 		}
 
@@ -248,7 +247,6 @@ public class LayoutParser {
 		} catch (IOException e1) {
 			ErrorMessage.show("Eroare cand a fost inchis stream-ul de scriere",
 					false);
-			e1.printStackTrace();
 			return false;
 		}
 
@@ -257,7 +255,6 @@ public class LayoutParser {
 		} catch (IOException e) {
 			ErrorMessage.show("Eroare cand a fost inchis stream-ul de scriere",
 					false);
-			e.printStackTrace();
 			return false;
 		}
 
@@ -265,7 +262,6 @@ public class LayoutParser {
 	}
 
 	/**
-	 * 
 	 * Afiseaza un dialog de salvare
 	 * 
 	 * @return Calea absoluta catre fisierul in care se va salva XML-ul
@@ -291,79 +287,13 @@ public class LayoutParser {
 	}
 
 	/**
-	 * Parseaza arborele dat ca parametru si construieste XML-ul de layout din
-	 * acesta
-	 * 
-	 * 
-	 * @param InputTree
-	 *            Arborele care contine informatiile despre pagina
-	 * 
-	 * @return string Returneaza XML-ul rezultat din parsarea arborelui ce va
-	 *         contine informatii despre pagina
-	 * 
-	 * @throws TransformerException
-	 */
-	private String construct_xml(GenericTree<LayoutParserTreeElement> InputTree)
-			throws TransformerException {
-		String result_xml = null;
-		DocumentBuilderFactory docFactory = DocumentBuilderFactory
-				.newInstance();
-		DocumentBuilder docBuilder = null;
-		try {
-			docBuilder = docFactory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			ErrorMessage.show(
-					"EROARE: A fost o eroare cand a fost creat documentul",
-					false);
-			e.printStackTrace();
-		}
-
-		// Creaza noul document
-		Document doc = docBuilder.newDocument();
-		Element rootElement = doc.createElement(InputTree.getRoot().toString());
-
-		// Sets the image attribute
-		Attr imageTag = doc.createAttribute("image");
-		imageTag.setValue(getImagePath());
-		rootElement.setAttributeNode(imageTag);
-
-		// Sets the direction attribute
-		Attr directionTag = doc.createAttribute("direction");
-		directionTag.setValue(this.direction.toString());
-		rootElement.setAttributeNode(directionTag);
-
-		// Adauga radacina arborelui
-		doc.appendChild(rootElement);
-
-		// Parseaza si creaza tot arborele
-		doc = addElements(doc, rootElement, InputTree.getRoot());
-
-		// Returneaza XML-ul sub forma de String din obiectul de tip DOM
-		TransformerFactory transformerFactory = TransformerFactory
-				.newInstance();
-		Transformer transformer = transformerFactory.newTransformer();
-		DOMSource source = new DOMSource(doc);
-		StringWriter sw = new StringWriter();
-		StreamResult result = new StreamResult(sw);
-		transformer.transform(source, result);
-		result_xml = sw.toString();
-
-		return result_xml;
-	}
-
-	/**
 	 * In aceasta metoda a fost implementata logica de parsare a arborelui
 	 * pentru a construi XML-ul
 	 * 
-	 * @param doc
-	 *            Arborele care este construit pentru a crea din el XML-ul
-	 * 
-	 * @param currentElement
-	 *            Elementul curent din arborele din care se va crea XML-ul in
-	 *            care ne aflam
-	 * 
-	 * @param Node
-	 *            Nodul curent din arborele in care e retinuta logica paginii
+	 * @param doc Arborele care este construit pentru a crea din el XML-ul
+	 * @param currentElement Elementul curent din arborele din care se va crea
+	 *            XML-ul in care ne aflam
+	 * @param Node Nodul curent din arborele in care e retinuta logica paginii
 	 * 
 	 * @return Document Intoarce arborele din care se va contstrui XML-ul
 	 * 
@@ -402,15 +332,22 @@ public class LayoutParser {
 
 				// Adauga atributele
 				if (childElement.shouldOutputCoords()) {
+					// Bottom
 					Attr bottom = doc.createAttribute("bottom");
 					bottom.setValue(Integer.toString(childElement.bottom));
 					child.setAttributeNode(bottom);
+
+					// Top
 					Attr top = doc.createAttribute("top");
 					top.setValue(Integer.toString(childElement.top));
 					child.setAttributeNode(top);
+
+					// Right
 					Attr right = doc.createAttribute("right");
 					right.setValue(Integer.toString(childElement.right));
 					child.setAttributeNode(right);
+
+					// Left
 					Attr left = doc.createAttribute("left");
 					left.setValue(Integer.toString(childElement.left));
 					child.setAttributeNode(left);
@@ -449,8 +386,7 @@ public class LayoutParser {
 	/**
 	 * Citeste XML-ul dintr-un fisier primit ca parametru
 	 * 
-	 * @param path
-	 *            Calea catre fisier
+	 * @param path Calea catre fisier
 	 * 
 	 * @return Returneaza XML-ul intr-un String
 	 * @throws IOException
@@ -472,8 +408,7 @@ public class LayoutParser {
 	 * Parseaza XML-ul primit ca String si returneaza un arbore de tip
 	 * GenericTree
 	 * 
-	 * @param string
-	 *            layoutXML XML-ul ce contine informatii despre pagina
+	 * @param string layoutXML XML-ul ce contine informatii despre pagina
 	 * 
 	 * @return GenericTree<LayoutParserTreeElement> Arborele ce va contine
 	 *         informatii despre pagina dupa ce a parsat XML-ul
@@ -516,8 +451,7 @@ public class LayoutParser {
 	/**
 	 * Parseaza XML-ul folosing DFS si in acelasi timp creaza arborele
 	 * 
-	 * @param currentMatch
-	 *            Reprezinta elementul curent
+	 * @param currentMatch Reprezinta elementul curent
 	 * 
 	 * @return GenericTreeNode<LayoutParserTreeElement> Returneaza nodul curent
 	 */
@@ -531,7 +465,6 @@ public class LayoutParser {
 		int left;
 
 		// Parsam atributele ca sa nu dea eroare
-
 		if (currentMatch.attr("top") != null) {
 			top = Integer.parseInt(currentMatch.attr("top"));
 		} else {
@@ -556,15 +489,18 @@ public class LayoutParser {
 			right = -1;
 		}
 
-		if (currentMatch.tag() == "Point") {
+		if (currentMatch.tag().compareTo("Point") == 0) {
 			LayoutParserTreeElement new_element = new LayoutParserTreeElement(
-					currentMatch.tag(), currentMatch.attr("x"),
+					LayoutParserTreeElement.ElementType.valueOf(currentMatch
+							.tag().toUpperCase()), currentMatch.attr("x"),
 					currentMatch.attr("y"));
 			return new GenericTreeNode<LayoutParserTreeElement>(new_element);
 		} else if (currentMatch.children().size() == 0) {
 			// Suntem in frunza
 			LayoutParserTreeElement new_element = new LayoutParserTreeElement(
-					currentMatch.tag(), currentMatch.content(), top, bottom,
+					LayoutParserTreeElement.ElementType.valueOf(currentMatch
+							.tag().toUpperCase()), currentMatch.content(), top,
+					bottom,
 					right, left, currentMatch.attr("image"));
 			return new GenericTreeNode<LayoutParserTreeElement>(new_element);
 		}
@@ -573,18 +509,25 @@ public class LayoutParser {
 		LayoutParserTreeElement rootElement = null;
 		if (currentMatch.tag().compareTo("ComposedBlock") == 0) {
 			if (currentMatch.attr("type").compareTo("page_number") == 0) {
-				rootElement = new LayoutParserTreeElement(currentMatch.tag(),
+				rootElement = new LayoutParserTreeElement(
+						LayoutParserTreeElement.ElementType.valueOf(currentMatch
+								.tag().toUpperCase()),
 						true);
 			} else {
-				rootElement = new LayoutParserTreeElement(currentMatch.tag(),
+				rootElement = new LayoutParserTreeElement(
+						LayoutParserTreeElement.ElementType.valueOf(currentMatch
+								.tag().toUpperCase()),
 						false);
 			}
 		} else {
-			rootElement = new LayoutParserTreeElement(currentMatch.tag(),
+			rootElement = new LayoutParserTreeElement(
+					LayoutParserTreeElement.ElementType.valueOf(currentMatch
+							.tag().toUpperCase()),
 					currentMatch.content(), top, bottom, right, left,
 					currentMatch.attr("image"));
 
 		}
+
 		parentTreeNode = new GenericTreeNode<LayoutParserTreeElement>(
 				rootElement);
 
@@ -600,20 +543,19 @@ public class LayoutParser {
 	}
 
 	/**
+	 * Getter pentru calea imaginii.
 	 * 
 	 * @return String Returneaza calea catre imagine
 	 */
-	private String getImagePath() {
+	public String getImagePath() {
 		return this.imagePath;
 	}
 
 	/**
-	 * Muta un nod de la un parinte la altul intr-un arbore
+	 * Muta un nod de la un parinte la altul intr-un arbore.
 	 * 
-	 * @param movingNode
-	 *            Nodul mutat
-	 * @param toParentNode
-	 *            Nodul parinte destinatie
+	 * @param movingNode Nodul mutat
+	 * @param toParentNode Nodul parinte destinatie
 	 * 
 	 * @return boolen True daca operatia a fost indeplinita cu succes, sau false
 	 *         altfel
@@ -621,6 +563,7 @@ public class LayoutParser {
 	public boolean moveChildToParent(
 			GenericTreeNode<LayoutParserTreeElement> movingNode,
 			GenericTreeNode<LayoutParserTreeElement> toParentNode) {
+
 		int i;
 
 		// Gaseste parintele nodului care va fi mutat
@@ -645,11 +588,11 @@ public class LayoutParser {
 	}
 
 	/**
-	 * Merge all childs from one node to another and then remove the first node
+	 * Merge all children from one node to another and then remove the first
+	 * node
 	 * 
-	 * @param movingNode
-	 * @param newNode
-	 * @return void
+	 * @param movingNode Original node.
+	 * @param newNode New node.
 	 */
 	public void mergeNodeIntoOtherNode(
 			GenericTreeNode<LayoutParserTreeElement> movingNode,
@@ -678,8 +621,7 @@ public class LayoutParser {
 	 * Salveaza calea catre imagine din radacina XML-ului. Functia va functiona
 	 * cum trebuie chiar daca calea XML-ului este relativa sau absoluta
 	 * 
-	 * @param documentRoot
-	 *            Radacina documentului
+	 * @param documentRoot Radacina documentului
 	 * 
 	 */
 	private void saveImageFromXML(Match documentRoot) {
@@ -700,6 +642,7 @@ public class LayoutParser {
 			case "ascending":
 				this.direction = Direction.ASCENDING;
 				break;
+
 			case "descending":
 				this.direction = Direction.DESCENDING;
 				break;
