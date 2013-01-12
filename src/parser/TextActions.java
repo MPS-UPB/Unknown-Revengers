@@ -7,15 +7,15 @@ import java.util.List;
 import tree.GenericTreeNode;
 
 /**
- * @author diana
+ * @author Unknown-Revengers
  * 
  */
 public class TextActions {
 	/**
 	 * Genereaza textul pentru elementul curent.
 	 * 
-	 * @param element
-	 *            Elementul curent.
+	 * @param element Elementul curent.
+	 * 
 	 * @return String Textul elementului.
 	 */
 	@SuppressWarnings("unchecked")
@@ -57,9 +57,10 @@ public class TextActions {
 	/**
 	 * Salveaza modificarile facute in arbore.
 	 * 
-	 * @param text
-	 *            Textul de salvat in arbore.
+	 * @param element Tree element.
+	 * @param text Textul de salvat in arbore.
 	 */
+	@SuppressWarnings("unchecked")
 	public static void saveText(
 			GenericTreeNode<LayoutParserTreeElement> element, String text) {
 		/*
@@ -149,11 +150,10 @@ public class TextActions {
 	/**
 	 * Sterge noduri frunza daca la editare s-au sters cuvinte.
 	 * 
-	 * @param element
-	 *            Elementul din care s-au sters cuvinte.
-	 * @param textLength
-	 *            Numarul de elemente ramase.
+	 * @param element Elementul din care s-au sters cuvinte.
+	 * @param textLength Numarul de elemente ramase.
 	 */
+	@SuppressWarnings("unchecked")
 	private static void deleteText(
 			GenericTreeNode<LayoutParserTreeElement> element, int textLength) {
 		// Ia copii elementului curent.

@@ -14,13 +14,26 @@ import parser.TextActions;
 import tree.GenericTreeNode;
 import element_actions.BlockMouseListener;
 
+/**
+ * Element panel.
+ * 
+ * @author Unknown-Revengers
+ */
+@SuppressWarnings("serial")
 public class GElement extends JPanel {
 
 	private JScrollPane scrollPanel;
+
 	private JTextArea textArea;
+
 	public GenericTreeNode<LayoutParserTreeElement> element;
 	private GPopup popup;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param element Tree element.
+	 */
 	public GElement(GenericTreeNode<LayoutParserTreeElement> element) {
 		this.element = element;
 
@@ -60,14 +73,12 @@ public class GElement extends JPanel {
 	}
 
 	/**
-	 * 
 	 * Seteaza un TextArea pentru elementul curent
 	 * 
-	 * @param height
-	 * @param width
-	 * @param visible
+	 * @param height Text area height.
+	 * @param width Text area width.
+	 * @param visible Text area is visible or not.
 	 */
-
 	public void setTextArea(int width, int height, boolean visible) {
 		textArea = new JTextArea();
 		textArea.setBorder(BorderFactory.createLineBorder(Color.red));
@@ -87,10 +98,9 @@ public class GElement extends JPanel {
 	}
 
 	/**
-	 * 
 	 * Modifica vizibilitatea si existenta TextArea-ului asociat GElement-ului
 	 * 
-	 * @param visible
+	 * @param visible Set text are visible or not.
 	 */
 	public void setTextAreaVisible(boolean visible) {
 		this.textArea.setText(TextActions.getText(this.element));

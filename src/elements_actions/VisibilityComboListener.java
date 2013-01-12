@@ -9,9 +9,18 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
+/**
+ * @author Unknown-Revengers
+ * 
+ */
 public class VisibilityComboListener implements ActionListener {
 	private LayoutGUI gui;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param gui GUI.
+	 */
 	public VisibilityComboListener(LayoutGUI gui) {
 		this.gui = gui;
 	}
@@ -23,19 +32,20 @@ public class VisibilityComboListener implements ActionListener {
 		String component = (String) cb.getSelectedItem();
 
 		// Afiseaza sau ascunde imaginea de background
-		if (component.compareTo("Image") == 0) {
+		if (component.compareTo(ElementsVisibility.S_IMAGE.toString()) == 0) {
 			gui.getDraw().changeImageDrawingStatus(true);
 		} else {
 			gui.getDraw().changeImageDrawingStatus(false);
 		}
 
-		// Afiseaza elementele conform selectiei: litere, randuri, blocuri
-		// this.gui.loadElements(this.gui.visibleElements);
+		// Afiseaza elementele conform selectiei: randuri, blocuri
 		Component[] gList = gui.getDraw().getComponents();
+
 		for (Component element : gList) {
 			GElement gElem = (GElement) element;
 
-			if (gui.visCombo.getSelectedItem().toString() == "Image") {
+			if (gui.visCombo.getSelectedItem().toString()
+					.compareTo(ElementsVisibility.S_IMAGE.toString()) == 0) {
 				gElem.setTextAreaVisible(false);
 			} else {
 				if (gElem.element.getData().elementType == gui.visibleElements

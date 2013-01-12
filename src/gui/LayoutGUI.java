@@ -35,13 +35,11 @@ import element_actions.PopupItemMouseListener;
 import elements_actions.ActionButtonListener;
 import elements_actions.ComponentComboListener;
 import elements_actions.ElementsActions;
+import elements_actions.ElementsVisibility;
 import elements_actions.VisibilityComboListener;
 
 /**
- * Interfata grafica (ar fi recomandat ca pentru fiecare TODO sa existe o metoda
- * / mai multe care fac acel lucru. Astfel, constructorul nu va avea sute de
- * linii). Probabil e bine ca listenerele sa fie declarate in alte fisiere, din
- * acelasi motiv.
+ * Interfata grafica.
  * 
  * @author Unknown-Revengers
  */
@@ -50,17 +48,17 @@ public class LayoutGUI extends JFrame {
 	/**
 	 * Layout parser.
 	 */
-	public LayoutParser layoutParser;
+	private LayoutParser layoutParser;
 
 	/**
 	 * Imaginea ce este incarcata.
 	 */
-	public BufferedImage image;
+	private BufferedImage image;
 
 	/**
 	 * Panelul in care se deseneaza imaginea.
 	 */
-	public DrawPanel draw;
+	private DrawPanel draw;
 
 	/**
 	 * Scroll pane-ul in care se pun elementele din imagine.
@@ -68,24 +66,27 @@ public class LayoutGUI extends JFrame {
 	private JScrollPane scrollPane;
 
 	public VisibleElements visibleElements;
-	// public ComponentComboListener componentCombo;
-	public JComboBox comboElements;
+
+	private JComboBox comboElements;
 	public JComboBox visCombo;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param layoutParser
+	 * @param layoutParser Layout Parser
+	 * 
 	 * @throws IOException
 	 */
 	public LayoutGUI(LayoutParser layoutParser) throws IOException {
 
 		this.layoutParser = layoutParser;
 
-		// Incarca imaginea in fereastra. Trebuie luata din layoutParser
-		// imaginea.
+		/*
+		 * Incarca imaginea in fereastra. Trebuie luata din layoutParser
+		 * imaginea.
+		 */
 		try {
-			File f = new File(this.layoutParser.imagePath);
+			File f = new File(this.layoutParser.getImagePath());
 			this.image = ImageIO.read(f);
 		} catch (Exception e) {
 			ErrorMessage.show("Invalid input image.");
@@ -111,18 +112,34 @@ public class LayoutGUI extends JFrame {
 	}
 
 	/**
+	 * Getter pentru draw.
 	 * 
 	 * @return Returneaza panel-ul curent
-	 * 
 	 */
 	public DrawPanel getDraw() {
 		return this.draw;
 	}
 
 	/**
-	 * Initializeaza fereastra
+	 * Getter pentru layoutParser.
 	 * 
-	 * @return void
+	 * @return Returneaza layoutParser
+	 */
+	public LayoutParser getLayoutParser() {
+		return this.layoutParser;
+	}
+
+	/**
+	 * Getter pentru image.
+	 * 
+	 * @return Returneaza imaginea
+	 */
+	public BufferedImage getImage() {
+		return this.image;
+	}
+
+	/**
+	 * Initializeaza fereastra.
 	 */
 	private void initFrame() {
 
@@ -134,6 +151,7 @@ public class LayoutGUI extends JFrame {
 		this.setResizable(false);
 		this.setUndecorated(false);
 		this.pack();
+
 		GraphicsConfiguration config = this.getGraphicsConfiguration();
 		Rectangle usableBounds = SunGraphicsEnvironment.getUsableBounds(config
 				.getDevice());
@@ -158,8 +176,6 @@ public class LayoutGUI extends JFrame {
 
 	/**
 	 * Inizializeaza zona in care se va desena.
-	 * 
-	 * @return void
 	 */
 	private void loadDrawZone() {
 		// Initializeaza draw panel.
@@ -185,7 +201,7 @@ public class LayoutGUI extends JFrame {
 	 * Incarca elementele in fereastra parsand fisierul de layout (se folosesc
 	 * functii din this.layoutParser)
 	 * 
-	 * @return void
+	 * @param type Visible element type.
 	 */
 	public void loadElements(VisibleElements type) {
 
@@ -223,7 +239,7 @@ public class LayoutGUI extends JFrame {
 				}
 
 				if (this.visCombo.getSelectedItem().toString()
-						.compareTo("Image") == 0) {
+						.compareTo(ElementsVisibility.S_IMAGE.toString()) == 0) {
 					panel.setTextArea(width, height, false);
 				} else {
 					if (panel.element.getData().elementType == type.toType()) {
@@ -317,7 +333,7 @@ public class LayoutGUI extends JFrame {
 	}
 
 	/**
-	 * TODO Adauga filtre pentru selectia elementelor din imagine.
+	 * Adauga filtre pentru selectia elementelor din imagine.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void addFilters() {
@@ -328,13 +344,13 @@ public class LayoutGUI extends JFrame {
 
 		/*
 		 * Dropdown componenta - atunci cand se schimba selectia, trebui sa se
-		 * schimbe si ceea ce este afisat peste imagine (litere, randuri sau
-		 * blocuri).
+		 * schimbe si ceea ce este afisat peste imagine (randuri sau blocuri).
 		 */
 		comboElements = new JComboBox();
 		comboElements.setModel(new DefaultComboBoxModel(new String[] {
 				VisibleElements.S_BLOCK.toString(),
 				VisibleElements.S_LINE.toString() }));
+
 		// Adauga listener pentru combo cu componente.
 		comboElements.addActionListener(new ComponentComboListener(this));
 		comboElements.setBounds(105, 20, 125, 20);
@@ -345,13 +361,16 @@ public class LayoutGUI extends JFrame {
 		visLabel.setBounds(255, 20, 75, 20);
 		getContentPane().add(visLabel);
 
-		// Combobox pentru selectarea vizibilitatii imaginii de background vs
-		// textul
-		// textul ce se afla scris in JScrollBar-uri
+		/*
+		 * Combobox pentru selectarea vizibilitatii imaginii de background vs
+		 * textul ce se afla scris in JScrollBar-uri.
+		 */
 		visCombo = new JComboBox();
-		visCombo.setModel(new DefaultComboBoxModel(new String[] { "Image",
-				"Text" }));
-		// Adauga listener pentru combo cu componente.
+		visCombo.setModel(new DefaultComboBoxModel(new String[] {
+				ElementsVisibility.S_IMAGE.toString(),
+				ElementsVisibility.S_TEXT.toString() }));
+
+		// Adauga listener pentru combo de vizibilitate.
 		visCombo.addActionListener(new VisibilityComboListener(this));
 		visCombo.setBounds(325, 20, 125, 20);
 		visCombo.setVisible(true);
@@ -365,8 +384,7 @@ public class LayoutGUI extends JFrame {
 		/*
 		 * Se poate face (DOAR PENTRU COMPONENTELE SELECTATE). Componentele
 		 * selectate pot fi luate verificand daca in tooltip este scris
-		 * selected. Vezi mouseClicked din BlockMouseListener. - analiza ocr -
-		 * unire componente - spargere componente
+		 * selected.
 		 */
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {
@@ -379,6 +397,7 @@ public class LayoutGUI extends JFrame {
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton
 				.setBounds(this.getMaximizedBounds().width - 80, 20, 60, 25);
+
 		// Adauga listener pentru combo cu actiuni.
 		btnNewButton.addActionListener(new ActionButtonListener(comboBox, draw,
 				this));
@@ -386,10 +405,10 @@ public class LayoutGUI extends JFrame {
 	}
 
 	/**
-	 * TODO Buton pentru salvat schimbarile facute intr-un fisier de output.
+	 * Buton pentru salvat schimbarile facute intr-un fisier de output.
 	 */
 	private void addActions() {
-		// TODO Ruleaza modul de numerotare a paginii.
+		// Ruleaza modul de numerotare a paginii.
 		JButton btnNumeroteaza = new JButton("Numeroteaza pagina");
 		btnNumeroteaza.setBounds(this.getMaximizedBounds().width - 290,
 				this.getMaximizedBounds().height - 70, 170, 23);
@@ -401,7 +420,8 @@ public class LayoutGUI extends JFrame {
 		JButton btnSalveaza = new JButton("Salveaza");
 		btnSalveaza.setBounds(this.getMaximizedBounds().width - 110,
 				this.getMaximizedBounds().height - 70, 90, 23);
-		// Adauga listener pentru buton de numerotare pagina.
+
+		// Adauga listener pentru buton de salcare.
 		btnSalveaza.addActionListener(new SalveazaButtonListener(
 				this.layoutParser));
 

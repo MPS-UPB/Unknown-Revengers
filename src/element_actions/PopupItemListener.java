@@ -1,10 +1,12 @@
 package element_actions;
 
+import elements_actions.OCRComponents;
 import gui.GElement;
 import gui.LayoutGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -31,10 +33,8 @@ public class PopupItemListener implements ActionListener {
 	/**
 	 * Constructor.
 	 * 
-	 * @param panel
-	 *            Selected panel
-	 * @param gui
-	 *            Gui
+	 * @param panel Element panel.
+	 * @param gui GUI.
 	 */
 	public PopupItemListener(GElement panel, LayoutGUI gui) {
 		this.panel = panel;
@@ -50,9 +50,12 @@ public class PopupItemListener implements ActionListener {
 				@Override
 				public void run() {
 					try {
-						new GetText(panel, gui.layoutParser);
+						ArrayList<GElement> onePanel = new ArrayList<GElement>();
+						onePanel.add(panel);
+						new OCRComponents(onePanel, gui);
 					} catch (Exception e) {
-						e.printStackTrace();
+						ErrorMessage.show(
+								"Problema la rularea analizatorului.", false);
 					}
 				}
 			};
@@ -65,11 +68,16 @@ public class PopupItemListener implements ActionListener {
 		} else if (action.compareTo(ElementActions.S_BREAK_V.toString()) == 0) {
 			if (panel.element.getData().elementType == LayoutParserTreeElement.ElementType.TEXTBLOCK
 					|| panel.element.getData().elementType == LayoutParserTreeElement.ElementType.BLOCK) {
-				new BreakV(panel.element, this.gui.layoutParser.direction,
+
+				// Break block.
+				new BreakV(panel.element, this.gui.getLayoutParser().direction,
 						this.panel.getPopup().getGX(), this.panel.getPopup()
-								.getGY(), this.gui.image.getHeight(),
-						this.gui.image.getWidth());
+								.getGY(), this.gui.getImage().getHeight(),
+						this.gui.getImage().getWidth());
+
+				// Load elements.
 				this.gui.loadElements(this.gui.visibleElements);
+
 			} else {
 				ErrorMessage.show(
 						"You can't split vertical "
@@ -79,14 +87,16 @@ public class PopupItemListener implements ActionListener {
 
 		} else if (action.compareTo(ElementActions.S_BREAK_H.toString()) == 0) {
 
-			new BreakH(panel.element, this.gui.layoutParser.direction,
+			// Break block.
+			new BreakH(panel.element, this.gui.getLayoutParser().direction,
 					this.panel.getPopup().getGX(), this.panel.getPopup()
-							.getGY(), this.gui.image.getHeight(),
-					this.gui.image.getWidth());
+							.getGY(), this.gui.getImage().getHeight(),
+					this.gui.getImage().getWidth());
+
 			this.gui.loadElements(this.gui.visibleElements);
 
 		} else if (action.compareTo(ElementActions.S_PAGE.toString()) == 0) {
-			new PageNumberBlock(panel, gui.layoutParser);
+			new PageNumberBlock(panel);
 
 		} else if (action.compareTo(ElementActions.S_DELETE.toString()) == 0) {
 
