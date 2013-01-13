@@ -187,7 +187,6 @@ public class Analyzer {
 
 		case "ocr":
 			xml = this.createOCRInputXML();
-			// this.output = this.output + ".txt";
 			break;
 		}
 
