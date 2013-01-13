@@ -164,7 +164,7 @@ public class Analyzer {
 				fout = File.createTempFile("output", ".xml");
 				break;
 			case "ocr":
-				fout = File.createTempFile("output", "");
+				fout = File.createTempFile("output", ".txt");
 				break;
 			}
 		} catch (IOException e) {
@@ -187,7 +187,6 @@ public class Analyzer {
 
 		case "ocr":
 			xml = this.createOCRInputXML();
-			this.output = this.output + ".txt";
 			break;
 		}
 
@@ -220,6 +219,7 @@ public class Analyzer {
 		try {
 			ProcessBuilder pb = new ProcessBuilder(Config.execs + "\\"
 					+ this.name, fin.getAbsolutePath());
+			pb.directory(new File(Config.execs));
 			Process p = pb.start();
 
 			// Asteapta incheierea procesului.
