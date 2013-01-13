@@ -3,8 +3,11 @@ package elements_actions;
 import gui.GElement;
 import gui.LayoutGUI;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import layout.ErrorMessage;
 import parser.TextActions;
 import analyzer.Analyzer;
 import analyzer.AnalyzerSelector;
@@ -31,9 +34,10 @@ public class OCRComponents {
 	 * @param gui GUI.
 	 * 
 	 * @throws InterruptedException
+	 * @throws IOException
 	 */
 	public OCRComponents(ArrayList<GElement> panels, LayoutGUI gui)
-			throws InterruptedException {
+			throws InterruptedException, IOException {
 		this.panels = panels;
 		this.gui = gui;
 
@@ -53,19 +57,42 @@ public class OCRComponents {
 	 * Run OCR analyzer on each selected components
 	 * 
 	 * @throws InterruptedException
+	 * @throws IOException
 	 */
-	private void AnalyzeOCRComponents() throws InterruptedException {
+	private void AnalyzeOCRComponents() throws InterruptedException,
+			IOException {
 		// For each selected component run OCR analyzer
 		for (int i = 0; i < this.panels.size(); i++) {
 			this.analyzer.setPanel(panels.get(i));
 
-			// TODO run the selected analyzer
-			// String text = selectedAnalyzer.analyzeXML();
-			String text = "ceva frumos";
+			// Run the selected analyzer
+			String outputFile = this.analyzer.analyzeXML();
+
+			// Get the text from the outputed file.
+			String text = this.readEntireFile(outputFile);
 
 			TextActions.saveText(panels.get(i).element, text);
 		}
 
-		// TODO
+		ErrorMessage.show("Analiza OCR s-a efectuat cu succes!", false);
+	}
+
+	/**
+	 * Read and entire file.
+	 * 
+	 * @param filename The input filename
+	 * @return String
+	 * @throws IOException
+	 */
+	private String readEntireFile(String filename) throws IOException {
+		FileReader in = new FileReader(filename);
+		StringBuilder contents = new StringBuilder();
+		char[] buffer = new char[4096];
+		int read = 0;
+		do {
+			contents.append(buffer, 0, read);
+			read = in.read(buffer);
+		} while (read >= 0);
+		return contents.toString();
 	}
 }

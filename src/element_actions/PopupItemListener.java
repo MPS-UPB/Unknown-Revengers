@@ -96,7 +96,7 @@ public class PopupItemListener implements ActionListener {
 			this.gui.loadElements(this.gui.visibleElements);
 
 		} else if (action.compareTo(ElementActions.S_PAGE.toString()) == 0) {
-			new PageNumberBlock(panel);
+			new PageNumberBlock(this.panel, this.gui.getLayoutParser());
 
 		} else if (action.compareTo(ElementActions.S_DELETE.toString()) == 0) {
 
