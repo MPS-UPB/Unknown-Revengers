@@ -305,7 +305,8 @@ public class AnalyzerSelector extends JFrame {
 	 * si descrierea.
 	 * 
 	 * @return Analyzer Analizatorul ce va fi folosit.
-	 * @throws InterruptedException
+	 * @throws InterruptedException Another thread intrrupts this one by using
+	 *             the interrupt method.
 	 */
 	public Analyzer chooseAnalyzer() throws InterruptedException {
 		// Asteapta sa fie selectat un analizator.

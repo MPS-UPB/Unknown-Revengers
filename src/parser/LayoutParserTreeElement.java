@@ -6,31 +6,113 @@ package parser;
  * @author Unknown-Revengers
  */
 public class LayoutParserTreeElement {
+	/**
+	 * Coordonata.
+	 */
 	public int top;
+
+	/**
+	 * Coordonata.
+	 */
 	public int bottom;
+
+	/**
+	 * Coordonata.
+	 */
 	public int left;
+
+	/**
+	 * Coordonata.
+	 */
 	public int right;
+
+	/**
+	 * Imaginea.
+	 */
 	String image;
+
+	/**
+	 * Textul.
+	 */
 	public String text;
+
+	/**
+	 * Este bloc pagina.
+	 */
 	public boolean hasPage = false;
+
+	/**
+	 * Coordonata.
+	 */
 	public String x;
+
+	/**
+	 * Coordonata.
+	 */
 	public String y;
 
 	/**
 	 * Enum pentru tipul elementului conform cu specificatiile
 	 */
 	public enum ElementType {
+		/**
+		 * Document.
+		 */
 		DOCUMENT("Document"),
+
+		/**
+		 * Director.
+		 */
 		DIR("Dir"),
+
+		/**
+		 * Imposed.
+		 */
 		IMPOSED("Imposed"),
+
+		/**
+		 * Fisier.
+		 */
 		FILE("File"),
+
+		/**
+		 * Point.
+		 */
 		POINT("Point"),
+
+		/**
+		 * Poligon.
+		 */
 		POLYGON("Polygon"),
+
+		/**
+		 * Bloc.
+		 */
 		BLOCK("Block"),
+
+		/**
+		 * Bloc compus.
+		 */
 		COMPOSEDBLOCK("ComposedBlock"),
+
+		/**
+		 * Bloc imagine.
+		 */
 		IMAGEBLOCK("ImageBlock"),
+
+		/**
+		 * Block text.
+		 */
 		TEXTBLOCK("TextBlock"),
+
+		/**
+		 * String.
+		 */
 		STRING("String"),
+
+		/**
+		 * Linie de text.
+		 */
 		TEXTLINE("TextLine");
 
 		private String name;
@@ -48,6 +130,9 @@ public class LayoutParserTreeElement {
 		}
 	}
 
+	/**
+	 * Tipul elementului.
+	 */
 	public ElementType elementType;
 
 	/**

@@ -17,11 +17,12 @@ import analyzer.AnalyzerSelector;
  */
 public class Main {
 	/**
-	 * @param args
+	 * @param args Parametri.
 	 * 
-	 * @throws InterruptedException
-	 * @throws TransformerException
-	 * @throws IOException
+	 * @throws InterruptedException Another thread intrrupts this one by using
+	 *             the interrupt method.
+	 * @throws TransformerException Exceptie pentru Transformer.
+	 * @throws IOException Exceptie IO.
 	 */
 	public static void main(String[] args) throws InterruptedException,
 			TransformerException, IOException {
@@ -79,6 +80,6 @@ public class Main {
 		 * Reprezentare fisierului de input in GUI.
 		 */
 		LayoutParser lp = new LayoutParser(selectedFile);
-		LayoutGUI lg = new LayoutGUI(lp);
+		new LayoutGUI(lp);
 	}
 }

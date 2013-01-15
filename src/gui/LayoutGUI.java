@@ -6,8 +6,9 @@ import java.awt.GraphicsConfiguration;
 import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -65,9 +66,18 @@ public class LayoutGUI extends JFrame {
 	 */
 	private JScrollPane scrollPane;
 
+	/**
+	 * Elementele vizibile.
+	 */
 	public VisibleElements visibleElements;
 
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboElements;
+
+	/**
+	 * Combo pentru a selecta modul de vizualizare.
+	 */
+	@SuppressWarnings("rawtypes")
 	public JComboBox visCombo;
 
 	/**
@@ -75,7 +85,7 @@ public class LayoutGUI extends JFrame {
 	 * 
 	 * @param layoutParser Layout Parser
 	 * 
-	 * @throws IOException
+	 * @throws IOException A problem occured.
 	 */
 	public LayoutGUI(LayoutParser layoutParser) throws IOException {
 
@@ -86,8 +96,9 @@ public class LayoutGUI extends JFrame {
 		 * imaginea.
 		 */
 		try {
-			File f = new File(this.layoutParser.getImagePath());
-			this.image = ImageIO.read(f);
+			InputStream is = new FileInputStream(
+					this.layoutParser.getImagePath());
+			this.image = ImageIO.read(is);
 		} catch (Exception e) {
 			ErrorMessage.show("Invalid input image.");
 		}
