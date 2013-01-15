@@ -50,8 +50,7 @@ public class GElement extends JPanel {
 	/**
 	 * Setter for popup.
 	 * 
-	 * @param popup
-	 *            GPopup
+	 * @param popup GPopup
 	 * 
 	 * @return void
 	 */
@@ -82,7 +81,8 @@ public class GElement extends JPanel {
 	public void setTextArea(int width, int height, boolean visible) {
 		textArea = new JTextArea();
 		textArea.setBorder(BorderFactory.createLineBorder(Color.red));
-		textArea.setLineWrap(true);
+		textArea.setLineWrap(false);
+		textArea.setWrapStyleWord(false);
 
 		textArea.setText(TextActions.getText(this.element));
 		textArea.setVisible(visible);
