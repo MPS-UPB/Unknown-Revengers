@@ -6,8 +6,9 @@ import java.awt.GraphicsConfiguration;
 import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -95,8 +96,9 @@ public class LayoutGUI extends JFrame {
 		 * imaginea.
 		 */
 		try {
-			File f = new File(this.layoutParser.getImagePath());
-			this.image = ImageIO.read(f);
+			InputStream is = new FileInputStream(
+					this.layoutParser.getImagePath());
+			this.image = ImageIO.read(is);
 		} catch (Exception e) {
 			ErrorMessage.show("Invalid input image.");
 		}
