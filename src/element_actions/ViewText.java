@@ -106,8 +106,8 @@ public class ViewText extends JFrame {
 
 		// Creaza Text Area pentru text.
 		descriptionArea = new JTextArea(text);
-		descriptionArea.setLineWrap(true);
-		descriptionArea.setWrapStyleWord(true);
+		descriptionArea.setLineWrap(false);
+		descriptionArea.setWrapStyleWord(false);
 		descriptionArea.setEditable(true);
 
 		// Adauga Text Area la un scroll panel.
