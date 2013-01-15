@@ -65,9 +65,18 @@ public class LayoutGUI extends JFrame {
 	 */
 	private JScrollPane scrollPane;
 
+	/**
+	 * Elementele vizibile.
+	 */
 	public VisibleElements visibleElements;
 
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboElements;
+
+	/**
+	 * Combo pentru a selecta modul de vizualizare.
+	 */
+	@SuppressWarnings("rawtypes")
 	public JComboBox visCombo;
 
 	/**
@@ -75,7 +84,7 @@ public class LayoutGUI extends JFrame {
 	 * 
 	 * @param layoutParser Layout Parser
 	 * 
-	 * @throws IOException
+	 * @throws IOException A problem occured.
 	 */
 	public LayoutGUI(LayoutParser layoutParser) throws IOException {
 

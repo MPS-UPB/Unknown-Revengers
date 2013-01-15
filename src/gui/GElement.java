@@ -26,7 +26,11 @@ public class GElement extends JPanel {
 
 	private JTextArea textArea;
 
+	/**
+	 * Tree element
+	 */
 	public GenericTreeNode<LayoutParserTreeElement> element;
+
 	private GPopup popup;
 
 	/**
@@ -51,8 +55,6 @@ public class GElement extends JPanel {
 	 * Setter for popup.
 	 * 
 	 * @param popup GPopup
-	 * 
-	 * @return void
 	 */
 	public void setPopup(GPopup popup) {
 		// Set local popup.

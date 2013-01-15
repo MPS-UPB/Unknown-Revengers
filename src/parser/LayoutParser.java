@@ -108,7 +108,7 @@ public class LayoutParser {
 	 * @return string Returneaza XML-ul rezultat din parsarea arborelui ce va
 	 *         contine informatii despre pagina.
 	 * 
-	 * @throws TransformerException
+	 * @throws TransformerException Exceptie pentru Transformer.
 	 */
 	public String constructXml() throws TransformerException {
 		String result_xml = null;

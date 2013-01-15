@@ -9,6 +9,7 @@ import javax.swing.JPopupMenu;
  * @author Unknown-Revengers
  * 
  */
+@SuppressWarnings("serial")
 public class GPopup extends JPopupMenu {
 	private int gX;
 	private int gY;

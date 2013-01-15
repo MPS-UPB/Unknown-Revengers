@@ -10,22 +10,44 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 
+ * @author Unknown-Revengers
+ * 
+ * @param <T> Element type.
+ */
 public class GenericTree<T> {
 
 	private GenericTreeNode<T> root;
 
+	/**
+	 * Cotnructor.
+	 */
 	public GenericTree() {
 		super();
 	}
 
+	/**
+	 * Getter pentru radacina.
+	 * 
+	 * @return Returneaza radacina.
+	 */
 	public GenericTreeNode<T> getRoot() {
 		return this.root;
 	}
 
+	/**
+	 * Setter pentru radacina.
+	 * 
+	 * @param root Radacina
+	 */
 	public void setRoot(GenericTreeNode<T> root) {
 		this.root = root;
 	}
 
+	/**
+	 * @return Numarul de noduri.
+	 */
 	public int getNumberOfNodes() {
 		int numberOfNodes = 0;
 
@@ -47,10 +69,20 @@ public class GenericTree<T> {
 		return numberOfNodes;
 	}
 
+	/**
+	 * @param dataToFind Elementul cautat.
+	 * 
+	 * @return Valoarea de adevar.
+	 */
 	public boolean exists(T dataToFind) {
 		return (find(dataToFind) != null);
 	}
 
+	/**
+	 * @param dataToFind Elementul cautat.
+	 * 
+	 * @return Nodul.
+	 */
 	public GenericTreeNode<T> find(T dataToFind) {
 		GenericTreeNode<T> returnNode = null;
 
@@ -61,6 +93,11 @@ public class GenericTree<T> {
 		return returnNode;
 	}
 
+	/**
+	 * @param dataToFind Elementul dorit.
+	 * 
+	 * @return True pentru succes.
+	 */
 	public boolean delete(T dataToFind) {
 		GenericTreeNode<T> returnNode = null;
 
@@ -102,10 +139,18 @@ public class GenericTree<T> {
 		return returnNode;
 	}
 
+	/**
+	 * @return Valoarea de adevar.
+	 */
 	public boolean isEmpty() {
 		return (root == null);
 	}
 
+	/**
+	 * @param traversalOrder Ordinea elementelor.
+	 * 
+	 * @return Lista de noduri.
+	 */
 	public List<GenericTreeNode<T>> build(
 			GenericTreeTraversalOrderEnum traversalOrder) {
 		List<GenericTreeNode<T>> returnList = null;
@@ -117,6 +162,12 @@ public class GenericTree<T> {
 		return returnList;
 	}
 
+	/**
+	 * @param node Nodul.
+	 * @param traversalOrder Ordinea.
+	 * 
+	 * @return Rezultat.
+	 */
 	public List<GenericTreeNode<T>> build(GenericTreeNode<T> node,
 			GenericTreeTraversalOrderEnum traversalOrder) {
 		List<GenericTreeNode<T>> traversalResult = new ArrayList<GenericTreeNode<T>>();
@@ -150,6 +201,11 @@ public class GenericTree<T> {
 		traversalResult.add(node);
 	}
 
+	/**
+	 * @param traversalOrder Ordinea.
+	 * 
+	 * @return Map.
+	 */
 	public Map<GenericTreeNode<T>, Integer> buildWithDepth(
 			GenericTreeTraversalOrderEnum traversalOrder) {
 		Map<GenericTreeNode<T>, Integer> returnMap = null;
@@ -161,6 +217,12 @@ public class GenericTree<T> {
 		return returnMap;
 	}
 
+	/**
+	 * @param node Nodul.
+	 * @param traversalOrder Ordinea.
+	 * 
+	 * @return Rezaultat.
+	 */
 	public Map<GenericTreeNode<T>, Integer> buildWithDepth(
 			GenericTreeNode<T> node,
 			GenericTreeTraversalOrderEnum traversalOrder) {
@@ -212,6 +274,9 @@ public class GenericTree<T> {
 		return stringRepresentation;
 	}
 
+	/**
+	 * @return stringul.
+	 */
 	public String toStringWithDepth() {
 		/*
 		 * We're going to assume a pre-order traversal by default

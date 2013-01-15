@@ -104,8 +104,6 @@ public class BlockMouseListener extends MouseAdapter {
 	 * Show popup where mouse is clicked.
 	 * 
 	 * @param e MouseEvent
-	 * 
-	 * @return void
 	 */
 	private void showPopup(MouseEvent e) {
 		this.popup.setGX(((JPanel) e.getSource()).getX() + e.getX());
